@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useHistory, Link } from "react-router-dom";
-import { Modal, Button } from "react-bootstrap";
+import { Modal, Button, Form, FloatingLabel } from "react-bootstrap";
 import axiosInstance from "../axiosApi";
 import { BEARER, ACCESS_TOKEN, REFRESH_TOKEN } from "../constants";
 import "../css/LoginModal.css";
@@ -48,26 +48,14 @@ function LoginModal(props) {
       </Modal.Header>
       <div>
         <Modal.Body>
-          <form>
-            <p>
-              <label htmlFor="id">ID</label>
-              <input
-                type="text"
-                id="id"
-                placeholder="ID"
-                onChange={handleNameChange}
-              />
-            </p>
-            <p>
-              <label htmlFor="password">비밀번호</label>
-              <input
-                type="password"
-                id="password"
-                placeholder="Password"
-                onChange={handlePasswordChange}
-              />
-            </p>
-          </form>
+          <UsernameForm
+            field={"username"}
+            onChangeFunction={handleNameChange}
+          />
+          <PasswordForm
+            field={"password"}
+            onChangeFunction={handlePasswordChange}
+          />
         </Modal.Body>
 
         <Modal.Footer>
@@ -78,6 +66,37 @@ function LoginModal(props) {
         </Modal.Footer>
       </div>
     </Modal.Dialog>
+  );
+}
+
+function UsernameForm(props) {
+  return (
+    <Form.Group className="mb-3" controlId={props.field}>
+      <FloatingLabel controlId="floatingInput" label="ID" className="mb-3">
+        <Form.Control
+          type="text"
+          placeholder={props.field}
+          required
+          onChange={props.onChangeFunction}
+        />
+      </FloatingLabel>
+      <Form.Text className="text-muted">이 항목은 필수 항목입니다.</Form.Text>
+    </Form.Group>
+  );
+}
+
+function PasswordForm(props) {
+  return (
+    <Form.Group className="mb-3" controlId={props.field}>
+      <FloatingLabel controlId={props.field} label={props.field}>
+        <Form.Control
+          type="password"
+          placeholder={props.field}
+          required
+          onChange={props.onChangeFunction}
+        />
+      </FloatingLabel>
+    </Form.Group>
   );
 }
 

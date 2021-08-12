@@ -3,6 +3,10 @@ import { useHistory, Link } from "react-router-dom";
 import { Button, Form, FloatingLabel } from "react-bootstrap";
 import axiosInstance from "../axiosApi";
 
+function capitalize(word) {
+  return word.charAt(0).toUpperCase() + word.slice(1);
+}
+
 function Register(props) {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
@@ -47,61 +51,78 @@ function Register(props) {
       }}
     >
       <Form>
-        <Form.Group className="mb-3" controlId="username">
-          <FloatingLabel controlId="floatingInput" label="ID" className="mb-3">
-            <Form.Control
-              type="text"
-              placeholder="username"
-              required
-              onChange={handleUsernameChange}
-            />
-          </FloatingLabel>
-          <Form.Text className="text-muted">
-            이 항목은 필수 항목입니다.
-          </Form.Text>
-        </Form.Group>
-        <Form.Group className="mb-3" controlId="password1">
-          <FloatingLabel controlId="password1" label="Password">
-            <Form.Control
-              type="password"
-              placeholder="Password"
-              required
-              onChange={handlePasswordChange}
-            />
-          </FloatingLabel>
-        </Form.Group>
-        <Form.Group className="mb-3" controlId="passwordConfirm">
-          <FloatingLabel controlId="passwordConfirm" label="Password Confirm">
-            <Form.Control
-              type="password"
-              placeholder="Password Confirm"
-              required
-              onChange={handlePasswordConfirmChange}
-            />
-          </FloatingLabel>
-        </Form.Group>
-        <Form.Group className="mb-3" controlId="email">
-          <FloatingLabel
-            controlId="registrationEmail"
-            label="Email address"
-            className="mb-3"
-          >
-            <Form.Control
-              type="email"
-              placeholder="name@example.com"
-              required
-              onChange={handleEmailChange}
-            />
-          </FloatingLabel>
-          <Form.Text className="text-muted">
-            We'll never share your email with anyone else.
-          </Form.Text>
-        </Form.Group>
+        <UsernameForm
+          field={"username"}
+          onChangeFunction={handleUsernameChange}
+        />
+        <PasswordForm
+          field={"password"}
+          onChangeFunction={handlePasswordChange}
+        />
+        <PasswordForm
+          field={"passwordConfirm"}
+          onChangeFunction={handlePasswordConfirmChange}
+        />
+        <EmailForm field={"email"} onChangeFunction={handleEmailChange} />
+
         <Button variant="primary" type="submit">
           Submit
         </Button>
       </Form>
     </div>
+  );
+}
+
+function UsernameForm(props) {
+  return (
+    <Form.Group className="mb-3" controlId={props.field}>
+      <FloatingLabel controlId="floatingInput" label="ID" className="mb-3">
+        <Form.Control
+          type="text"
+          placeholder={capitalize(props.field)}
+          required
+          onChange={props.onChangeFunction}
+        />
+      </FloatingLabel>
+      <Form.Text className="text-muted">이 항목은 필수 항목입니다.</Form.Text>
+    </Form.Group>
+  );
+}
+
+function PasswordForm(props) {
+  return (
+    <Form.Group className="mb-3" controlId={props.field}>
+      <FloatingLabel controlId={props.field} label={capitalize(props.field)}>
+        <Form.Control
+          type="password"
+          placeholder={capitalize(props.field)}
+          required
+          onChange={props.onChangeFunction}
+        />
+      </FloatingLabel>
+    </Form.Group>
+  );
+}
+
+function EmailForm(props) {
+  return (
+    <Form.Group className="mb-3" controlId={props.field}>
+      <FloatingLabel
+        controlId="registrationEmail"
+        label="Email address"
+        className="mb-3"
+      >
+        <Form.Control
+          type="email"
+          placeholder="name@example.com"
+          required
+          onChange={props.onChangeFunction}
+        />
+      </FloatingLabel>
+      <Form.Text className="text-muted">
+        We'll never share your email with anyone else.
+      </Form.Text>
+    </Form.Group>
   );
 }
 
