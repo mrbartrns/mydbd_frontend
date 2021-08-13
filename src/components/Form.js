@@ -2,6 +2,8 @@ import React from "react";
 import { Form, FloatingLabel } from "react-bootstrap";
 import { capitalize } from "../functions";
 
+const ERROR_STYLE = { color: "red" };
+
 function UsernameForm(props) {
   return (
     <Form.Group className="mb-3" controlId={props.field}>
@@ -13,7 +15,11 @@ function UsernameForm(props) {
           onChange={props.onChangeFunction}
         />
       </FloatingLabel>
-      <Form.Text className="text-muted">이 항목은 필수 항목입니다.</Form.Text>
+      <ul style={ERROR_STYLE}>
+        {props.errors.map((error) => (
+          <li>{error}</li>
+        ))}
+      </ul>
     </Form.Group>
   );
 }
@@ -29,6 +35,11 @@ function PasswordForm(props) {
           onChange={props.onChangeFunction}
         />
       </FloatingLabel>
+      <ul style={ERROR_STYLE}>
+        {props.errors.map((error) => (
+          <li>{error}</li>
+        ))}
+      </ul>
     </Form.Group>
   );
 }
@@ -48,6 +59,11 @@ function EmailForm(props) {
           onChange={props.onChangeFunction}
         />
       </FloatingLabel>
+      <ul style={ERROR_STYLE}>
+        {props.errors.map((error) => (
+          <li>{error}</li>
+        ))}
+      </ul>
       <Form.Text className="text-muted">
         We'll never share your email with anyone else.
       </Form.Text>

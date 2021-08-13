@@ -52,10 +52,12 @@ function LoginModal(props) {
           <UsernameForm
             field={"username"}
             onChangeFunction={handleNameChange}
+            errors={[]}
           />
           <PasswordForm
             field={"password"}
             onChangeFunction={handlePasswordChange}
+            errors={[]}
           />
         </Modal.Body>
 
@@ -63,7 +65,7 @@ function LoginModal(props) {
           <Button variant="primary" onClick={handleLoginSubmit}>
             로그인
           </Button>
-          <Link to="/validate">아직 가입하지 않으셨나요? 여기를 누르세요.</Link>
+          <Link to="/signup">아직 가입하지 않으셨나요? 여기를 누르세요.</Link>
         </Modal.Footer>
       </div>
     </Modal.Dialog>

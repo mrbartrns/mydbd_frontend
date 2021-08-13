@@ -5,6 +5,7 @@ import {
   APPLICATION_JSON,
   BASE_API_URL,
   BEARER,
+  AUTHORIZATION,
 } from "./constants";
 
 const axiosInstance = axios.create({
@@ -27,6 +28,7 @@ axiosInstance.interceptors.response.use(
     ) {
       const refresh_token = localStorage.getItem(REFRESH_TOKEN);
 
+      // server get request['refresh'] from frontend (refresh token)
       return axiosInstance
         .post("user/token/refresh", { refresh: refresh_token })
         .then((res) => res.data)
@@ -34,12 +36,11 @@ axiosInstance.interceptors.response.use(
           localStorage.setItem(ACCESS_TOKEN, data.access);
           localStorage.setItem(REFRESH_TOKEN, data.refresh);
 
-          axiosInstance.defaults.headers["Authorization"] =
-            BEARER + data.access;
-          originalRequest.headers["Authorization"] = BEARER + data.access;
+          axiosInstance.defaults.headers[AUTHORIZATION] = BEARER + data.access;
+          originalRequest.headers[AUTHORIZATION] = BEARER + data.access;
           return axiosInstance(originalRequest);
         })
-        .catcn((err) => {
+        .catch((err) => {
           console.error(err);
         });
     }

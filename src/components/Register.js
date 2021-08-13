@@ -26,18 +26,26 @@ function Register(props) {
     setEmail(e.target.value);
   };
   //TODO: make error message to object and display on the view
-  const handleRegisterSubmit = () => {
-    if (password !== passwordConfirm) return;
-    axiosInstance
-      .post("user/signup", userData)
-      .then((res) => res.data)
-      .then((data) => {
-        console.log(data);
-        history.push("/");
-      })
-      .catch((error) => {
-        console.log(error.stack);
-      });
+  const handleRegisterSubmit = async (e) => {
+    e.preventDefault();
+    if (password !== passwordConfirm) {
+      const passwordConfirmError = {
+        passwordConfirm: ["비밀번호가 다릅니다."],
+      };
+      setErrors(passwordConfirmError);
+      console.log(errors);
+      console.error("password and passwordConfirm are not same.");
+      return;
+    }
+    try {
+      const response = await axiosInstance.post("user/signup", userData);
+      console.log(response.data);
+      return response.data;
+    } catch (err) {
+      console.log(err.response.data);
+      setErrors(err.response.data);
+      console.log(errors);
+    }
   };
   return (
     <div
@@ -48,20 +56,27 @@ function Register(props) {
         height: "100vh",
       }}
     >
-      <Form>
+      <Form onSubmit={handleRegisterSubmit}>
         <UsernameForm
           field={"username"}
           onChangeFunction={handleUsernameChange}
+          errors={errors["username"] ? errors["username"] : []}
         />
         <PasswordForm
           field={"password"}
           onChangeFunction={handlePasswordChange}
+          errors={errors["password"] ? errors["password"] : []}
         />
         <PasswordForm
           field={"passwordConfirm"}
           onChangeFunction={handlePasswordConfirmChange}
+          errors={errors["passwordConfirm"] ? errors["passwordConfirm"] : []}
         />
-        <EmailForm field={"email"} onChangeFunction={handleEmailChange} />
+        <EmailForm
+          field={"email"}
+          onChangeFunction={handleEmailChange}
+          errors={errors["email"] ? errors["email"] : []}
+        />
 
         <Button variant="primary" type="submit">
           Submit

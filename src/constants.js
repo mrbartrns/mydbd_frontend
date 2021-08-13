@@ -1,4 +1,5 @@
 const APPLICATION_JSON = "application/json";
+const AUTHORIZATION = "Authorization";
 const ACCESS_TOKEN = "access_token";
 const REFRESH_TOKEN = "refresh_token";
 const BASE_API_URL = "http://localhost:8000/api/";
@@ -16,4 +17,5 @@ export {
   REFRESH_URL,
   BEARER,
   APPLICATION_JSON,
+  AUTHORIZATION,
 };
