@@ -1,8 +1,9 @@
 import React, { useState } from "react";
 import { useHistory, Link } from "react-router-dom";
-import { Modal, Button, Form, FloatingLabel } from "react-bootstrap";
+import { Modal, Button } from "react-bootstrap";
 import axiosInstance from "../axiosApi";
 import { BEARER, ACCESS_TOKEN, REFRESH_TOKEN } from "../constants";
+import { UsernameForm, PasswordForm } from "./Form";
 import "../css/LoginModal.css";
 
 function LoginModal(props) {
@@ -62,41 +63,10 @@ function LoginModal(props) {
           <Button variant="primary" onClick={handleLoginSubmit}>
             로그인
           </Button>
-          <Link to="/register">아직 가입하지 않으셨나요? 여기를 누르세요.</Link>
+          <Link to="/validate">아직 가입하지 않으셨나요? 여기를 누르세요.</Link>
         </Modal.Footer>
       </div>
     </Modal.Dialog>
-  );
-}
-
-function UsernameForm(props) {
-  return (
-    <Form.Group className="mb-3" controlId={props.field}>
-      <FloatingLabel controlId="floatingInput" label="ID" className="mb-3">
-        <Form.Control
-          type="text"
-          placeholder={props.field}
-          required
-          onChange={props.onChangeFunction}
-        />
-      </FloatingLabel>
-      <Form.Text className="text-muted">이 항목은 필수 항목입니다.</Form.Text>
-    </Form.Group>
-  );
-}
-
-function PasswordForm(props) {
-  return (
-    <Form.Group className="mb-3" controlId={props.field}>
-      <FloatingLabel controlId={props.field} label={props.field}>
-        <Form.Control
-          type="password"
-          placeholder={props.field}
-          required
-          onChange={props.onChangeFunction}
-        />
-      </FloatingLabel>
-    </Form.Group>
   );
 }
 

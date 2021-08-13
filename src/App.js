@@ -1,11 +1,12 @@
 import "./App.css";
 import React, { useState } from "react";
+import { Route, Switch } from "react-router-dom";
+
 import NavbarWrapper from "./components/Nav";
 import LoginModal from "./components/LoginModal";
-import { Route, Switch } from "react-router-dom";
 import ValidationComponent from "./components/ValidationPage";
 import Register from "./components/Register";
-import { Container, Row, Col } from "react-bootstrap";
+// import { Container, Row, Col } from "react-bootstrap";
 
 function App() {
   const [isAuthenticated, setisAuthenticated] = useState(false);

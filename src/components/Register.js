@@ -1,11 +1,9 @@
 import React, { useState } from "react";
-import { useHistory, Link } from "react-router-dom";
-import { Button, Form, FloatingLabel } from "react-bootstrap";
+import { useHistory } from "react-router-dom";
+import { Button, Form } from "react-bootstrap";
 import axiosInstance from "../axiosApi";
 
-function capitalize(word) {
-  return word.charAt(0).toUpperCase() + word.slice(1);
-}
+import { UsernameForm, PasswordForm, EmailForm } from "./Form";
 
 function Register(props) {
   const [username, setUsername] = useState("");
@@ -70,59 +68,6 @@ function Register(props) {
         </Button>
       </Form>
     </div>
-  );
-}
-
-function UsernameForm(props) {
-  return (
-    <Form.Group className="mb-3" controlId={props.field}>
-      <FloatingLabel controlId="floatingInput" label="ID" className="mb-3">
-        <Form.Control
-          type="text"
-          placeholder={capitalize(props.field)}
-          required
-          onChange={props.onChangeFunction}
-        />
-      </FloatingLabel>
-      <Form.Text className="text-muted">이 항목은 필수 항목입니다.</Form.Text>
-    </Form.Group>
-  );
-}
-
-function PasswordForm(props) {
-  return (
-    <Form.Group className="mb-3" controlId={props.field}>
-      <FloatingLabel controlId={props.field} label={capitalize(props.field)}>
-        <Form.Control
-          type="password"
-          placeholder={capitalize(props.field)}
-          required
-          onChange={props.onChangeFunction}
-        />
-      </FloatingLabel>
-    </Form.Group>
-  );
-}
-
-function EmailForm(props) {
-  return (
-    <Form.Group className="mb-3" controlId={props.field}>
-      <FloatingLabel
-        controlId="registrationEmail"
-        label="Email address"
-        className="mb-3"
-      >
-        <Form.Control
-          type="email"
-          placeholder="name@example.com"
-          required
-          onChange={props.onChangeFunction}
-        />
-      </FloatingLabel>
-      <Form.Text className="text-muted">
-        We'll never share your email with anyone else.
-      </Form.Text>
-    </Form.Group>
   );
 }
 
