@@ -1,5 +1,5 @@
 import React from "react";
-import { Navbar, NavDropdown, Container, Nav } from "react-bootstrap";
+import { Navbar, NavDropdown, Container, Nav, Button } from "react-bootstrap";
 import { Link } from "react-router-dom";
 
 const navbarStyle = {
@@ -9,13 +9,8 @@ const navbarStyle = {
 function NavbarWrapper(props) {
   return (
     <Navbar bg="light" expand="lg">
-      <Container>
-        <Navbar.Brand href="/">
-          {/* <Link to="/" style={{ textDecoration: "none" }}>
-            MYDBD
-          </Link> */}
-          MYDBD
-        </Navbar.Brand>
+      <Container style={{ alignItems: "center", textAlign: "center" }}>
+        <Navbar.Brand href="/">MYDBD</Navbar.Brand>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="me-auto">
@@ -49,10 +44,10 @@ function NavbarWrapper(props) {
                 </NavDropdown.Item>
               </NavDropdown>
             </div>
-            <div style={navbarStyle}>
-              <Link to="/login" className="nav-link">
-                <button className="header-btn">로그인</button>
-              </Link>
+            <div style={{ float: "right" }}>
+              <Button variant="link">
+                <Link to="/login">로그인/회원가입</Link>
+              </Button>
             </div>
           </Nav>
         </Navbar.Collapse>

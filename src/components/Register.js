@@ -25,7 +25,6 @@ function Register(props) {
   const handleEmailChange = (e) => {
     setEmail(e.target.value);
   };
-  //TODO: make error message to object and display on the view
   const handleRegisterSubmit = async (e) => {
     e.preventDefault();
     if (password !== passwordConfirm) {
@@ -47,6 +46,7 @@ function Register(props) {
       console.log(errors);
     }
   };
+
   return (
     <div
       style={{
