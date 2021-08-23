@@ -64,7 +64,7 @@ function App() {
     if (loggedInUser) {
       setUser(loggedInUser);
     }
-  });
+  }, []);
   return (
     <div className="App">
       <NavbarWrapper user={user} logout={logout}></NavbarWrapper>
