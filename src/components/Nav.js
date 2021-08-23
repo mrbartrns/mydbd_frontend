@@ -4,6 +4,8 @@ import { Link } from "react-router-dom";
 
 const navbarStyle = {
   display: "flex",
+  alignItems: "center",
+  justifyContent: "center",
 };
 
 function NavbarWrapper(props) {
@@ -44,11 +46,28 @@ function NavbarWrapper(props) {
                 </NavDropdown.Item>
               </NavDropdown>
             </div>
-            <div style={{ float: "right" }}>
-              <Button variant="link">
-                <Link to="/login">로그인/회원가입</Link>
-              </Button>
-            </div>
+            {props.user ? (
+              <div>
+                <Button variant="link">
+                  <Link to="#">{props.user}님</Link>
+                </Button>
+                <Button
+                  variant="link"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    props.logout();
+                  }}
+                >
+                  로그아웃
+                </Button>
+              </div>
+            ) : (
+              <div>
+                <Button variant="link">
+                  <Link to="/login">로그인/회원가입</Link>
+                </Button>
+              </div>
+            )}
           </Nav>
         </Navbar.Collapse>
       </Container>

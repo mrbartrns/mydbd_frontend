@@ -48,40 +48,43 @@ function Register(props) {
   };
 
   return (
-    <div
-      style={{
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center",
-        height: "100vh",
-      }}
-    >
-      <Form onSubmit={handleRegisterSubmit}>
-        <UsernameForm
-          field={"username"}
-          onChangeFunction={handleUsernameChange}
-          errors={errors["username"] ? errors["username"] : []}
-        />
-        <PasswordForm
-          field={"password"}
-          onChangeFunction={handlePasswordChange}
-          errors={errors["password"] ? errors["password"] : []}
-        />
-        <PasswordForm
-          field={"passwordConfirm"}
-          onChangeFunction={handlePasswordConfirmChange}
-          errors={errors["passwordConfirm"] ? errors["passwordConfirm"] : []}
-        />
-        <EmailForm
-          field={"email"}
-          onChangeFunction={handleEmailChange}
-          errors={errors["email"] ? errors["email"] : []}
-        />
+    <div>
+      <h3 style={{ float: "left" }}>회원가입</h3>
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          height: "100vh",
+        }}
+      >
+        <Form onSubmit={handleRegisterSubmit}>
+          <UsernameForm
+            field={"username"}
+            onChangeFunction={handleUsernameChange}
+            errors={errors["username"] ? errors["username"] : []}
+          />
+          <PasswordForm
+            field={"password"}
+            onChangeFunction={handlePasswordChange}
+            errors={errors["password"] ? errors["password"] : []}
+          />
+          <PasswordForm
+            field={"passwordConfirm"}
+            onChangeFunction={handlePasswordConfirmChange}
+            errors={errors["passwordConfirm"] ? errors["passwordConfirm"] : []}
+          />
+          <EmailForm
+            field={"email"}
+            onChangeFunction={handleEmailChange}
+            errors={errors["email"] ? errors["email"] : []}
+          />
 
-        <Button variant="primary" type="submit">
-          Submit
-        </Button>
-      </Form>
+          <Button variant="primary" type="submit">
+            Submit
+          </Button>
+        </Form>
+      </div>
     </div>
   );
 }

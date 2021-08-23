@@ -1,13 +1,6 @@
 import React, { useState } from "react";
 import { useHistory, Link } from "react-router-dom";
-import { Modal, Button, Form } from "react-bootstrap";
-import axiosInstance from "../axiosApi";
-import {
-  BEARER,
-  ACCESS_TOKEN,
-  REFRESH_TOKEN,
-  AUTHORIZATION,
-} from "../constants";
+import { Button, Form } from "react-bootstrap";
 import { UsernameForm, PasswordForm } from "./Form";
 import "../css/LoginModal.css";
 
@@ -15,7 +8,7 @@ function LoginModal(props) {
   const [username, setUsername] = useState("");
   const [userPassword, setUserPassword] = useState("");
   const userData = { username: username, password: userPassword };
-  const handleNameChange = (e) => {
+  const handleUsernameChange = (e) => {
     setUsername(e.target.value);
   };
   const handlePasswordChange = (e) => {
@@ -23,47 +16,24 @@ function LoginModal(props) {
   };
   const handleLoginSubmit = (e) => {
     e.preventDefault();
-    axiosInstance
-      .post("user/login", userData)
-      .then((json) => json.data)
-      .then((data) => {
-        axiosInstance.defaults.headers[AUTHORIZATION] = BEARER + data.access;
-        console.log(axiosInstance.defaults.headers);
-        localStorage.setItem(ACCESS_TOKEN, data.access);
-        localStorage.setItem(REFRESH_TOKEN, data.refresh);
-        history.push("/");
-        return data;
-      })
-      .catch((err) => {
-        alert(err);
-      });
+    props.login(userData);
   };
-  const history = useHistory();
 
   return (
-    <Modal.Dialog>
-      <Modal.Header
-        closeButton
-        onClick={() => {
-          history.goBack();
+    <div>
+      <h3 style={{ float: "left" }}>로그인</h3>
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          height: "100vh",
         }}
       >
-        <Modal.Title style={{ float: "right" }}>
-          <span>로그인</span>
-        </Modal.Title>
-      </Modal.Header>
-      <Modal.Body>
-        <Form
-          onSubmit={handleLoginSubmit}
-          style={{
-            width: "80%",
-            height: "80%",
-            margin: "auto",
-          }}
-        >
+        <Form onSubmit={handleLoginSubmit} style={{ width: "50vh" }}>
           <UsernameForm
             field={"username"}
-            onChangeFunction={handleNameChange}
+            onChangeFunction={handleUsernameChange}
             errors={[]}
           />
           <PasswordForm
@@ -71,16 +41,16 @@ function LoginModal(props) {
             onChangeFunction={handlePasswordChange}
             errors={[]}
           />
-          <Button variant="primary" type="submit" style={{ float: "right" }}>
-            로그인
+          {props.error ? <div className="error">{props.error}</div> : null}
+          <Button variant="primary" type="submit">
+            Submit
           </Button>
+          <Link to="/signup" style={{ display: "block" }}>
+            아직 가입하시지 않으셨다면 여기를 누르세요.
+          </Link>
         </Form>
-      </Modal.Body>
-
-      <Modal.Footer>
-        <Link to="/signup">아직 가입하지 않으셨나요? 여기를 누르세요.</Link>
-      </Modal.Footer>
-    </Modal.Dialog>
+      </div>
+    </div>
   );
 }
 

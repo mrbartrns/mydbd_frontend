@@ -7,6 +7,7 @@ const REGISTER_URL = "user/signup";
 const LOGIN_URL = "user/login";
 const REFRESH_URL = "refresh";
 const BEARER = "Bearer ";
+const USERNAME = "username";
 
 export {
   ACCESS_TOKEN,
@@ -18,4 +19,5 @@ export {
   BEARER,
   APPLICATION_JSON,
   AUTHORIZATION,
+  USERNAME,
 };
