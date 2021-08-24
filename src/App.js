@@ -1,19 +1,19 @@
-import "../css/App.css";
+import "./css/App.css";
 import React, { useState, useEffect } from "react";
 import { Route, Switch, useHistory } from "react-router-dom";
 
-import NavbarWrapper from "./Nav";
-import LoginModal from "./LoginModal";
-import ValidationComponent from "./ValidationPage";
-import Register from "./Register";
-import axiosInstance from "../axiosApi";
+import NavbarWrapper from "./components/Nav";
+import LoginModal from "./components/LoginModal";
+import ValidationComponent from "./components/ValidationPage";
+import Register from "./components/Register";
+import axiosInstance from "./axiosApi";
 import {
   ACCESS_TOKEN,
   AUTHORIZATION,
   REFRESH_TOKEN,
   USERNAME,
   BEARER,
-} from "../constants";
+} from "./constants";
 import { Container } from "react-bootstrap";
 
 function App() {
