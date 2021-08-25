@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useHistory, Link } from "react-router-dom";
 import { Button, Form } from "react-bootstrap";
-import { UsernameForm, PasswordForm } from "./Form";
+import { UsernameForm, PasswordForm } from "./form.component";
 import "../css/LoginModal.css";
 
 function LoginModal(props) {

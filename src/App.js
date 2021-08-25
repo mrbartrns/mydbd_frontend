@@ -2,10 +2,10 @@ import "./css/App.css";
 import React, { useState, useEffect } from "react";
 import { Route, Switch, useHistory } from "react-router-dom";
 
-import NavbarWrapper from "./components/Nav";
-import LoginModal from "./components/LoginModal";
-import ValidationComponent from "./components/ValidationPage";
-import Register from "./components/Register";
+import NavbarWrapper from "./components/nav.component";
+import LoginModal from "./components/login.component";
+import ValidationComponent from "./components/validationpage.component";
+import Register from "./components/register.component";
 import axiosInstance from "./axiosApi";
 import {
   ACCESS_TOKEN,

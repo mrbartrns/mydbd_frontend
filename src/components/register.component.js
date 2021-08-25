@@ -3,7 +3,7 @@ import { useHistory } from "react-router-dom";
 import { Button, Form } from "react-bootstrap";
 import axiosInstance from "../axiosApi";
 
-import { UsernameForm, PasswordForm, EmailForm } from "./Form";
+import { UsernameForm, PasswordForm, EmailForm } from "./form.component";
 
 function Register(props) {
   const [username, setUsername] = useState("");
