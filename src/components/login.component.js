@@ -1,9 +1,8 @@
 import React, { useState } from "react";
-import { useHistory, Link, Redirect } from "react-router-dom";
-import { Button, Form } from "react-bootstrap";
-import { UsernameForm, PasswordForm } from "./form.component";
+import { useHistory, Redirect } from "react-router-dom";
+import { Form } from "react-bootstrap";
 import "../css/LoginModal.css";
-import { connect, useSelector } from "react-redux";
+import { connect } from "react-redux";
 import { login } from "../actions/auth";
 
 function Login(props) {
@@ -24,6 +23,7 @@ function Login(props) {
     });
   };
   if (props.isLoggedIn) {
+    alert("잘못된 접근입니다.");
     return <Redirect to="/" />;
   }
 

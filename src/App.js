@@ -6,6 +6,7 @@ import Login from "./components/login.component";
 import { Container, Button } from "react-bootstrap";
 import { connect } from "react-redux";
 import { logout } from "./actions/auth";
+import AuthVerify from "./common/auth-verify";
 
 function App(props) {
   const history = useHistory();
@@ -23,23 +24,15 @@ function App(props) {
       });
   };
 
-  // const handleRefreshToken = (e) => {
-  //   e.preventDefault();
-  //   const refresh = JSON.parse(localStorage.getItem("user")).refresh || null;
-  //   dispatch(refreshTokenTest(refresh));
-  // };
-
   return (
     <div className="App">
       {props.isLoggedIn ? <Button onClick={handleLogout}>Logout</Button> : null}
-      {/* {props.isLoggedIn ? (
-        <Button onClick={handleRefreshToken}>RefreshToken</Button>
-      ) : null} */}
       <Container>
         <Switch>
           <Route exact path="/login" component={Login} />
         </Switch>
       </Container>
+      <AuthVerify logout={handleLogout} />
     </div>
   );
 }
