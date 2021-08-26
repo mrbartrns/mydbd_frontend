@@ -36,7 +36,6 @@ class AuthService {
         refresh,
       })
       .then((response) => {
-        console.log(response);
         if (response.data) {
           TokenService.updateLocalAccessToken(response.data);
         }

@@ -23,20 +23,18 @@ function App(props) {
       });
   };
 
-  const handleRefreshToken = (e) => {
-    e.preventDefault();
-    const refresh = JSON.parse(localStorage.getItem("user")).refresh || null;
-    dispatch(refreshTokenTest(refresh)).then(() => {
-      return props.user;
-    });
-  };
+  // const handleRefreshToken = (e) => {
+  //   e.preventDefault();
+  //   const refresh = JSON.parse(localStorage.getItem("user")).refresh || null;
+  //   dispatch(refreshTokenTest(refresh));
+  // };
 
   return (
     <div className="App">
       {props.isLoggedIn ? <Button onClick={handleLogout}>Logout</Button> : null}
-      {props.isLoggedIn ? (
+      {/* {props.isLoggedIn ? (
         <Button onClick={handleRefreshToken}>RefreshToken</Button>
-      ) : null}
+      ) : null} */}
       <Container>
         <Switch>
           <Route exact path="/login" component={Login} />
