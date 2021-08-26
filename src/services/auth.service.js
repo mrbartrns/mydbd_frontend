@@ -1,8 +1,5 @@
-import axios from "axios";
 import TokenService from "./token.service";
 import api from "./api";
-
-const API_URL = "http://localhost:8000/api";
 
 class AuthService {
   login(username, password) {

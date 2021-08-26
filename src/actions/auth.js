@@ -7,7 +7,6 @@ import {
   REGISTER_SUCCESS,
   SET_MESSAGE,
   REFRESH_TOKEN,
-  REFRESH_TOKEN_TEST,
 } from "./types";
 import TokenService from "../services/token.service";
 

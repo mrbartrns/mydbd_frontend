@@ -1,11 +1,11 @@
 import "./css/App.css";
-import React, { useState, useEffect } from "react";
+import React from "react";
 import { Route, Switch, useHistory } from "react-router-dom";
 
 import Login from "./components/login.component";
 import { Container, Button } from "react-bootstrap";
 import { connect } from "react-redux";
-import { logout, refreshTokenTest } from "./actions/auth";
+import { logout } from "./actions/auth";
 
 function App(props) {
   const history = useHistory();
