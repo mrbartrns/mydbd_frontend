@@ -3,6 +3,7 @@ import React from "react";
 import { Route, Switch, useHistory } from "react-router-dom";
 
 import Login from "./components/login.component";
+import Register from "./components/register.component";
 import { Container, Button } from "react-bootstrap";
 import { connect } from "react-redux";
 import { logout } from "./actions/auth";
@@ -30,6 +31,7 @@ function App(props) {
       <Container>
         <Switch>
           <Route exact path="/login" component={Login} />
+          <Route exat path="/signup" component={Register} />
         </Switch>
       </Container>
       <AuthVerify logout={handleLogout} />

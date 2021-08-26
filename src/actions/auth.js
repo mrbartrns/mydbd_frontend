@@ -24,10 +24,7 @@ export const register = (username, email, password) => (dispatch) => {
       return Promise.resolve();
     },
     (error) => {
-      const message =
-        (error.reponse && error.response.data && error.response.data.message) ||
-        error.message ||
-        error.toString();
+      const message = error.response.data;
       dispatch({
         type: SET_MESSAGE,
         payload: message,
@@ -51,7 +48,9 @@ export const login = (username, password) => (dispatch) => {
       return Promise.resolve(response);
     },
     (error) => {
+      console.dir(error);
       const message = error.response.data.detail;
+      console.log(message);
       dispatch({
         type: LOGIN_FAIL,
       });

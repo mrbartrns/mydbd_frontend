@@ -7,7 +7,7 @@ export default function messageReducer(state = initialState, action) {
     case SET_MESSAGE:
       return {
         ...state,
-        message: payload,
+        message: typeof payload === String ? payload : { ...payload },
       };
     case CLEAR_MESSAGE:
       return {};

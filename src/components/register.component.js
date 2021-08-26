@@ -1,18 +1,17 @@
 import React, { useState } from "react";
 import { useHistory } from "react-router-dom";
 import { Button, Form } from "react-bootstrap";
-import axiosInstance from "../axiosApi";
-
-import { UsernameForm, PasswordForm, EmailForm } from "./form.component";
+import { connect } from "react-redux";
+import { setMessage } from "../actions/message";
+import { register } from "../actions/auth";
 
 function Register(props) {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [passwordConfirm, setPasswordConfirm] = useState("");
   const [email, setEmail] = useState("");
-  const [errors, setErrors] = useState({});
-  const userData = { username: username, password: password, email: email };
   const history = useHistory();
+  const dispatch = props.dispatch;
   const handleUsernameChange = (e) => {
     setUsername(e.target.value);
   };
@@ -25,26 +24,21 @@ function Register(props) {
   const handleEmailChange = (e) => {
     setEmail(e.target.value);
   };
-  const handleRegisterSubmit = async (e) => {
+  const handleRegisterSubmit = (e) => {
     e.preventDefault();
     if (password !== passwordConfirm) {
-      const passwordConfirmError = {
-        passwordConfirm: ["비밀번호가 다릅니다."],
-      };
-      setErrors(passwordConfirmError);
-      console.log(errors);
-      console.error("password and passwordConfirm are not same.");
+      dispatch(setMessage({ passwordConfirm: "비밀번호가 다릅니다." }));
       return;
     }
-    try {
-      const response = await axiosInstance.post("user/signup", userData);
-      console.log(response.data);
-      return response.data;
-    } catch (err) {
-      console.log(err.response.data);
-      setErrors(err.response.data);
-      console.log(errors);
-    }
+    dispatch(register(username, email, password))
+      .then(() => {
+        alert(props.message);
+        history.push("/");
+      })
+      .catch(() => {
+        console.log(props.message);
+        console.log(Object.values(props.message)[0]);
+      });
   };
 
   return (
@@ -59,34 +53,55 @@ function Register(props) {
         }}
       >
         <Form onSubmit={handleRegisterSubmit}>
-          <UsernameForm
-            field={"username"}
-            onChangeFunction={handleUsernameChange}
-            errors={errors["username"] ? errors["username"] : []}
+          <label htmlFor="id">ID</label>
+          <input
+            type="text"
+            id="id"
+            onChange={handleUsernameChange}
+            placeholder="ID"
           />
-          <PasswordForm
-            field={"password"}
-            onChangeFunction={handlePasswordChange}
-            errors={errors["password"] ? errors["password"] : []}
+          <label htmlFor="email">Email</label>
+          <input
+            type="email"
+            placeholder="email"
+            id="email"
+            onChange={handleEmailChange}
           />
-          <PasswordForm
-            field={"passwordConfirm"}
-            onChangeFunction={handlePasswordConfirmChange}
-            errors={errors["passwordConfirm"] ? errors["passwordConfirm"] : []}
+          <label htmlFor="password">Password</label>
+          <input
+            type="password"
+            id="password"
+            onChange={handlePasswordChange}
+            placeholder="password"
           />
-          <EmailForm
-            field={"email"}
-            onChangeFunction={handleEmailChange}
-            errors={errors["email"] ? errors["email"] : []}
+          <label htmlFor="password-confirm">Password Confirm</label>
+          <input
+            type="password"
+            id="password-confirm"
+            onChange={handlePasswordConfirmChange}
+            placeholder="password confirm"
           />
-
-          <Button variant="primary" type="submit">
-            Submit
-          </Button>
+          <input type="submit" />
         </Form>
+        {props.message ? (
+          <div className="form-group">
+            <div className="alert alert-danger" role="alert">
+              <ul>
+                {Object.values(props.message)[0].map((msg, idx) => {
+                  return <li key={idx}>{msg}</li>;
+                })}
+              </ul>
+            </div>
+          </div>
+        ) : null}
       </div>
     </div>
   );
 }
 
-export default Register;
+function mapStateToProps(state) {
+  const { message } = state.messageReducer;
+  return { message };
+}
+
+export default connect(mapStateToProps)(Register);
