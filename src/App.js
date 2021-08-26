@@ -2,29 +2,53 @@ import "./css/App.css";
 import React, { useState, useEffect } from "react";
 import { Route, Switch, useHistory } from "react-router-dom";
 
-import NavbarWrapper from "./components/nav.component";
 import Login from "./components/login.component";
-import ValidationComponent from "./components/validationpage.component";
-import Register from "./components/register.component";
-import { Container } from "react-bootstrap";
+import { Container, Button } from "react-bootstrap";
+import { connect } from "react-redux";
+import { logout, refreshTokenTest } from "./actions/auth";
 
-function App() {
+function App(props) {
+  const history = useHistory();
+  const dispatch = props.dispatch;
+
+  const handleLogout = (e) => {
+    e.preventDefault();
+    dispatch(logout())
+      .then((response) => {
+        console.log(response);
+        history.go(0);
+      })
+      .then((err) => {
+        console.log(err);
+      });
+  };
+
+  const handleRefreshToken = (e) => {
+    e.preventDefault();
+    const refresh = JSON.parse(localStorage.getItem("user")).refresh || null;
+    dispatch(refreshTokenTest(refresh)).then(() => {
+      return props.user;
+    });
+  };
+
   return (
     <div className="App">
-      {/* <NavbarWrapper></NavbarWrapper> */}
+      {props.isLoggedIn ? <Button onClick={handleLogout}>Logout</Button> : null}
+      {props.isLoggedIn ? (
+        <Button onClick={handleRefreshToken}>RefreshToken</Button>
+      ) : null}
       <Container>
         <Switch>
           <Route exact path="/login" component={Login} />
-          {/* <Route exact path="/signup">
-            <Register />
-          </Route>
-          <Route exact path="/validate">
-            <ValidationComponent></ValidationComponent>
-          </Route> */}
         </Switch>
       </Container>
     </div>
   );
 }
 
-export default App;
+function makeStateToProps(state) {
+  const { isLoggedIn, user } = state.authReducer;
+  return { isLoggedIn, user };
+}
+
+export default connect(makeStateToProps)(App);

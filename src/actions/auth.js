@@ -7,7 +7,9 @@ import {
   REGISTER_SUCCESS,
   SET_MESSAGE,
   REFRESH_TOKEN,
+  REFRESH_TOKEN_TEST,
 } from "./types";
+import TokenService from "../services/token.service";
 
 export const register = (username, email, password) => (dispatch) => {
   return AuthService.register(username, email, password).then(
@@ -67,7 +69,7 @@ export const login = (username, password) => (dispatch) => {
 
 export const logout = () => (dispatch) => {
   return AuthService.logout().finally(() => {
-    localStorage.removeItem("user");
+    TokenService.removeUser();
     dispatch({ type: LOGOUT });
   });
 };
@@ -77,4 +79,18 @@ export const refreshToken = (refresh) => (dispatch) => {
     type: REFRESH_TOKEN,
     payload: refresh,
   });
+};
+
+export const refreshTokenTest = (refresh) => (dispatch) => {
+  return AuthService.refreshTest(refresh).then(
+    () => {
+      dispatch({
+        type: REFRESH_TOKEN,
+        payload: refresh,
+      });
+    },
+    (error) => {
+      console.log(error);
+    }
+  );
 };
