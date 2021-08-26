@@ -4,6 +4,7 @@ import {
   LOGIN_SUCCESS,
   LOGIN_FAIL,
   LOGOUT,
+  REFRESH_TOKEN,
 } from "../actions/types";
 
 const user = JSON.parse(localStorage.getItem("user"));
@@ -42,6 +43,14 @@ export default function authReducer(state = initialState, action) {
       return {
         isLoggedIn: false,
         user: null,
+      };
+    case REFRESH_TOKEN:
+      return {
+        ...state,
+        user: {
+          ...state.user,
+          access: payload,
+        },
       };
     default:
       return state;

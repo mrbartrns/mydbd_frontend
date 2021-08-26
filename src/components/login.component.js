@@ -1,13 +1,16 @@
 import React, { useState } from "react";
-import { useHistory, Link } from "react-router-dom";
+import { useHistory, Link, Redirect } from "react-router-dom";
 import { Button, Form } from "react-bootstrap";
 import { UsernameForm, PasswordForm } from "./form.component";
 import "../css/LoginModal.css";
+import { connect, useSelector } from "react-redux";
+import { login } from "../actions/auth";
 
-function LoginModal(props) {
+function Login(props) {
+  const dispatch = props.dispatch;
+  const history = useHistory();
   const [username, setUsername] = useState("");
   const [userPassword, setUserPassword] = useState("");
-  const userData = { username: username, password: userPassword };
   const handleUsernameChange = (e) => {
     setUsername(e.target.value);
   };
@@ -16,8 +19,13 @@ function LoginModal(props) {
   };
   const handleLoginSubmit = (e) => {
     e.preventDefault();
-    props.login(userData);
+    dispatch(login(username, userPassword)).then((res) => {
+      history.push("/");
+    });
   };
+  if (props.isLoggedIn) {
+    return <Redirect to="/" />;
+  }
 
   return (
     <div>
@@ -30,28 +38,42 @@ function LoginModal(props) {
           height: "100vh",
         }}
       >
-        <Form onSubmit={handleLoginSubmit} style={{ width: "50vh" }}>
-          <UsernameForm
-            field={"username"}
-            onChangeFunction={handleUsernameChange}
-            errors={[]}
+        <Form onSubmit={handleLoginSubmit}>
+          <label htmlFor="id">ID</label>
+          <input
+            type="text"
+            placeholder="ID"
+            id="id"
+            onChange={handleUsernameChange}
           />
-          <PasswordForm
-            field={"password"}
-            onChangeFunction={handlePasswordChange}
-            errors={[]}
+          <label htmlFor="password">Password</label>
+          <input
+            type="password"
+            placeholder="password"
+            id="password"
+            onChange={handlePasswordChange}
           />
-          {props.error ? <div className="error">{props.error}</div> : null}
-          <Button variant="primary" type="submit">
-            Submit
-          </Button>
-          <Link to="/signup" style={{ display: "block" }}>
-            아직 가입하시지 않으셨다면 여기를 누르세요.
-          </Link>
+          <input type="submit" />
+          {props.message ? (
+            <div className="form-group">
+              <div className="alert alert-danger" role="alert">
+                {props.message}
+              </div>
+            </div>
+          ) : null}
         </Form>
       </div>
     </div>
   );
 }
 
-export default LoginModal;
+function mapStateToProps(state) {
+  const { isLoggedIn } = state.authReducer;
+  const { message } = state.messageReducer;
+  return {
+    isLoggedIn,
+    message,
+  };
+}
+
+export default connect(mapStateToProps)(Login);

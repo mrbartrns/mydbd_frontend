@@ -6,6 +6,7 @@ import {
   REGISTER_FAIL,
   REGISTER_SUCCESS,
   SET_MESSAGE,
+  REFRESH_TOKEN,
 } from "./types";
 
 export const register = (username, email, password) => (dispatch) => {
@@ -46,18 +47,20 @@ export const login = (username, password) => (dispatch) => {
         type: LOGIN_SUCCESS,
         payload: { user: response.data },
       });
-      return Promise.resolve();
+      return Promise.resolve(response);
     },
     (error) => {
-      const message =
-        (error.reponse && error.response.data && error.response.data.message) ||
-        error.message ||
-        error.toString();
+      const message = error.response.data.detail;
       dispatch({
         type: LOGIN_FAIL,
+      });
+
+      dispatch({
+        type: SET_MESSAGE,
         payload: message,
       });
-      return Promise.reject();
+
+      return Promise.reject(error);
     }
   );
 };
@@ -66,5 +69,12 @@ export const logout = () => (dispatch) => {
   return AuthService.logout().finally(() => {
     localStorage.removeItem("user");
     dispatch({ type: LOGOUT });
+  });
+};
+
+export const refreshToken = (refresh) => (dispatch) => {
+  dispatch({
+    type: REFRESH_TOKEN,
+    payload: refresh,
   });
 };
