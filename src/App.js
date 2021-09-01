@@ -15,16 +15,11 @@ function App(props) {
 
   const handleLogout = (e) => {
     e.preventDefault();
-    dispatch(logout())
-      .then((response) => {
-        console.log(response);
-        history.go(0);
-      })
-      .then((err) => {
-        console.log(err);
-      });
+    dispatch(logout()).then((response) => {
+      console.log(response);
+      history.go(0);
+    });
   };
-
   return (
     <div className="App">
       {props.isLoggedIn ? <Button onClick={handleLogout}>Logout</Button> : null}

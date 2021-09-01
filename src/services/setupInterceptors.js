@@ -24,6 +24,10 @@ const setup = (store) => {
     async (err) => {
       const originalConfig = err.config;
 
+      if (!TokenService.getLocalRefreshToken()) {
+        return;
+      }
+
       if (originalConfig.url !== "user/login" && err.response) {
         // Access token was expired
         // TODO: modify logic when refresh token === null
@@ -31,19 +35,18 @@ const setup = (store) => {
           originalConfig._retry = true;
 
           try {
-            const rt = TokenService.getLocalRefreshToken();
-            if (rt) {
-              const rs = await axiosInstance.post("user/token/refresh", {
-                refresh: rt,
-              });
-              const accessToken = rs.data.access;
+            const rs = await axiosInstance.post("user/token/refresh", {
+              refresh: TokenService.getLocalRefreshToken(),
+            });
+            const accessToken = rs.data.access;
 
-              dispatch(refreshToken(accessToken));
-              TokenService.updateLocalAccessToken(accessToken);
+            dispatch(refreshToken(accessToken));
+            TokenService.updateLocalAccessToken(accessToken);
 
-              return axiosInstance(originalConfig);
-            }
+            return axiosInstance(originalConfig);
           } catch (_error) {
+            // TODO: NEED TO TEST
+            TokenService.removeUser();
             return Promise.reject(_error);
           }
         }
