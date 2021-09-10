@@ -11,7 +11,7 @@ const HALF_PAGE_OFFSET = Math.floor(PAGE_OFFSET / 2);
 const initialState = {
   currentPage: 1,
   start: 0,
-  end: PAGE_OFFSET,
+  end: 0,
   count: 0,
   total: 0,
 };

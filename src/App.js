@@ -32,7 +32,7 @@ function App(props) {
           <Route exact path="/login" component={Login} />
           <Route exact path="/signup" component={Register} />
           <Route path="/list/:category" component={List} />
-          <Route exact patch="/test" component={Test} />
+          <Route exact path="/test" component={Test} />
           <Route path="/my404" component={Error} />
           <Route component={Error} />
         </Switch>

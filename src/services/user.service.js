@@ -6,7 +6,6 @@ import axios from "axios";
 
 class UserService {
   getApiList(pathName, pageNumber = 1) {
-    console.log(pathName, pageNumber);
     return api.get("api/list/" + pathName + "?page=" + String(pageNumber));
   }
   getTestApiList() {
