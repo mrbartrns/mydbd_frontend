@@ -1,13 +1,17 @@
 import "./css/App.css";
+import "./css/Component.scss";
 import React from "react";
 import { Route, Switch, useHistory } from "react-router-dom";
 
 import Login from "./components/login.component";
 import Register from "./components/register.component";
+import Error from "./components/error.component";
 import { Container, Button } from "react-bootstrap";
 import { connect } from "react-redux";
 import { logout } from "./actions/auth";
 import AuthVerify from "./common/auth-verify";
+import List from "./components/list.component";
+import Test from "./components/test.component";
 
 function App(props) {
   const history = useHistory();
@@ -26,7 +30,11 @@ function App(props) {
       <Container>
         <Switch>
           <Route exact path="/login" component={Login} />
-          <Route exat path="/signup" component={Register} />
+          <Route exact path="/signup" component={Register} />
+          <Route path="/list/:category" component={List} />
+          <Route exact patch="/test" component={Test} />
+          <Route path="/my404" component={Error} />
+          <Route component={Error} />
         </Switch>
       </Container>
       <AuthVerify logout={handleLogout} />

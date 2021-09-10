@@ -48,9 +48,7 @@ export const login = (username, password) => (dispatch) => {
       return Promise.resolve(response);
     },
     (error) => {
-      console.dir(error);
       const message = error.response.data.detail;
-      console.log(message);
       dispatch({
         type: LOGIN_FAIL,
       });
@@ -72,6 +70,7 @@ export const logout = () => (dispatch) => {
   });
 };
 
+// refrech: accessToken -> refreshAccessToken
 export const refreshToken = (refresh) => (dispatch) => {
   dispatch({
     type: REFRESH_TOKEN,
@@ -84,7 +83,6 @@ export const refreshTokenTest = (refresh) => (dispatch) => {
     () => {
       dispatch({
         type: REFRESH_TOKEN,
-        payload: refresh,
       });
     },
     (error) => {

@@ -15,7 +15,6 @@ function AuthVerify(props) {
   const history = useHistory();
   history.listen(() => {
     const user = JSON.parse(localStorage.getItem("user"));
-    console.log("verifying token");
 
     if (user) {
       const decodedJwt = parseJwt(user.access);
