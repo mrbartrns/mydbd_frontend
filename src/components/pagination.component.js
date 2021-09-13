@@ -21,6 +21,7 @@ function Paginator(props) {
                 onClick={() => {
                   dispatch(setCurrentPage(data));
                 }}
+                key={idx}
               >
                 <Link to={`${props.url}${data}`}>{data}</Link>
               </li>

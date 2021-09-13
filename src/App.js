@@ -10,21 +10,22 @@ import { Container, Button } from "react-bootstrap";
 import { connect } from "react-redux";
 import { logout } from "./actions/auth";
 import AuthVerify from "./common/auth-verify";
-import List from "./components/list.component";
-import Test from "./components/test.component";
-import ListState from "./components/list.prop.component";
+import ListTemplate from "./components/list.template.component";
 
 function App(props) {
+  // constants
   const history = useHistory();
   const dispatch = props.dispatch;
 
+  // handle logout function
   const handleLogout = (e) => {
     e.preventDefault();
     dispatch(logout()).then((response) => {
-      console.log(response);
       history.go(0);
     });
   };
+
+  // return router and navbar component
   return (
     <div className="App">
       {props.isLoggedIn ? <Button onClick={handleLogout}>Logout</Button> : null}
@@ -32,8 +33,7 @@ function App(props) {
         <Switch>
           <Route exact path="/login" component={Login} />
           <Route exact path="/signup" component={Register} />
-          <Route path="/list/:category" component={List} />
-          <Route exact path="/test" component={ListState} />
+          <Route path="/list/:category" component={ListTemplate} />
           <Route path="/my404" component={Error} />
           <Route component={Error} />
         </Switch>
