@@ -1,23 +1,28 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
+import { setCurrentPage } from "../actions/pagination";
+import "../css/Component.scss";
 
 function Paginator(props) {
   const paginationArr = [];
+  const dispatch = props.dispatch;
   for (let i = props.start; i < props.end; i++) {
     paginationArr.push(i + 1);
   }
-  console.log(paginationArr);
   return (
     <nav>
       <ul>
         {paginationArr &&
           paginationArr.map((data, idx) => {
             return (
-              <li>
-                <Link to={`${props.pathname}${props.search}${data}`}>
-                  {data}
-                </Link>
+              <li
+                className={props.currentPage === data ? "current-page" : null}
+                onClick={() => {
+                  dispatch(setCurrentPage(data));
+                }}
+              >
+                <Link to={`${props.url}${data}`}>{data}</Link>
               </li>
             );
           })}

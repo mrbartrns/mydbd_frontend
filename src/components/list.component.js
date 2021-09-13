@@ -1,22 +1,23 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 import { Link, useParams } from "react-router-dom";
 import UserService from "../services/user.service";
 import { useHistory } from "react-router";
 import { connect } from "react-redux";
 
-import { updatePaginator } from "../actions/pagination";
+import { updatePaginator, setCurrentPage } from "../actions/pagination";
 import Paginator from "./pagination.component";
-// TODO: have to change serverside pagination
+
 function List(props) {
   const dispatch = props.dispatch;
   const [apiData, setApiData] = useState([]);
   const [imgIdx, setImgIdx] = useState(0);
-  const [pageNumber, setPageNumber] = useState(
-    Number(props.location.search.split("=")[1]) || 1
-  );
-  const queryString = props.location.search.split("=")[0] + "=" || "?page=";
+  const [changed, setChange] = useState(false);
   const params = useParams();
   const history = useHistory();
+  const queryString = props.location.search.split("=")[0]
+    ? props.location.search.split("=")[0] + "="
+    : "?page=";
+
   const currentCategory = params.category;
   const leftBtnClick = (data) => {
     setImgIdx(imgIdx > 0 ? imgIdx - 1 : 0);
@@ -26,17 +27,17 @@ function List(props) {
   };
 
   // refresh when query string change or page number change
-  useEffect(() => {
-    UserService.getApiList(currentCategory, pageNumber)
-      .then((response) => {
-        dispatch(updatePaginator(pageNumber, response.data.count));
+  // useEffect(() => {
+  //   UserService.getApiList(currentCategory, props.currentPage)
+  //     .then((response) => {
+  //       dispatch(updatePaginator(props.currentPage, response.data.count));
 
-        setApiData(response.data.results);
-      })
-      .catch((error) => {
-        history.push("/my404");
-      });
-  }, [history, currentCategory, pageNumber, dispatch]);
+  //       setApiData(response.data.results);
+  //     })
+  //     .catch((error) => {
+  //       history.push("/my404");
+  //     });
+  // }, []);
 
   return (
     <div>
