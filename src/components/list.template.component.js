@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
+
+// custom components
 import UserService from "../services/user.service";
 import { useLocation, useHistory } from "react-router";
 import { connect } from "react-redux";

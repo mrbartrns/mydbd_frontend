@@ -1,4 +1,3 @@
-import "./css/App.css";
 import "./css/Component.scss";
 import React from "react";
 import { Route, Switch, useHistory } from "react-router-dom";
@@ -8,7 +7,8 @@ import Home from "./components/home.component";
 import Login from "./components/login.component";
 import Register from "./components/register.component";
 import Error from "./components/error.component";
-import { Container, Button } from "react-bootstrap";
+import Navbar from "./components/Navbar/index";
+import { Container } from "react-bootstrap";
 import { connect } from "react-redux";
 import { logout } from "./actions/auth";
 import AuthVerify from "./common/auth-verify";
@@ -30,6 +30,7 @@ function App(props) {
   // return router and navbar component
   return (
     <div className="App">
+      <Navbar />
       <Container>
         <Switch>
           <Route exact path="/" component={Home} />/

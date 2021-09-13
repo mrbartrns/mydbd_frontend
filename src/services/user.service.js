@@ -1,4 +1,3 @@
-import { set } from "immutable";
 import api from "./api";
 import axios from "axios";
 // get data and get | post comments
