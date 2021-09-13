@@ -3,6 +3,8 @@ import "./css/Component.scss";
 import React from "react";
 import { Route, Switch, useHistory } from "react-router-dom";
 
+// custom components
+import Home from "./components/home.component";
 import Login from "./components/login.component";
 import Register from "./components/register.component";
 import Error from "./components/error.component";
@@ -28,9 +30,9 @@ function App(props) {
   // return router and navbar component
   return (
     <div className="App">
-      {props.isLoggedIn ? <Button onClick={handleLogout}>Logout</Button> : null}
       <Container>
         <Switch>
+          <Route exact path="/" component={Home} />/
           <Route exact path="/login" component={Login} />
           <Route exact path="/signup" component={Register} />
           <Route path="/list/:category" component={ListTemplate} />
