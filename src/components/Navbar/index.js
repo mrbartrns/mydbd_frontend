@@ -25,7 +25,7 @@ function Navbar() {
           Contact us
         </NavLink>
         <NavLink to="/sign-up" activeStyle>
-          About
+          Sign-up
         </NavLink>
       </NavMenu>
     </Nav>
