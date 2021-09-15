@@ -1,34 +1,63 @@
-import React from "react";
-import {
-  Nav,
-  NavLink,
-  Bars,
-  NavMenu,
-  NavBtn,
-  NavBtnLink,
-} from "./navbar.component";
-function Navbar() {
+import React, { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
+import { useLocation } from "react-router";
+import { FaPlay, FaBars } from "react-icons/fa";
+import "../../css/component/navbar.component.scss";
+import { useMediaQuery } from "react-responsive";
+
+function Navbar(props) {
+  const [onToggle, setToggle] = useState(false);
+  const isTablet = useMediaQuery({ query: "(max-width: 768px)" });
+  const location = useLocation();
+  const handleToggleBtn = (e) => {
+    e.preventDefault();
+    setToggle(!onToggle);
+  };
+  useEffect(() => {
+    setToggle(false);
+  }, [location.pathname]);
+  console.log(isTablet ? "tablet" : "pc");
   return (
-    <Nav>
-      <NavLink to="/">
-        <h1>Logo</h1>
-      </NavLink>
-      <Bars />
-      <NavMenu>
-        <NavLink to="/about" activeStyle>
-          About
-        </NavLink>
-        <NavLink to="/services" activeStyle>
-          Services
-        </NavLink>
-        <NavLink to="/contact-us" activeStyle>
-          Contact us
-        </NavLink>
-        <NavLink to="/sign-up" activeStyle>
-          Sign-up
-        </NavLink>
-      </NavMenu>
-    </Nav>
+    <nav className="navbar">
+      <div className="navbar__logo">
+        {/* <img src="https://pin.it/3Eab5Lk" alt="" /> */}
+        <Link to="/">
+          <FaPlay className="icon" />
+          MYDBD
+        </Link>
+      </div>
+      {!isTablet || (isTablet && onToggle) ? (
+        <ul className="navbar__menu">
+          <li>
+            <Link to="/list/killers">Killers</Link>
+          </li>
+          <li>
+            <Link to="/list/survivors">Survivors</Link>
+          </li>
+          <li>
+            <Link to="/list/perks">Perks</Link>
+          </li>
+          <li>
+            <Link to="/list/items">Items</Link>
+          </li>
+          <li>
+            <Link to="/list/addons">Addons</Link>
+          </li>
+        </ul>
+      ) : null}
+      {!isTablet || (isTablet && onToggle) ? (
+        <ul className="navbar__account">
+          <li>
+            <Link to="/login">Login</Link>
+          </li>
+          <li>
+            <Link to="/signup">Signup</Link>
+          </li>
+        </ul>
+      ) : null}
+
+      <FaBars className="navbar__toggle" onClick={handleToggleBtn} />
+    </nav>
   );
 }
 

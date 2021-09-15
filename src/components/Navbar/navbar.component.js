@@ -3,77 +3,75 @@ import { NavLink as Link } from "react-router-dom";
 import { FaBars } from "react-icons/fa";
 
 export const Nav = styled.nav`
-  background-color: #000;
-  height: 80px;
+  background-color: #ffffff;
   display: flex;
   justify-content: space-between;
-  padding: 0.5rem calc((100vw - 1000px) / 2);
-  z-index: 10;
-`;
-
-export const NavLink = styled(Link)`
-  color: #fff;
-  display: flex;
   align-items: center;
-  text-decoration: none;
-  padding: 0 1rem;
-  height: 100%;
-  cursor: pointer;
+  height: 60px;
+  padding: 0.5rem calc((100vw - 1000px) / 2);
+  border-bottom: 1px solid black;
+  z-index: 10;
+  color: black;
 
-  &.active {
-    color: #15cdfc;
+  @media screen and (max-width: 768px) {
+    flex-direction: column;
   }
 `;
 
-export const Bars = styled(FaBars)`
-  display: none;
-  color: #fff;
+export const NavLink = styled(Link)`
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+  cursor: pointer;
+  padding: 0 1rem;
+  height: 100%;
 
-  @media screen and (max-width: 768px) {
-    display: block;
-    position: absolute;
-    top: 0;
-    right: 0;
-    transform: translage(-100%, 75%);
-    font-size: 1.8rem;
-    cursor: pointer;
+  &:hover {
+    background-color: #dee2e6;
+    border-radius: 4px;
+    color: #6c757d;
+  }
+`;
+
+export const Logo = styled(Link)`
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  padding: 0 1rem;
+  height: 100%;
+  h1 {
+    color: #264653;
+    font-size: 2rem;
   }
 `;
 
 export const NavMenu = styled.div`
   display: flex;
+  justify-content: center;
+  /* padding: 1rem 0.5rem; */
+  height: 100%;
   align-items: center;
-  margin-right: -24px;
-
+  /* margin-right: -24px; */
   @media screen and (max-width: 768px) {
-    display: none;
+    flex-direction: column;
   }
 `;
 
-export const NavBtn = styled.div`
-  display: flex;
-  align-items: center;
-  margin-right: 24px;
-
-  @media screen and (max-width: 768px) {
-    display: none;
-  }
-`;
-
-export const NavBtnLink = styled(Link)`
-  border-radius: 4px;
-  background-color: #256ce1;
-  padding: 10px 22px;
-  color: #fff;
-  border: none;
-  outline: none;
+export const Bars = styled(FaBars)`
+  display: none;
+  font-size: 1.8rem;
+  /* position: absolute;
+  top: 0;
+  right: 0; */
+  margin: 0 1rem;
   cursor: pointer;
-  transition: all 0.2s ease-in-out;
-  text-decoration: none;
+  transform: translage(-100%, 75%);
 
   &:hover {
-    transition: all 0.2s ease-in-out;
-    background-color: #fff;
-    color: #010606;
+    color: #6c757d;
+  }
+
+  @media screen and (max-width: 768px) {
+    display: block;
   }
 `;

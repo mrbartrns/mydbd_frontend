@@ -19,7 +19,9 @@ function ListComponent(props) {
             );
           })}
       </ul>
-      <Paginator url={location.pathname + "?page="} />
+      {props.posts.length > 0 && (
+        <Paginator url={location.pathname + "?page="} />
+      )}
     </div>
   );
 }
