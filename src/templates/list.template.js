@@ -11,7 +11,7 @@ import {
   setTotalCount,
   setTotalPage,
 } from "../actions/pagination";
-import ListComponent from "./list.component";
+import ListComponent from "../components/List/index";
 
 function ListTemplate(props) {
   // constants
@@ -23,10 +23,12 @@ function ListTemplate(props) {
   // states
   const [posts, setPosts] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [loaded, setLoaded] = useState(false);
 
   // fetch data from api and render
   useEffect(() => {
     setLoading(true);
+    setLoaded(false);
     const page = parseInt(location.search.split("=")[1]) || 1;
     dispatch(setCurrentPage(page));
     UserService.getApiList(params.category, page)
@@ -40,6 +42,7 @@ function ListTemplate(props) {
         history.push("/my404");
       });
     setLoading(false);
+    setLoaded(true);
   }, [
     dispatch,
     history,
@@ -50,7 +53,7 @@ function ListTemplate(props) {
   ]);
 
   // return Component
-  return <ListComponent loading={loading} posts={posts} />;
+  return <ListComponent loading={loading} posts={posts} loaded={loaded} />;
 }
 
 function mapStateToProps(state) {

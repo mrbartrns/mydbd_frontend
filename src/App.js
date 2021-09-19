@@ -12,7 +12,8 @@ import { Container } from "react-bootstrap";
 import { connect } from "react-redux";
 import { logout } from "./actions/auth";
 import AuthVerify from "./common/auth-verify";
-import ListTemplate from "./components/list.template.component";
+import ListTemplate from "./templates/list.template";
+import DetailTemplate from "./templates/detail.template";
 
 function App(props) {
   // constants
@@ -31,12 +32,13 @@ function App(props) {
   return (
     <div className="App">
       <Navbar />
-      <Container>
+      <Container md="true">
         <Switch>
           <Route exact path="/" component={Home} />/
           <Route exact path="/login" component={Login} />
           <Route exact path="/signup" component={Register} />
           <Route path="/list/:category" component={ListTemplate} />
+          <Route path="/detail/:category/:id" component={DetailTemplate} />
           <Route path="/my404" component={Error} />
           <Route component={Error} />
         </Switch>
