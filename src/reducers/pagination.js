@@ -1,5 +1,7 @@
 import {
   UPDATE_CURRENT_PAGE,
+  UPDATE_SLICE_END_INDEX,
+  UPDATE_SLICE_START_INDEX,
   UPDATE_START_END_PAGE,
   UPDATE_TOTAL_COUNT,
   UPDATE_TOTAL_PAGE,
@@ -14,6 +16,8 @@ const initialState = {
   end: 0,
   count: 0,
   total: 0,
+  sliceStartIndex: 0,
+  sliceEndIndex: 0,
 };
 
 export default function paginationReducer(state = initialState, action) {
@@ -45,6 +49,16 @@ export default function paginationReducer(state = initialState, action) {
           state.currentPage + HALF_PAGE_OFFSET <= state.total
             ? state.currentPage + HALF_PAGE_OFFSET
             : state.total,
+      };
+    case UPDATE_SLICE_START_INDEX:
+      return {
+        ...state,
+        sliceStartIndex: (state.currentPage - 1) * POST_PER_PAGE,
+      };
+    case UPDATE_SLICE_END_INDEX:
+      return {
+        ...state,
+        sliceEndIndex: state.currentPage * POST_PER_PAGE,
       };
     default:
       return state;

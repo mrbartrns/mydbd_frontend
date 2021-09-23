@@ -17,7 +17,6 @@ function Navbar(props) {
   useEffect(() => {
     setToggle(false);
   }, [location.pathname]);
-  console.log(isTablet ? "tablet" : "pc");
   return (
     <nav className="navbar">
       <Container md="true">
