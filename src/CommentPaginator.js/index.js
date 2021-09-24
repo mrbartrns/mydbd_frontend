@@ -20,7 +20,8 @@ function CommentPaginator(props) {
               <li
                 style={{ cursor: "pointer", color: "blue" }}
                 className={props.currentPage === data ? "current-page" : null}
-                onClick={() => {
+                onClick={(e) => {
+                  e.preventDefault();
                   dispatch(setCurrentPage(data));
                 }}
                 key={idx}

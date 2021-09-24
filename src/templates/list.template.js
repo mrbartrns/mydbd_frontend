@@ -25,13 +25,25 @@ function ListTemplate(props) {
   const [loading, setLoading] = useState(false);
   const [loaded, setLoaded] = useState(false);
 
+  // functions
+  // get parameter objects
+  const getRequestParams = (page) => {
+    const parameters = {};
+    if (page) {
+      parameters["page"] = page;
+    }
+    return parameters;
+  };
+
   // fetch data from api and render
   useEffect(() => {
     setLoading(true);
     setLoaded(false);
+    //TODO: change location.search object to get flexible
     const page = parseInt(location.search.split("=")[1]) || 1;
+    const parameters = getRequestParams(page);
     dispatch(setCurrentPage(page));
-    UserService.getApiList(params.category, page)
+    UserService.getApiList(params.category, parameters)
       .then((response) => {
         dispatch(setTotalCount(response.data.count));
         setPosts(response.data.results);

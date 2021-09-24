@@ -25,7 +25,7 @@ function DetailComponent(props) {
           <li>공포 범위: {props.post.terror_radius}m</li>
         </ul>
       )}
-      {props.loaded && imgLoaded && props.comments && (
+      {props.loaded && props.comments.length > 0 && (
         <div>
           댓글
           {props.comments.map((data, idx) => {

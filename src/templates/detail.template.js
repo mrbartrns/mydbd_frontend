@@ -25,11 +25,7 @@ function DetailTemplate(props) {
   const [loading, setLoading] = useState(false);
   const [loaded, setLoaded] = useState(false);
 
-  //functions
-  // function getComments(temp) {
-  //   if (!loaded) {
-  //     return [];
-  //   }
+  // function getCommentData(arr) {
   //   setCommentPagination();
   //   function setCommentPagination() {
   //     dispatch(setTotalPage());
@@ -37,8 +33,8 @@ function DetailTemplate(props) {
   //     dispatch(updateSliceStartIndex());
   //     dispatch(updateSliceEndIndex());
   //   }
-  //   const comments = temp.slice(props.sliceStartIndex, props.sliceEndIndex);
-  //   return comments;
+  //   const data = arr.slice(props.sliceStartIndex, props.sliceEndIndex);
+  //   setComments(data);
   // }
 
   useEffect(() => {
@@ -54,6 +50,7 @@ function DetailTemplate(props) {
         dispatch(setTotalCount(response.data.comments.length));
         setPost(response.data);
         console.log(response.data);
+        // getCommentData();
         setCommentPagination();
         function setCommentPagination() {
           dispatch(setTotalPage());
