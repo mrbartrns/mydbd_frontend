@@ -38,7 +38,7 @@ function App(props) {
           <Route exact path="/login" component={Login} />
           <Route exact path="/signup" component={Register} />
           <Route path="/list/:category" component={ListTemplate} />
-          <Route path="/detail/:category/:id" component={DetailTemplate} />
+          <Route path="/:category/:id" component={DetailTemplate} />
           <Route path="/my404" component={Error} />
           <Route component={Error} />
         </Switch>

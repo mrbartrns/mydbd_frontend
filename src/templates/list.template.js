@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
 
-// custom components
+// custom imports
 import UserService from "../services/user.service";
 import { useLocation, useHistory } from "react-router";
 import { connect } from "react-redux";
@@ -13,12 +12,14 @@ import {
 } from "../actions/pagination";
 import ListComponent from "../components/List/index";
 
+// functions
+import { parseQueryStringToDictionary } from "../functions";
+
 function ListTemplate(props) {
   // constants
   const dispatch = props.dispatch;
   const location = useLocation();
   const history = useHistory();
-  const params = useParams();
 
   // states
   const [posts, setPosts] = useState([]);
@@ -26,24 +27,15 @@ function ListTemplate(props) {
   const [loaded, setLoaded] = useState(false);
 
   // functions
-  // get parameter objects
-  const getRequestParams = (page) => {
-    const parameters = {};
-    if (page) {
-      parameters["page"] = page;
-    }
-    return parameters;
-  };
 
   // fetch data from api and render
   useEffect(() => {
     setLoading(true);
     setLoaded(false);
-    //TODO: change location.search object to get flexible
-    const page = parseInt(location.search.split("=")[1]) || 1;
-    const parameters = getRequestParams(page);
+    const queries = parseQueryStringToDictionary(location.search);
+    const page = parseInt(queries["page"]) || 1;
     dispatch(setCurrentPage(page));
-    UserService.getApiList(params.category, parameters)
+    UserService.getApiList(location.pathname, queries)
       .then((response) => {
         dispatch(setTotalCount(response.data.count));
         setPosts(response.data.results);
@@ -55,14 +47,7 @@ function ListTemplate(props) {
       });
     setLoading(false);
     setLoaded(true);
-  }, [
-    dispatch,
-    history,
-    location.pathname,
-    location.search,
-    params.category,
-    props.currentPage,
-  ]);
+  }, [dispatch, history, location, props.currentPage]);
 
   // return Component
   return <ListComponent loading={loading} posts={posts} loaded={loaded} />;

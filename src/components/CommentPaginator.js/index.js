@@ -3,7 +3,7 @@ import React from "react";
 import { connect } from "react-redux";
 
 // custom imports
-import { setCurrentPage } from "../actions/pagination";
+import { setCurrentPage } from "../../actions/pagination";
 
 function CommentPaginator(props) {
   const paginationArr = [];

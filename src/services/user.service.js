@@ -5,13 +5,17 @@ import axios from "axios";
 // TODO: 추후 여러 querystring을 관리하기 위하여 url 자체를 입력받도록 변경
 
 class UserService {
-  getApiList(pathName, params) {
-    return api.get("api/list/" + pathName, { params });
+  getApiList(pathname, params) {
+    return api.get("api" + pathname, { params });
+  }
+
+  getCommentList(pathname, params) {
+    return api.get("service/list" + pathname + "/comments", { params });
   }
 
   // ex) detail/killer/1
   getApiDetail(pathname) {
-    return api.get("api" + pathname);
+    return api.get("api/detail" + pathname);
   }
 
   getTestApiList() {
