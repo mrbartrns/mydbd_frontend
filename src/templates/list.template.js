@@ -33,6 +33,7 @@ function ListTemplate(props) {
     setLoading(true);
     setLoaded(false);
     const queries = parseQueryStringToDictionary(location.search);
+    console.log(queries);
     const page = parseInt(queries["page"]) || 1;
     dispatch(setCurrentPage(page));
     UserService.getApiList(location.pathname, queries)

@@ -4,6 +4,9 @@ export function capitalize(word) {
 
 export function parseQueryStringToDictionary(queryString) {
   const dictionary = {};
+  if (!queryString) {
+    return dictionary;
+  }
   if (queryString.indexOf("?") === 0) {
     queryString = queryString.substr(1);
   }
