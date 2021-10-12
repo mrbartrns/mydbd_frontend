@@ -30,19 +30,19 @@ function Navbar(props) {
         {!isTablet || (isTablet && onToggle) ? (
           <ul className="navbar__menu">
             <li>
-              <Link to="/list/killers">Killers</Link>
+              <Link to="/killers/list">Killers</Link>
             </li>
             <li>
-              <Link to="/list/survivors">Survivors</Link>
+              <Link to="/survivors/list">Survivors</Link>
             </li>
             <li>
-              <Link to="/list/perks">Perks</Link>
+              <Link to="/perks/list">Perks</Link>
             </li>
             <li>
-              <Link to="/list/items">Items</Link>
+              <Link to="/items/list">Items</Link>
             </li>
             <li>
-              <Link to="/list/addons">Addons</Link>
+              <Link to="/addons/list">Addons</Link>
             </li>
           </ul>
         ) : null}

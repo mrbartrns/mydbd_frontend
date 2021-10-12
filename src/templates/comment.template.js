@@ -17,6 +17,9 @@ import { parseQueryStringToDictionary } from "../functions";
 import { connect } from "react-redux";
 import CommentComponent from "../components/comment.component";
 
+/**
+ * CommentTemplate는 parent comment를 api로부터 불러온다.
+ */
 function CommentTemplate(props) {
   // constants
   const dispatch = props.dispatch;
@@ -38,15 +41,11 @@ function CommentTemplate(props) {
      */
     const queries = parseQueryStringToDictionary(location.search);
     const page = parseInt(queries["page"]) || 1;
-    console.log(page);
     dispatch(setCurrentPage(page));
     setLoaded(false);
     setNullPage(false);
     userService
-      .getCommentList(
-        location.pathname,
-        parseQueryStringToDictionary(location.search)
-      )
+      .getCommentList(location.pathname, queries)
       .then((response) => {
         // if page has contents -> display comments
         dispatch(setTotalCount(response.data.count));

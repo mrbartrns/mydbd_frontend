@@ -15,7 +15,7 @@ class UserService {
 
   // ex) detail/killer/1
   getApiDetail(pathname) {
-    return api.get("api/detail" + pathname);
+    return api.get("api" + pathname + "/detail");
   }
 
   getTestApiList() {
