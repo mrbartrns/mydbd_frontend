@@ -2,9 +2,9 @@ import "./css/Component.scss";
 import React from "react";
 import { Route, Switch, useHistory } from "react-router-dom";
 
-// custom components
+// custom imports
 import Home from "./components/home.component";
-import Login from "./components/login.component";
+// import Login from "./components/login.component";
 import Register from "./components/register.component";
 import Error from "./components/error.component";
 import Navbar from "./components/Navbar/index";
@@ -14,6 +14,7 @@ import { logout } from "./actions/auth";
 import AuthVerify from "./common/auth-verify";
 import ListTemplate from "./templates/list.template";
 import DetailTemplate from "./templates/detail.template";
+import LoginTemplate from "./templates/login.template";
 
 function App(props) {
   // constants
@@ -35,7 +36,7 @@ function App(props) {
       <Container md="true">
         <Switch>
           <Route exact path="/" component={Home} />/
-          <Route exact path="/login" component={Login} />
+          <Route exact path="/login" component={LoginTemplate} />
           <Route exact path="/signup" component={Register} />
           <Route path="/:category/list" component={ListTemplate} />
           <Route path="/:category/:id" component={DetailTemplate} />
