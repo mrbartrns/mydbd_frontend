@@ -5,7 +5,6 @@ import { useLocation } from "react-router";
 // custom imports
 import UserService from "../services/user.service";
 
-// TODO: Modify child comment structure
 function ChildComments(props) {
   const location = useLocation();
   const [comments, setComments] = useState([]);
@@ -15,7 +14,7 @@ function ChildComments(props) {
   const [nextPageUrl, setNextPageUrl] = useState(null);
   const [counts, setCounts] = useState(null);
 
-  // TODO: 일정 댓글 갯수 이상이 되면 댓글을 불러오는 함수 만들기
+  // If updating data using useEffect, have to set trigger and request data in the useEffect Hook
   useEffect(() => {
     const queryString = { parent: props.parent, page: nextPage };
     UserService.getCommentList(location.pathname, queryString).then(
