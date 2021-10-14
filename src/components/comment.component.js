@@ -11,20 +11,29 @@ function ChildComments(props) {
   const [comments, setComments] = useState([]);
   const [loaded, setLoaded] = useState(false);
   const [loading, setLoading] = useState(true);
+  const [nextPage, setNextPage] = useState(1);
+  const [nextPageUrl, setNextPageUrl] = useState(null);
+  const [counts, setCounts] = useState(null);
 
   // TODO: 일정 댓글 갯수 이상이 되면 댓글을 불러오는 함수 만들기
   useEffect(() => {
-    const queryString = { parent: props.parent };
+    const queryString = { parent: props.parent, page: nextPage };
     UserService.getCommentList(location.pathname, queryString).then(
       (response) => {
+        console.log(response.data);
         setLoaded(false);
         setLoading(true);
-        setComments(response.data.results);
+        // 다음 comments를 불러올 때 comments 자체를 안에서 밖에 쓰지 않는다면 함수형으로 작성한다.
+        setComments((c) => {
+          return [...c, ...response.data.results];
+        });
+        setCounts(response.data.count);
+        setNextPageUrl(response.data.next);
         setLoaded(true);
         setLoading(false);
       }
     );
-  }, [location, props.parent]);
+  }, [location, props.parent, nextPage]);
   return (
     <div>
       {loading && <div>로딩중</div>}
@@ -39,6 +48,16 @@ function ChildComments(props) {
             </ul>
           );
         })}
+      {loaded && counts > 10 && (
+        <button
+          onClick={() => {
+            if (!nextPageUrl) return;
+            setNextPage(nextPage + 1);
+          }}
+        >
+          댓글 더보기
+        </button>
+      )}
     </div>
   );
 }
