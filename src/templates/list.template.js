@@ -30,11 +30,17 @@ function ListTemplate(props) {
 
   // fetch data from api and render
   useEffect(() => {
-    setLoading(true);
-    setLoaded(false);
+    const source = UserService.getCancelToken();
     const queries = parseQueryStringToDictionary(location.search);
     const page = parseInt(queries["page"]) || 1;
+    queries["cancelToken"] = source.token;
+
+    setLoading(true);
+    setLoaded(false);
+
+    // dispatch
     dispatch(setCurrentPage(page));
+
     UserService.getApiList(location.pathname, queries)
       .then((response) => {
         dispatch(setTotalCount(response.data.count));
@@ -43,10 +49,19 @@ function ListTemplate(props) {
         dispatch(setStartEndPage());
       })
       .catch((error) => {
+        if (!UserService.isCancel(error)) {
+          console.error(error);
+        }
         history.push("/my404");
       });
+
     setLoading(false);
     setLoaded(true);
+
+    // unmount element
+    return () => {
+      UserService.unsubscribe();
+    };
   }, [dispatch, history, location]);
 
   // return Component

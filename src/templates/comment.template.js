@@ -4,7 +4,7 @@ import { useLocation } from "react-router";
 import { useEffect } from "react";
 
 // custom imports
-import userService from "../services/user.service";
+import UserService from "../services/user.service";
 import {
   setCurrentPage,
   setStartEndPage,
@@ -41,11 +41,16 @@ function CommentTemplate(props) {
      */
     const queries = parseQueryStringToDictionary(location.search);
     const page = parseInt(queries["page"]) || 1;
-    dispatch(setCurrentPage(page));
+    const source = UserService.getCancelToken();
+    queries["cancelToken"] = source.token;
+
     setLoaded(false);
     setNullPage(false);
-    userService
-      .getCommentList(location.pathname, queries)
+
+    // dispatch
+    dispatch(setCurrentPage(page));
+
+    UserService.getCommentList(location.pathname, queries)
       .then((response) => {
         // if page has contents -> display comments
         dispatch(setTotalCount(response.data.count));
@@ -54,13 +59,20 @@ function CommentTemplate(props) {
         setComments(response.data.results);
         setLoaded(true);
       })
-      .catch((err) => {
+      .catch((error) => {
         // if page not have contents -> display null page
+        if (!UserService.isCancel(error)) {
+          console.error(error);
+        }
         setLoaded(true);
         setNullPage(true);
       });
+
+    return () => {
+      UserService.unsubscribe();
+    };
   }, [dispatch, location]);
-  console.log(comments);
+
   return (
     loaded && (
       <CommentComponent

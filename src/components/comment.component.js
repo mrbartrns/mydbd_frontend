@@ -6,6 +6,7 @@ import { useLocation } from "react-router";
 import UserService from "../services/user.service";
 
 function ChildComments(props) {
+  // react hooks
   const location = useLocation();
   const [comments, setComments] = useState([]);
   const [loaded, setLoaded] = useState(false);
@@ -15,11 +16,19 @@ function ChildComments(props) {
   const [counts, setCounts] = useState(null);
 
   // If updating data using useEffect, have to set trigger and request data in the useEffect Hook
+  // Must have to unsubscribe after fetch data or axios.cancel
+  // else use mount variables and return false after mounted
   useEffect(() => {
-    const queryString = { parent: props.parent, page: nextPage };
-    UserService.getCommentList(location.pathname, queryString).then(
-      (response) => {
-        console.log(response.data);
+    const source = UserService.getCancelToken();
+
+    const queryString = {
+      parent: props.parent,
+      page: nextPage,
+      cancelToken: source.token,
+    };
+    // let mounted = true;
+    UserService.getCommentList(location.pathname, queryString)
+      .then((response) => {
         setLoaded(false);
         setLoading(true);
         // 다음 comments를 불러올 때 comments 자체를 안에서 밖에 쓰지 않는다면 함수형으로 작성한다.
@@ -30,22 +39,24 @@ function ChildComments(props) {
         setNextPageUrl(response.data.next);
         setLoaded(true);
         setLoading(false);
-      }
-    );
+      })
+      .catch((error) => {
+        if (!UserService.isCancel(error)) {
+          console.error(error);
+        }
+      });
+    return () => {
+      // mounted = false;
+      // source.cancel();
+      UserService.unsubscribe();
+    };
   }, [location, props.parent, nextPage]);
   return (
     <div>
       {loading && <div>로딩중</div>}
       {loaded &&
         comments.map((comment, idx) => {
-          return (
-            <ul key={idx}>
-              <li>작성자: {comment.author}</li>
-              <li>작성시간: {comment.dt_created}</li>
-              <li>수정시간: {comment.dt_modified}</li>
-              <li>내용: {comment.content}</li>
-            </ul>
-          );
+          return <Comment key={idx} comment={comment} onClickFunction={null} />;
         })}
       {loaded && counts > 10 && (
         <button
@@ -61,7 +72,26 @@ function ChildComments(props) {
   );
 }
 
+function Comment(props) {
+  return (
+    <ul>
+      <li>작성자: {props.comment.author}</li>
+      <li>작성시간: {props.comment.dt_created}</li>
+      <li>수정시간: {props.comment.dt_modified}</li>
+      <li>내용: {props.comment.content}</li>
+      {props.onClickFunction && (
+        <li>
+          <button onClick={props.onClickFunction}>
+            {props.comment.children_count}개의 답글
+          </button>
+        </li>
+      )}
+    </ul>
+  );
+}
+
 function CommentComponent(props) {
+  // react hooks
   const [commentState, setCommentState] = useState(
     new Array(props.comments.length).fill(false)
   );
@@ -69,28 +99,18 @@ function CommentComponent(props) {
     <div>
       {props.comments.map((comment, idx) => {
         return (
-          <ul key={idx}>
-            <li>작성자: {comment.author}</li>
-            <li>작성시간: {comment.dt_created}</li>
-            <li>수정시간: {comment.dt_modified}</li>
-            <li>내용: {comment.content}</li>
-            <li>
-              <button
-                onClick={() => {
-                  const currentCommentState = [...commentState];
-                  currentCommentState[idx] = !commentState[idx];
-                  setCommentState(currentCommentState);
-                }}
-              >
-                {comment.children_count}개의 답글
-              </button>
-            </li>
-            {commentState[idx] && (
-              <li>
-                <ChildComments parent={comment.id} />
-              </li>
-            )}
-          </ul>
+          <div key={idx}>
+            <Comment
+              comment={comment}
+              idx={idx}
+              onClickFunction={() => {
+                const currentCommentState = [...commentState];
+                currentCommentState[idx] = !commentState[idx];
+                setCommentState(currentCommentState);
+              }}
+            />
+            {commentState[idx] && <ChildComments parent={comment.id} />}
+          </div>
         );
       })}
     </div>
