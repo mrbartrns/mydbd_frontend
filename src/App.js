@@ -32,7 +32,7 @@ function App(props) {
   // return router and navbar component
   return (
     <div className="App">
-      <Navbar />
+      <Navbar logout={handleLogout} />
       <Container md="true">
         <Switch>
           <Route exact path="/" component={Home} />/
