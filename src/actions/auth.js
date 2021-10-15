@@ -39,28 +39,28 @@ export const register = (username, email, password) => (dispatch) => {
 };
 
 export const login = (username, password) => (dispatch) => {
-  return AuthService.login(username, password).then(
-    (response) => {
+  return AuthService.login(username, password)
+    .then((response) => {
       dispatch({
         type: LOGIN_SUCCESS,
         payload: { user: response.data },
       });
       return Promise.resolve(response);
-    },
-    (error) => {
-      const message = error.response.data.detail;
-      dispatch({
-        type: LOGIN_FAIL,
-      });
+    })
+    .catch((error) => {
+      if (error.response) {
+        const message = error.response.data;
+        dispatch({
+          type: LOGIN_FAIL,
+        });
 
-      dispatch({
-        type: SET_MESSAGE,
-        payload: message,
-      });
-
+        dispatch({
+          type: SET_MESSAGE,
+          payload: message,
+        });
+      }
       return Promise.reject(error);
-    }
-  );
+    });
 };
 
 export const logout = () => (dispatch) => {

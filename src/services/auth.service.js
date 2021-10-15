@@ -8,7 +8,6 @@ class AuthService {
         // localStorage.setItem("user", JSON.stringify(response.data));
         TokenService.setUser(response.data);
       }
-
       return response;
     });
   }
