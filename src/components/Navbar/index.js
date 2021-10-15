@@ -5,6 +5,7 @@ import { FaPlay, FaBars } from "react-icons/fa";
 import "../../css/component/navbar.component.scss";
 import { useMediaQuery } from "react-responsive";
 import { Container } from "react-bootstrap";
+import { connect } from "react-redux";
 
 function Navbar(props) {
   const [onToggle, setToggle] = useState(false);
@@ -15,7 +16,13 @@ function Navbar(props) {
     setToggle(!onToggle);
   };
   useEffect(() => {
-    setToggle(false);
+    let mounted = true;
+    if (mounted) {
+      setToggle(false);
+    }
+    return () => {
+      mounted = false;
+    };
   }, [location.pathname]);
   return (
     <nav className="navbar">
@@ -47,14 +54,25 @@ function Navbar(props) {
           </ul>
         ) : null}
         {!isTablet || (isTablet && onToggle) ? (
-          <ul className="navbar__account">
-            <li>
-              <Link to="/login">Login</Link>
-            </li>
-            <li>
-              <Link to="/signup">Signup</Link>
-            </li>
-          </ul>
+          !props.isLoggedIn ? (
+            <ul className="navbar__account">
+              <li>
+                <Link to="/login">Login</Link>
+              </li>
+              <li>
+                <Link to="/signup">Signup</Link>
+              </li>
+            </ul>
+          ) : (
+            <ul className="navbar__account">
+              <li>
+                <Link to="#">{props.user.user.username}님</Link>
+              </li>
+              <li className="navbar__account__logout" onClick={props.logout}>
+                Logout
+              </li>
+            </ul>
+          )
         ) : null}
       </Container>
 
@@ -63,4 +81,9 @@ function Navbar(props) {
   );
 }
 
-export default Navbar;
+function mapStateToProps(state) {
+  const { isLoggedIn, user } = state.authReducer;
+  return { isLoggedIn, user };
+}
+
+export default connect(mapStateToProps)(Navbar);
