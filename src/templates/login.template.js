@@ -1,7 +1,7 @@
 // react imports
 import React, { useState } from "react";
 import { connect, useDispatch } from "react-redux";
-import { useHistory } from "react-router";
+import { Redirect, useHistory } from "react-router";
 
 // custom imports
 import { login } from "../actions/auth";
@@ -29,11 +29,15 @@ function LoginTemplate(props) {
   function handleLoginSubmit(e) {
     e.preventDefault();
     if (props.isLoggedIn) {
-      history.go(0);
+      history.goBack();
     }
     dispatch(login(username, password)).then((response) => {
       history.goBack();
     });
+  }
+
+  if (props.isLoggedIn) {
+    return <Redirect to="/" />;
   }
 
   return (

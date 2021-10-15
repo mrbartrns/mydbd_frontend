@@ -12,6 +12,11 @@ function LoginComponent(props) {
     <div className="login">
       <h2>로그인</h2>
       <form className="login__form" onSubmit={props.handleLoginSubmit}>
+        {props.message && props.message.detail && (
+          <ul>
+            <li>{props.message.detail}</li>
+          </ul>
+        )}
         <div className="login__form__input">
           <input
             id="login__id"
@@ -19,6 +24,11 @@ function LoginComponent(props) {
             onChange={props.handleUsernameChange}
             placeholder="Username(ID)"
           />
+          {props.message && props.message.username && (
+            <ul>
+              <li>{props.message.username}</li>
+            </ul>
+          )}
         </div>
         <div className="login__form__input">
           <input
@@ -27,6 +37,11 @@ function LoginComponent(props) {
             onChange={props.handlePasswordChange}
             placeholder="Password"
           />
+          {props.message && props.message.password && (
+            <ul>
+              <li>{props.message.password}</li>
+            </ul>
+          )}
         </div>
         <input type="submit" className="login__submit" />
       </form>
