@@ -5,7 +5,7 @@ import { connect } from "react-redux";
 
 // custom imports
 import UserService from "../services/user.service";
-import DetailComponent from "../components/detail.component";
+import DetailComponent from "../components/Detail/detail.component";
 import CommentTemplate from "./comment.template";
 
 function DetailTemplate(props) {

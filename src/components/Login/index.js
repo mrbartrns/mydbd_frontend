@@ -11,7 +11,7 @@ function LoginComponent(props) {
   return (
     <div className="login">
       <h2>로그인</h2>
-      <form className="login__form" onSubmit={props.handleLoginSubmit}>
+      <form className="form__form" onSubmit={props.handleLoginSubmit}>
         {props.message && props.message.detail && (
           <ul>
             <li>{props.message.detail}</li>
