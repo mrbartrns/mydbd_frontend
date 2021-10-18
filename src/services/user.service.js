@@ -18,6 +18,14 @@ class UserService {
     return api.post("service/list" + pathname + "/comments", data);
   }
 
+  updateComment(commentId, data) {
+    return api.put("service/comment" + String(commentId), data);
+  }
+
+  deleteComment(commentId) {
+    return api.delete("service/comment");
+  }
+
   getApiDetail(pathname) {
     return api.get("api" + pathname + "/detail");
   }
