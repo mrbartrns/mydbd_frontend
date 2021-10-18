@@ -1,5 +1,6 @@
 // react imports
 import React, { useState, useEffect } from "react";
+import { connect } from "react-redux";
 import { useLocation } from "react-router";
 
 // custom imports
@@ -95,28 +96,54 @@ function CommentComponent(props) {
   const [commentState, setCommentState] = useState(
     new Array(props.comments.length).fill(false)
   );
-  return !props.nullPage ? (
+  return (
     <div>
-      {props.comments.map((comment, idx) => {
-        return (
-          <div key={idx}>
-            <Comment
-              comment={comment}
-              idx={idx}
-              onClickFunction={() => {
-                const currentCommentState = [...commentState];
-                currentCommentState[idx] = !commentState[idx];
-                setCommentState(currentCommentState);
-              }}
-            />
-            {commentState[idx] && <ChildComments parent={comment.id} />}
-          </div>
-        );
-      })}
+      {/* TODO: separate form from CommentComponent and create new Component */}
+      {props.isLoggedIn && (
+        <form
+          onSubmit={(e) => {
+            if (!props.isLoggedIn) {
+              e.preventDefault();
+            }
+            props.submitComment({ parent: null, content: props.content });
+          }}
+        >
+          <textarea
+            placeholder="댓글을 적으세요."
+            onChange={props.handleContentChange}
+          />
+          <input type="submit" value="댓글 적기" />
+        </form>
+      )}
+      {!props.nullPage ? (
+        <div>
+          {props.comments.map((comment, idx) => {
+            return (
+              <div key={idx}>
+                <Comment
+                  comment={comment}
+                  idx={idx}
+                  onClickFunction={() => {
+                    const currentCommentState = [...commentState];
+                    currentCommentState[idx] = !commentState[idx];
+                    setCommentState(currentCommentState);
+                  }}
+                />
+                {commentState[idx] && <ChildComments parent={comment.id} />}
+              </div>
+            );
+          })}
+        </div>
+      ) : (
+        <ul>아직 댓글이 없습니다. 댓글을 써보세요!</ul>
+      )}
     </div>
-  ) : (
-    <ul>아직 댓글이 없습니다. 댓글을 써보세요!</ul>
   );
 }
 
-export default CommentComponent;
+function mapStateToProps(state) {
+  const { isLoggedIn, user } = state.authReducer;
+  return { isLoggedIn, user };
+}
+
+export default connect(mapStateToProps)(CommentComponent);

@@ -2,6 +2,7 @@
 import React, { useState } from "react";
 import { useLocation } from "react-router";
 import { useEffect } from "react";
+import { connect } from "react-redux";
 
 // custom imports
 import UserService from "../services/user.service";
@@ -14,7 +15,6 @@ import {
 
 // functions
 import { parseQueryStringToDictionary } from "../functions";
-import { connect } from "react-redux";
 import CommentComponent from "../components/comment.component";
 
 /**
@@ -29,6 +29,27 @@ function CommentTemplate(props) {
   const [loaded, setLoaded] = useState(false);
   const [comments, setComments] = useState([]);
   const [nullPage, setNullPage] = useState(false);
+  const [content, setContent] = useState("");
+
+  // functions
+  function handlePostComment(data) {
+    if (!props.isLoggedIn) {
+      console.log("로그인 해야 작성할 수 있습니다.");
+      return;
+    }
+    UserService.postComment(location.pathname, data)
+      .then((response) => {
+        console.log(response);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }
+
+  function handleContentChange(e) {
+    e.preventDefault();
+    setContent(e.target.value);
+  }
 
   // useEffect
   useEffect(() => {
@@ -79,14 +100,18 @@ function CommentTemplate(props) {
         comments={comments}
         loaded={loaded}
         nullPage={nullPage}
+        submitComment={handlePostComment}
+        handleContentChange={handleContentChange}
+        content={content}
       />
     )
   );
 }
 
 function mapStateToProps(state) {
+  const { isLoggedIn, user } = state.authReducer;
   const { currentPage, start, end, count, total } = state.paginationReducer;
-  return { currentPage, start, end, count, total };
+  return { currentPage, start, end, count, total, isLoggedIn, user };
 }
 
 export default connect(mapStateToProps)(CommentTemplate);

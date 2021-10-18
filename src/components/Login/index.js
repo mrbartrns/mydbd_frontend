@@ -5,19 +5,23 @@ import { connect } from "react-redux";
 // custom imports
 
 // css
-import "../../css/component/loginform.component.scss";
+// import "../../css/component/loginform.component.scss";
+import "../../css/component/form.component.scss";
 
 function LoginComponent(props) {
   return (
-    <div className="login">
+    <div className="form-container login">
       <h2>로그인</h2>
-      <form className="form__form" onSubmit={props.handleLoginSubmit}>
+      <form
+        className="form__form login__form"
+        onSubmit={props.handleLoginSubmit}
+      >
         {props.message && props.message.detail && (
           <ul>
             <li>{props.message.detail}</li>
           </ul>
         )}
-        <div className="login__form__input">
+        <div className="form__input login__form__input">
           <input
             id="login__id"
             type="text"
@@ -30,7 +34,7 @@ function LoginComponent(props) {
             </ul>
           )}
         </div>
-        <div className="login__form__input">
+        <div className="form__input login__form__input">
           <input
             id="login__password"
             type="password"

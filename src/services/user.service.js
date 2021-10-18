@@ -14,6 +14,10 @@ class UserService {
     return api.get("service/list" + pathname + "/comments", { params });
   }
 
+  postComment(pathname, data) {
+    return api.post("service/list" + pathname + "/comments", data);
+  }
+
   getApiDetail(pathname) {
     return api.get("api" + pathname + "/detail");
   }
