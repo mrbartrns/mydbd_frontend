@@ -23,8 +23,7 @@ function App(props) {
   const dispatch = props.dispatch;
 
   // handle logout function
-  const handleLogout = (e) => {
-    e.preventDefault();
+  const handleLogout = () => {
     dispatch(logout()).then((response) => {
       history.go(0);
     });
