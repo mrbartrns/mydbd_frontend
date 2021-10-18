@@ -6,12 +6,6 @@ import { connect } from "react-redux";
 
 // custom imports
 import UserService from "../services/user.service";
-import {
-  setCurrentPage,
-  setStartEndPage,
-  setTotalCount,
-  setTotalPage,
-} from "../actions/pagination";
 
 // functions
 import { parseQueryStringToDictionary } from "../functions";
@@ -19,17 +13,25 @@ import CommentComponent from "../components/comment.component";
 
 /**
  * CommentTemplate는 parent comment를 api로부터 불러온다.
+ * 댓글은 처음 10개를 불러온 뒤, nextPage가 변화함에 따라 댓글을 불러온다.
+ * 만약 댓글의 정렬 순서가 바뀌었을 경우, 처음부터 다시 로드(댓글 다시 채우기)
  */
 function CommentTemplate(props) {
   // constants
-  const dispatch = props.dispatch;
   const location = useLocation();
 
   // states
   const [loaded, setLoaded] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [comments, setComments] = useState([]);
+  const [commentState, setCommentState] = useState(
+    new Array(comments.length).fill(false)
+  );
   const [nullPage, setNullPage] = useState(false);
   const [content, setContent] = useState("");
+  const [nextPage, setNextPage] = useState(1); // set next pagenumber after fetch
+  const [nextPageUrl, setNextPageUrl] = useState(null); // to check more comments
+  const [counts, setCounts] = useState(null); // store total comment counts
 
   // functions
   function handlePostComment(data) {
@@ -53,38 +55,37 @@ function CommentTemplate(props) {
 
   // useEffect
   useEffect(() => {
-    /**
-     * 1. currentPage 설정
-     * 2. totalCount 설정
-     * 3. totalPage 설정
-     * 4. startPage, endPage 설정
-     * 5. Comment Component로 연결
-     */
     const queries = parseQueryStringToDictionary(location.search);
-    const page = parseInt(queries["page"]) || 1;
+    // set query to get comments
     const source = UserService.getCancelToken();
+    queries["parent"] = props.parent || null;
+    queries["page"] = nextPage;
+    queries["sortby"] = queries["sortby"] || "recent";
     queries["cancelToken"] = source.token;
 
     setLoaded(false);
     setNullPage(false);
 
-    // dispatch
-    dispatch(setCurrentPage(page));
-
     UserService.getCommentList(location.pathname, queries)
       .then((response) => {
-        // if page has contents -> display comments
-        dispatch(setTotalCount(response.data.count));
-        dispatch(setTotalPage());
-        dispatch(setStartEndPage());
-        setComments(response.data.results);
+        setLoading(true);
+        setComments((c) => {
+          return [...c, ...response.data.results];
+        });
+        setCommentState((c) => {
+          return [...c, ...new Array(response.data.results.length).fill(false)];
+        });
+        setCounts(response.data.count);
+        setNextPageUrl(response.data.next);
         setLoaded(true);
+        setLoading(false);
       })
       .catch((error) => {
         // if page not have contents -> display null page
         if (!UserService.isCancel(error)) {
           console.error(error);
         }
+        // TODO: dispatch set message
         setLoaded(true);
         setNullPage(true);
       });
@@ -92,19 +93,25 @@ function CommentTemplate(props) {
     return () => {
       UserService.unsubscribe();
     };
-  }, [dispatch, location]);
-
+  }, [location, nextPage, props.parent]);
   return (
-    loaded && (
-      <CommentComponent
-        comments={comments}
-        loaded={loaded}
-        nullPage={nullPage}
-        submitComment={handlePostComment}
-        handleContentChange={handleContentChange}
-        content={content}
-      />
-    )
+    <CommentComponent
+      comments={comments}
+      commentState={commentState}
+      setCommentState={setCommentState}
+      loaded={loaded}
+      loading={loading}
+      nullPage={nullPage}
+      parent={props.parent}
+      content={content}
+      setContent={setContent}
+      nextPage={nextPage}
+      setNextPage={setNextPage}
+      nextPageUrl={nextPageUrl}
+      counts={counts}
+      submitComment={handlePostComment}
+      handleContentChange={handleContentChange}
+    />
   );
 }
 

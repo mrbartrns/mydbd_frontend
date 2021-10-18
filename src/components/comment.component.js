@@ -5,6 +5,7 @@ import { useLocation } from "react-router";
 
 // custom imports
 import UserService from "../services/user.service";
+import CommentTemplate from "../templates/comment.template";
 
 function ChildComments(props) {
   // react hooks
@@ -92,10 +93,6 @@ function Comment(props) {
 }
 
 function CommentComponent(props) {
-  // react hooks
-  const [commentState, setCommentState] = useState(
-    new Array(props.comments.length).fill(false)
-  );
   return (
     <div>
       {/* TODO: separate form from CommentComponent and create new Component */}
@@ -105,7 +102,10 @@ function CommentComponent(props) {
             if (!props.isLoggedIn) {
               e.preventDefault();
             }
-            props.submitComment({ parent: null, content: props.content });
+            props.submitComment({
+              parent: props.parent,
+              content: props.content,
+            });
           }}
         >
           <textarea
@@ -124,12 +124,14 @@ function CommentComponent(props) {
                   comment={comment}
                   idx={idx}
                   onClickFunction={() => {
-                    const currentCommentState = [...commentState];
-                    currentCommentState[idx] = !commentState[idx];
-                    setCommentState(currentCommentState);
+                    const currentCommentState = [...props.commentState];
+                    currentCommentState[idx] = !props.commentState[idx];
+                    props.setCommentState(currentCommentState);
                   }}
                 />
-                {commentState[idx] && <ChildComments parent={comment.id} />}
+                {props.commentState[idx] && (
+                  <CommentTemplate parent={comment.id} />
+                )}
               </div>
             );
           })}
@@ -137,6 +139,19 @@ function CommentComponent(props) {
       ) : (
         <ul>아직 댓글이 없습니다. 댓글을 써보세요!</ul>
       )}
+      {props.loaded && props.nextPageUrl && (
+        <li>
+          <button
+            onClick={(e) => {
+              e.preventDefault();
+              props.setNextPage(props.nextPage + 1);
+            }}
+          >
+            다음 10개 더보기
+          </button>
+        </li>
+      )}
+      {props.loading && <div>로딩중...</div>}
     </div>
   );
 }
