@@ -63,35 +63,42 @@ function CommentTemplate(props) {
     queries["sortby"] = queries["sortby"] || "recent";
     queries["cancelToken"] = source.token;
 
-    setLoaded(false);
-    setNullPage(false);
+    let mounted = true;
+    if (mounted) {
+      setLoaded(false);
+      setNullPage(false);
 
-    UserService.getCommentList(location.pathname, queries)
-      .then((response) => {
-        setLoading(true);
-        setComments((c) => {
-          return [...c, ...response.data.results];
+      UserService.getCommentList(location.pathname, queries)
+        .then((response) => {
+          setLoading(true);
+          setComments((c) => {
+            return [...c, ...response.data.results];
+          });
+          setCommentState((c) => {
+            return [
+              ...c,
+              ...new Array(response.data.results.length).fill(false),
+            ];
+          });
+          setCounts(response.data.count);
+          setNextPageUrl(response.data.next);
+          setLoaded(true);
+          setLoading(false);
+        })
+        .catch((error) => {
+          // if page not have contents -> display null page
+          if (!UserService.isCancel(error)) {
+            console.error(error);
+          }
+          // TODO: dispatch set message
+          setLoaded(true);
+          setNullPage(true);
         });
-        setCommentState((c) => {
-          return [...c, ...new Array(response.data.results.length).fill(false)];
-        });
-        setCounts(response.data.count);
-        setNextPageUrl(response.data.next);
-        setLoaded(true);
-        setLoading(false);
-      })
-      .catch((error) => {
-        // if page not have contents -> display null page
-        if (!UserService.isCancel(error)) {
-          console.error(error);
-        }
-        // TODO: dispatch set message
-        setLoaded(true);
-        setNullPage(true);
-      });
+    }
 
     return () => {
       UserService.unsubscribe();
+      mounted = false;
     };
   }, [location, nextPage, props.parent]);
   return (
