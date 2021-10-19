@@ -21,7 +21,11 @@ function Comment(props) {
         </span>
       </div>
       <div className="comment__content">
-        <span>{props.comment.content}</span>
+        {new Date(props.comment.dt_created).valueOf() + 1000 <
+          new Date(props.comment.dt_modified).valueOf() && (
+          <span className="modified">**수정됨</span>
+        )}
+        <span className="content">{props.comment.content}</span>
       </div>
       {!props.comment.parent && (
         <button
