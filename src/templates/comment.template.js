@@ -9,7 +9,7 @@ import UserService from "../services/user.service";
 
 // functions
 import { parseQueryStringToDictionary } from "../functions";
-import CommentComponent from "../components/comment.component";
+import CommentComponent from "../components/Comment/comment.component";
 
 /**
  * CommentTemplate는 parent comment를 api로부터 불러온다.
@@ -34,6 +34,12 @@ function CommentTemplate(props) {
   const [counts, setCounts] = useState(null); // store total comment counts
 
   // functions
+  function toggleCommentBtn(idx) {
+    const currentCommentState = [...commentState];
+    currentCommentState[idx] = !currentCommentState[idx];
+    setCommentState(currentCommentState);
+  }
+
   function handlePostComment(data) {
     if (!props.isLoggedIn) {
       console.log("로그인 해야 작성할 수 있습니다.");
@@ -44,6 +50,7 @@ function CommentTemplate(props) {
         console.log(response);
       })
       .catch((error) => {
+        // TODO: set error message (error.response.data)
         console.log(error);
       });
   }
@@ -87,6 +94,8 @@ function CommentTemplate(props) {
         })
         .catch((error) => {
           // if page not have contents -> display null page
+          // pagenumber > page -> error
+          // parent who doesn't have child -> not error, just null
           if (!UserService.isCancel(error)) {
             console.error(error);
           }
@@ -105,7 +114,6 @@ function CommentTemplate(props) {
     <CommentComponent
       comments={comments}
       commentState={commentState}
-      setCommentState={setCommentState}
       loaded={loaded}
       loading={loading}
       nullPage={nullPage}
@@ -118,6 +126,7 @@ function CommentTemplate(props) {
       counts={counts}
       submitComment={handlePostComment}
       handleContentChange={handleContentChange}
+      toggleCommentBtn={toggleCommentBtn}
     />
   );
 }
