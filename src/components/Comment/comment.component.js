@@ -73,7 +73,7 @@ function CommentComponent(props) {
           })}
         </div>
       ) : (
-        <div>아직 댓글이 없습니다. 댓글을 써보세요!</div>
+        props.loaded && <div>아직 댓글이 없습니다. 댓글을 써보세요!</div>
       )}
       {props.loaded && props.nextPageUrl && (
         <div>
