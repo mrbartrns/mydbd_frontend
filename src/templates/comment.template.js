@@ -45,6 +45,10 @@ function CommentTemplate(props) {
       console.log("로그인 해야 작성할 수 있습니다.");
       return;
     }
+    if (data.content === "") {
+      alert("적어도 한 글자 이상 작성해야 합니다.");
+      return;
+    }
     UserService.postComment(location.pathname, data)
       .then((response) => {
         console.log(response);

@@ -1,38 +1,46 @@
 import React from "react";
+import { connect } from "react-redux";
 
+// css
 import "../../css/component/comment.component.scss";
 
-function Comment(props) {
-  return (
-    <div className="comment">
-      <div className="comment__info">
-        <span className="comment__info__username">
-          {props.comment.author.username}
-        </span>
-        <span className="comment__info__dt_created">
-          {new Date(props.comment.dt_created).toLocaleString()}
-        </span>
+function CommentForm(props) {
+  return props.isLoggedIn ? (
+    <form
+      className="comment__form"
+      onSubmit={(e) => {
+        if (!props.isLoggedIn) {
+          e.preventDefault();
+        }
+        props.submitComment({
+          parent: props.parent,
+          content: props.content,
+        });
+      }}
+    >
+      <div className="comment__form__input_area">
+        {props.isLoggedIn && <label>{props.user.user.username}</label>}
+        <textarea
+          required
+          className={`comment__input ${props.isLoggedIn && "logined"}`}
+          placeholder="댓글을 적으세요."
+          onChange={props.handleContentChange}
+        />
       </div>
-      <div className="comment__content">
-        {new Date(props.comment.dt_created).valueOf() + 1000 <
-          new Date(props.comment.dt_modified).valueOf() && (
-          <span className="modified">**수정됨</span>
-        )}
-        <span className="content">{props.comment.content}</span>
+      <div className="comment__form__submit_area">
+        <input
+          className="comment__submit_btn"
+          type="submit"
+          value="댓글 적기"
+        />
       </div>
-      {!props.comment.parent && (
-        <button
-          className="comment__child_toggle_btn"
-          onClick={props.onClickFunction}
-        >
-          답글{" "}
-          <span className="comment__child_count">
-            {props.comment.children_count}
-          </span>
-        </button>
-      )}
-    </div>
-  );
+    </form>
+  ) : null;
 }
 
-export default Comment;
+function mapStateToProps(state) {
+  const { isLoggedIn, user } = state.authReducer;
+  return { isLoggedIn, user };
+}
+
+export default connect(mapStateToProps)(CommentForm);
