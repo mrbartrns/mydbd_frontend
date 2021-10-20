@@ -23,3 +23,10 @@ export function parseQueryStringToDictionary(queryString) {
     return dictionary;
   }
 }
+
+export function checkIfContentIsModified(dtCreated, dtModified) {
+  /**
+   * dtCreated: String created Date from api
+   * dtModified: String modified Date from api */
+  return new Date(dtCreated).valueOf() + 1000 < new Date(dtModified).valueOf();
+}
