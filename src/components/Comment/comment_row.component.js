@@ -6,6 +6,7 @@ import "../../css/component/comment.component.scss";
 import { connect } from "react-redux";
 
 function Comment(props) {
+  // When click 답글쓰기 -> have to open form
   const [modificationMode, setModificationMode] = useState(false);
 
   return (
@@ -44,6 +45,7 @@ function Comment(props) {
             <span>삭제하기</span>
           </div>
         )}
+        <span>답글쓰기</span>
       </div>
     </div>
   );
