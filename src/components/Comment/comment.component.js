@@ -15,12 +15,7 @@ function CommentComponent(props) {
   return (
     <div className="comment-container">
       {/** Form Component */}
-      <CommentForm
-        parent={props.parent}
-        content={props.content}
-        submitComment={props.submitComment}
-        handleContentChange={props.handleContentChange}
-      />
+      {!props.parent && <CommentForm parent={props.parent} />}
 
       {/** Comment Component */}
       <CommentBox

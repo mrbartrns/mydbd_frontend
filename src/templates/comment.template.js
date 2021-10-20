@@ -28,7 +28,6 @@ function CommentTemplate(props) {
     new Array(comments.length).fill(false)
   );
   const [nullPage, setNullPage] = useState(false);
-  const [content, setContent] = useState("");
   const [nextPage, setNextPage] = useState(1); // set next pagenumber after fetch
   const [nextPageUrl, setNextPageUrl] = useState(null); // to check more comments
   const [counts, setCounts] = useState(null); // store total comment counts
@@ -38,30 +37,6 @@ function CommentTemplate(props) {
     const currentCommentState = [...commentState];
     currentCommentState[idx] = !currentCommentState[idx];
     setCommentState(currentCommentState);
-  }
-
-  function handlePostComment(data) {
-    if (!props.isLoggedIn) {
-      console.log("로그인 해야 작성할 수 있습니다.");
-      return;
-    }
-    if (data.content === "") {
-      alert("적어도 한 글자 이상 작성해야 합니다.");
-      return;
-    }
-    UserService.postComment(location.pathname, data)
-      .then((response) => {
-        console.log(response);
-      })
-      .catch((error) => {
-        // TODO: set error message (error.response.data)
-        console.log(error);
-      });
-  }
-
-  function handleContentChange(e) {
-    e.preventDefault();
-    setContent(e.target.value);
   }
 
   // useEffect
@@ -122,14 +97,10 @@ function CommentTemplate(props) {
       loading={loading}
       nullPage={nullPage}
       parent={props.parent}
-      content={content}
-      setContent={setContent}
       nextPage={nextPage}
       setNextPage={setNextPage}
       nextPageUrl={nextPageUrl}
       counts={counts}
-      submitComment={handlePostComment}
-      handleContentChange={handleContentChange}
       toggleCommentBtn={toggleCommentBtn}
     />
   );
