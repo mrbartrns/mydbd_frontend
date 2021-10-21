@@ -24,9 +24,7 @@ function CommentComponent(props) {
         nullPage={props.nullPage}
         parent={props.parent}
         comments={props.comments}
-        commentState={props.commentState}
         loaded={props.loaded}
-        toggleCommentBtn={props.toggleCommentBtn}
         handleDeleteComment={props.handleDeleteComment}
       />
       {props.loaded && props.nextPageUrl && (

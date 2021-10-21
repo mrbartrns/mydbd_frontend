@@ -45,9 +45,7 @@ function CommentForm(props) {
     <form
       className="comment__form"
       onSubmit={(e) => {
-        if (!props.isLoggedIn) {
-          e.preventDefault();
-        }
+        // e.preventDefault();
         handlePostComment({
           parent: props.parent,
           content: content,

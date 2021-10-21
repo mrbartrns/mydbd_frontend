@@ -2,7 +2,6 @@
 import React from "react";
 
 // custom imports
-import CommentTemplate from "../../templates/comment.template";
 import Comment from "./comment_row.component";
 
 // css
@@ -16,16 +15,9 @@ function CommentBox(props) {
           <li className="comment__box__comment" key={idx}>
             <Comment
               comment={comment}
-              state={props.commentState[idx]}
+              // 데이터 조작과 관련된 함수들은 모두 comment.template로부터 받아온다.
               handleDeleteComment={props.handleDeleteComment}
-              idx={idx}
-              onClickFunction={() => {
-                props.toggleCommentBtn(idx);
-              }}
             />
-            {props.commentState[idx] && !comment.parent && (
-              <CommentTemplate parent={comment.id} />
-            )}
           </li>
         );
       })}
