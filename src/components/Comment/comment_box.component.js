@@ -7,6 +7,7 @@ import Comment from "./comment_row.component";
 
 // css
 import "../../css/component/comment.component.scss";
+
 function CommentBox(props) {
   return !props.nullPage && props.comments.length > 0 ? (
     <ul className={`comment__box ${!props.parent && "first"}`}>
@@ -16,6 +17,7 @@ function CommentBox(props) {
             <Comment
               comment={comment}
               state={props.commentState[idx]}
+              handleDeleteComment={props.handleDeleteComment}
               idx={idx}
               onClickFunction={() => {
                 props.toggleCommentBtn(idx);

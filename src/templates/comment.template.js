@@ -39,6 +39,13 @@ function CommentTemplate(props) {
     setCommentState(currentCommentState);
   }
 
+  function handleDeleteComment(commentId) {
+    // comment delete function without refreshing current page
+    // USE JAVASCRIPT Array.filter FUNCTION WHEN REMOVE ELEMENT
+    setComments(comments.filter((comment) => comment.id !== commentId));
+    setCommentState(commentState.filter((comment) => comment.id !== commentId));
+  }
+
   // useEffect
   useEffect(() => {
     const queries = parseQueryStringToDictionary(location.search);
@@ -102,6 +109,7 @@ function CommentTemplate(props) {
       nextPageUrl={nextPageUrl}
       counts={counts}
       toggleCommentBtn={toggleCommentBtn}
+      handleDeleteComment={handleDeleteComment}
     />
   );
 }

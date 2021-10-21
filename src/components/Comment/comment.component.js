@@ -14,7 +14,9 @@ import "../../css/component/comment.component.scss";
 function CommentComponent(props) {
   return (
     <div className="comment-container">
-      {/** Form Component */}
+      {/** Form Component
+       * Form Component only displays when user logged in
+       */}
       {!props.parent && <CommentForm parent={props.parent} />}
 
       {/** Comment Component */}
@@ -22,9 +24,10 @@ function CommentComponent(props) {
         nullPage={props.nullPage}
         parent={props.parent}
         comments={props.comments}
-        loaded={props.loaded}
         commentState={props.commentState}
+        loaded={props.loaded}
         toggleCommentBtn={props.toggleCommentBtn}
+        handleDeleteComment={props.handleDeleteComment}
       />
       {props.loaded && props.nextPageUrl && (
         <div>

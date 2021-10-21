@@ -19,11 +19,11 @@ class UserService {
   }
 
   updateComment(commentId, data) {
-    return api.put("service/comment" + String(commentId), data);
+    return api.put("service/comment/" + String(commentId), data);
   }
 
   deleteComment(commentId) {
-    return api.delete("service/comment");
+    return api.delete("service/comment/" + String(commentId));
   }
 
   getApiDetail(pathname) {

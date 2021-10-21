@@ -3,6 +3,7 @@ import React, { useState } from "react";
 
 // custom imports
 import CommentForm from "./form.component";
+import UserService from "../../services/user.service";
 
 // functions
 import { checkIfContentIsModified } from "../../functions";
@@ -17,6 +18,7 @@ function Comment(props) {
   // states
   const [modificationMode, setModificationMode] = useState(false);
   const [openReply, setOpenReply] = useState(false);
+  const [modificatedContent, setModificatedContent] = useState("");
 
   // functions
   function handleModificationMode(e) {
@@ -27,6 +29,29 @@ function Comment(props) {
   function handleSubCommentForm(e) {
     e.preventDefault();
     setOpenReply(!openReply);
+  }
+
+  function handleUpdateContentChange(e) {
+    e.preventDefault();
+    setModificatedContent(e.target.value);
+  }
+
+  function submitModificatedContent(commentId, data) {
+    UserService.updateComment(commentId, data)
+      .then((response) => {})
+      .catch((error) => {
+        console.error(error);
+      });
+  }
+
+  function deleteComment(commentId) {
+    UserService.deleteComment(commentId)
+      .then((response) => {
+        props.handleDeleteComment(commentId);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
   }
 
   return (
@@ -48,7 +73,21 @@ function Comment(props) {
           <span className="content">{props.comment.content}</span>
         </div>
       ) : (
-        <textarea defaultValue={props.comment.content} />
+        <div className="comment__modify">
+          <form
+            onSubmit={() => {
+              submitModificatedContent(props.comment.id, {
+                content: modificatedContent,
+              });
+            }}
+          >
+            <textarea
+              defaultValue={props.comment.content}
+              onChange={handleUpdateContentChange}
+            />
+            <input type="submit" value="수정하기" />
+          </form>
+        </div>
       )}
       <div className="comment__footer">
         {!props.comment.parent && (
@@ -62,15 +101,28 @@ function Comment(props) {
             </span>
           </button>
         )}
-        {(props.user.user.username === props.comment.author.username ||
-          props.user.user.is_staff) && (
-          // TODO: change component to ul - li and apply display: flex
-          <div style={{ display: "inline-block" }}>
-            <span onClick={handleModificationMode}>수정하기</span>
-            <span>삭제하기</span>
-          </div>
-        )}
-        {!props.comment.parent && (
+        {props.isLoggedIn &&
+          (props.user.user.username === props.comment.author.username ||
+            props.user.user.is_staff) && (
+            // TODO: change component to ul - li and apply display: flex
+            <div style={{ display: "inline-block" }}>
+              <span onClick={handleModificationMode}>수정하기</span>
+              <span
+                onClick={() => {
+                  if (
+                    !window.confirm(
+                      "정말 삭제합니까? 이 동작은 취소할 수 없습니다."
+                    )
+                  )
+                    return;
+                  deleteComment(props.comment.id);
+                }}
+              >
+                삭제하기
+              </span>
+            </div>
+          )}
+        {props.isLoggedIn && !props.comment.parent && (
           <span onClick={handleSubCommentForm}>답글쓰기</span>
         )}
       </div>
