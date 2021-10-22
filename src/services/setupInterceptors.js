@@ -36,13 +36,18 @@ const setup = (store) => {
         if (err.response.status === 401 && !originalConfig._retry) {
           originalConfig._retry = true;
 
+          // FIXME: Fix Infinity loop after access token is expired
+          // when access token expires, client post refresh token if there is
+          // get refreshed access token, save to redux store and localstorage
           try {
-            const rs = await axiosInstance.post("user/token/refresh", {
+            const response = await axiosInstance.post("user/token/refresh", {
               refresh: TokenService.getLocalRefreshToken(),
             });
-            const accessToken = rs.data.access;
+            const accessToken = response.data.access;
 
+            // Change redux state access
             dispatch(refreshToken(accessToken));
+
             TokenService.updateLocalAccessToken(accessToken);
 
             return axiosInstance(originalConfig);
