@@ -37,6 +37,32 @@ function CommentTemplate(props) {
     setComments(comments.filter((comment) => comment.id !== commentId));
   }
 
+  function fetchComments(pathname, queries) {
+    UserService.getCommentList(pathname, queries)
+      .then((response) => {
+        setLoading(true);
+        setComments((c) => {
+          return [...c, ...response.data.results];
+          // return [...response.data.results];
+        });
+        setCounts(response.data.count);
+        setNextPageUrl(response.data.next);
+        setLoaded(true);
+        setLoading(false);
+      })
+      .catch((error) => {
+        // if page not have contents -> display null page
+        // pagenumber > page -> error
+        // parent who doesn't have child -> not error, just null
+        if (!UserService.isCancel(error)) {
+          console.error(error);
+        }
+        // TODO: dispatch set message
+        setLoaded(true);
+        setNullPage(true);
+      });
+  }
+
   // useEffect
   useEffect(() => {
     const queries = parseQueryStringToDictionary(location.search);
@@ -51,33 +77,10 @@ function CommentTemplate(props) {
     if (mounted) {
       setLoaded(false);
       setNullPage(false);
-
-      UserService.getCommentList(location.pathname, queries)
-        .then((response) => {
-          setLoading(true);
-          setComments((c) => {
-            return [...c, ...response.data.results];
-          });
-          setCounts(response.data.count);
-          setNextPageUrl(response.data.next);
-          setLoaded(true);
-          setLoading(false);
-        })
-        .catch((error) => {
-          // if page not have contents -> display null page
-          // pagenumber > page -> error
-          // parent who doesn't have child -> not error, just null
-          if (!UserService.isCancel(error)) {
-            console.error(error);
-          }
-          // TODO: dispatch set message
-          setLoaded(true);
-          setNullPage(true);
-        });
+      fetchComments(location.pathname, queries);
     }
 
     return () => {
-      UserService.unsubscribe();
       mounted = false;
     };
   }, [location, nextPage, props.parent]);
@@ -94,6 +97,7 @@ function CommentTemplate(props) {
       nextPageUrl={nextPageUrl}
       counts={counts}
       handleDeleteComment={handleDeleteComment}
+      fetchComments={fetchComments}
     />
   );
 }

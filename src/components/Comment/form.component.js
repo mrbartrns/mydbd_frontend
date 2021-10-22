@@ -31,7 +31,7 @@ function CommentForm(props) {
         props.setComments((comment) => {
           return [response.data, ...comment];
         });
-        console.log("done");
+        // props.fetchComments(location.pathname, {});
         setContent("");
       })
       .catch((error) => {

@@ -18,7 +18,11 @@ function CommentComponent(props) {
        * Form Component only displays when user logged in
        */}
       {!props.parent && (
-        <CommentForm parent={props.parent} setComments={props.setComments} />
+        <CommentForm
+          parent={props.parent}
+          setComments={props.setComments}
+          fetchComments={props.fetchComments}
+        />
       )}
 
       {/** Comment Component */}

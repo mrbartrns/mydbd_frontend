@@ -31,10 +31,11 @@ export function checkIfContentIsModified(dtCreated, dtModified) {
   return new Date(dtCreated).valueOf() + 1000 < new Date(dtModified).valueOf();
 }
 
+// TODO: key 값에 대하여 생각하기
 export function replaceNewLineToBr(text) {
-  return text.split("\n").map((line) => {
+  return text.split("\n").map((line, idx) => {
     return (
-      <span>
+      <span key={idx}>
         {line}
         <br />
       </span>
