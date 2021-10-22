@@ -25,8 +25,8 @@ function CommentTemplate(props) {
   const [loading, setLoading] = useState(true);
   const [comments, setComments] = useState([]);
   const [nullPage, setNullPage] = useState(false);
-  const [nextPage, setNextPage] = useState(1); // set next pagenumber after fetch
-  const [nextPageUrl, setNextPageUrl] = useState(null); // to check more comments
+  const [currentPage, setCurrentPage] = useState(null);
+  const [sortBy, setSortBy] = useState(null);
   const [counts, setCounts] = useState(null); // store total comment counts
 
   // functions
@@ -37,67 +37,62 @@ function CommentTemplate(props) {
     setComments(comments.filter((comment) => comment.id !== commentId));
   }
 
-  function fetchComments(pathname, queries) {
-    UserService.getCommentList(pathname, queries)
-      .then((response) => {
-        setLoading(true);
-        setComments((c) => {
-          return [...c, ...response.data.results];
-          // return [...response.data.results];
-        });
-        setCounts(response.data.count);
-        setNextPageUrl(response.data.next);
-        setLoaded(true);
-        setLoading(false);
-      })
-      .catch((error) => {
-        // if page not have contents -> display null page
-        // pagenumber > page -> error
-        // parent who doesn't have child -> not error, just null
-        if (!UserService.isCancel(error)) {
-          console.error(error);
-        }
-        // TODO: dispatch set message
-        setLoaded(true);
-        setNullPage(true);
-      });
-  }
-
   // useEffect
   useEffect(() => {
-    const queries = parseQueryStringToDictionary(location.search);
-    // set query to get comments
     const source = UserService.getCancelToken();
+
+    // set query to get comments
+    const queries = parseQueryStringToDictionary(location.search);
     queries["parent"] = props.parent || null;
-    queries["page"] = nextPage;
+    queries["page"] = parseInt(queries["page"]) || 1;
     queries["sortby"] = queries["sortby"] || "recent";
     queries["cancelToken"] = source.token;
-
     let mounted = true;
     if (mounted) {
+      const page = queries["page"];
+      const sort = queries["sortby"];
+      setCurrentPage(page);
+      setSortBy(sort);
       setLoaded(false);
       setNullPage(false);
-      fetchComments(location.pathname, queries);
+
+      // TODO: useEffect 내부에서 무엇을 이용하여 새로고침 할 지 생각하기
+      UserService.getCommentList(location.pathname, queries)
+        .then((response) => {
+          setLoading(true);
+          setComments(response.data.results);
+          setCounts(response.data.count);
+          setLoaded(true);
+          setLoading(false);
+        })
+        .catch((error) => {
+          // if page not have contents -> display null page
+          // parent who doesn't have child -> not error, just null
+          if (!UserService.isCancel(error)) {
+            console.error(error);
+          }
+          // TODO: dispatch set message
+          setLoaded(true);
+          setNullPage(true);
+        });
     }
 
     return () => {
       mounted = false;
+      UserService.unsubscribe();
     };
-  }, [location, nextPage, props.parent]);
+  }, [location, props.parent]);
   return (
     <CommentComponent
       comments={comments}
-      setComments={setComments}
       loaded={loaded}
       loading={loading}
       nullPage={nullPage}
       parent={props.parent}
-      nextPage={nextPage}
-      setNextPage={setNextPage}
-      nextPageUrl={nextPageUrl}
       counts={counts}
       handleDeleteComment={handleDeleteComment}
-      fetchComments={fetchComments}
+      currentPage={currentPage}
+      sortBy={sortBy}
     />
   );
 }

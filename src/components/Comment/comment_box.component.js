@@ -17,7 +17,6 @@ function CommentBox(props) {
             <Comment
               comment={comment}
               key={comment.id}
-              // 데이터 조작과 관련된 함수들은 모두 comment.template로부터 받아온다.
               handleDeleteComment={props.handleDeleteComment}
             />
           </li>

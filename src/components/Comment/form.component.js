@@ -1,7 +1,7 @@
 // react imports
 import React, { useState } from "react";
 import { connect } from "react-redux";
-import { useLocation } from "react-router";
+import { useHistory, useLocation } from "react-router";
 
 // custom imports
 import UserService from "../../services/user.service";
@@ -12,6 +12,7 @@ import "../../css/component/comment.component.scss";
 function CommentForm(props) {
   // constants
   const location = useLocation();
+  const history = useHistory();
 
   // states
   const [content, setContent] = useState("");
@@ -26,12 +27,12 @@ function CommentForm(props) {
       alert("적어도 한 글자 이상 작성해야 합니다.");
       return;
     }
+    // TODO: refresh data
     UserService.postComment(location.pathname, data)
       .then((response) => {
-        props.setComments((comment) => {
-          return [response.data, ...comment];
-        });
-        // props.fetchComments(location.pathname, {});
+        console.log(response.data);
+        // test
+
         setContent("");
       })
       .catch((error) => {

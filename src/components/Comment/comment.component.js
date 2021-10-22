@@ -17,13 +17,7 @@ function CommentComponent(props) {
       {/** Form Component
        * Form Component only displays when user logged in
        */}
-      {!props.parent && (
-        <CommentForm
-          parent={props.parent}
-          setComments={props.setComments}
-          fetchComments={props.fetchComments}
-        />
-      )}
+      {!props.parent && <CommentForm parent={props.parent} />}
 
       {/** Comment Component */}
       <CommentBox
@@ -33,18 +27,7 @@ function CommentComponent(props) {
         loaded={props.loaded}
         handleDeleteComment={props.handleDeleteComment}
       />
-      {props.loaded && props.nextPageUrl && (
-        <div>
-          <button
-            onClick={(e) => {
-              e.preventDefault();
-              props.setNextPage(props.nextPage + 1);
-            }}
-          >
-            다음 10개 더보기
-          </button>
-        </div>
-      )}
+      {/** Here goes pagination component */}
     </div>
   );
 }

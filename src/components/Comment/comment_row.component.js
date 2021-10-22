@@ -43,6 +43,7 @@ function Comment(props) {
     setSubcommentBtn(!subcommentBtn);
   }
 
+  // TODO: Do not refresh after modify content
   function submitModificatedContent(commentId, data) {
     UserService.updateComment(commentId, data)
       .then((response) => {})
@@ -64,6 +65,7 @@ function Comment(props) {
 
   return (
     <div className="comment">
+      {/** comment info */}
       <div className="comment__info">
         <span className="comment__info__username">
           {props.comment.author.username}
@@ -72,6 +74,7 @@ function Comment(props) {
           {new Date(props.comment.dt_created).toLocaleString()}
         </span>
       </div>
+      {/** comment content || comment modification form */}
       {!modificationMode ? (
         <div className="comment__content">
           {checkIfContentIsModified(
@@ -92,6 +95,7 @@ function Comment(props) {
             <textarea
               defaultValue={props.comment.content}
               onChange={handleUpdateContentChange}
+              required
             />
             <input type="submit" value="수정하기" />
           </form>
