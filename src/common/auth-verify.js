@@ -26,4 +26,5 @@ function AuthVerify(props) {
   return <div />;
 }
 
+// location, history, match 를 Router 외부에서 쓰게 하기 위해서는 withRouter함수가 필요하다.
 export default withRouter(AuthVerify);

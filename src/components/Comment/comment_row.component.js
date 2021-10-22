@@ -3,6 +3,7 @@ import React, { useState } from "react";
 
 // custom imports
 import CommentForm from "./form.component";
+import CommentTemplate from "../../templates/comment.template";
 import UserService from "../../services/user.service";
 
 // functions
@@ -18,7 +19,8 @@ function Comment(props) {
 
   // states
   const [modificationMode, setModificationMode] = useState(false);
-  const [openReply, setOpenReply] = useState(false);
+  const [subcommentBtn, setSubcommentBtn] = useState(false);
+  const [replyForm, toggleReplyFrom] = useState(false);
   const [modificatedContent, setModificatedContent] = useState("");
 
   // functions
@@ -27,14 +29,19 @@ function Comment(props) {
     setModificationMode(!modificationMode);
   }
 
-  function handleSubCommentForm(e) {
+  function toggleReplyForm(e) {
     e.preventDefault();
-    setOpenReply(!openReply);
+    toggleReplyFrom(!replyForm);
   }
 
   function handleUpdateContentChange(e) {
     e.preventDefault();
     setModificatedContent(e.target.value);
+  }
+
+  function toggleSubcommentBtn(e) {
+    e.preventDefault();
+    setSubcommentBtn(!subcommentBtn);
   }
 
   function submitModificatedContent(commentId, data) {
@@ -45,6 +52,7 @@ function Comment(props) {
       });
   }
 
+  // TODO: 데이터 조작과 관련된 함수를 comment template로 옮기기
   function deleteComment(commentId) {
     UserService.deleteComment(commentId)
       .then((response) => {
@@ -96,7 +104,7 @@ function Comment(props) {
         {!props.comment.parent && (
           <button
             className="comment__child_toggle_btn"
-            onClick={props.onClickFunction}
+            onClick={toggleSubcommentBtn}
           >
             답글
             <span className="comment__child_count">
@@ -126,10 +134,15 @@ function Comment(props) {
             </div>
           )}
         {props.isLoggedIn && !props.comment.parent && (
-          <span onClick={handleSubCommentForm}>답글쓰기</span>
+          <span onClick={toggleReplyForm}>답글쓰기</span>
         )}
       </div>
-      {openReply && <CommentForm parent={props.comment.id} />}
+      {replyForm && <CommentForm parent={props.comment.id} />}
+      {subcommentBtn && (
+        <div className="comment__re">
+          <CommentTemplate parent={props.comment.id} />
+        </div>
+      )}
     </div>
   );
 }

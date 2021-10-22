@@ -24,26 +24,17 @@ function CommentTemplate(props) {
   const [loaded, setLoaded] = useState(false);
   const [loading, setLoading] = useState(true);
   const [comments, setComments] = useState([]);
-  const [commentState, setCommentState] = useState(
-    new Array(comments.length).fill(false)
-  );
   const [nullPage, setNullPage] = useState(false);
   const [nextPage, setNextPage] = useState(1); // set next pagenumber after fetch
   const [nextPageUrl, setNextPageUrl] = useState(null); // to check more comments
   const [counts, setCounts] = useState(null); // store total comment counts
 
   // functions
-  function toggleCommentBtn(idx) {
-    const currentCommentState = [...commentState];
-    currentCommentState[idx] = !currentCommentState[idx];
-    setCommentState(currentCommentState);
-  }
 
   function handleDeleteComment(commentId) {
     // comment delete function without refreshing current page
     // USE JAVASCRIPT Array.filter FUNCTION WHEN REMOVE ELEMENT
     setComments(comments.filter((comment) => comment.id !== commentId));
-    setCommentState(commentState.filter((comment) => comment.id !== commentId));
   }
 
   // useEffect
@@ -66,12 +57,6 @@ function CommentTemplate(props) {
           setLoading(true);
           setComments((c) => {
             return [...c, ...response.data.results];
-          });
-          setCommentState((c) => {
-            return [
-              ...c,
-              ...new Array(response.data.results.length).fill(false),
-            ];
           });
           setCounts(response.data.count);
           setNextPageUrl(response.data.next);
@@ -99,7 +84,7 @@ function CommentTemplate(props) {
   return (
     <CommentComponent
       comments={comments}
-      commentState={commentState}
+      setComments={setComments}
       loaded={loaded}
       loading={loading}
       nullPage={nullPage}
@@ -108,7 +93,6 @@ function CommentTemplate(props) {
       setNextPage={setNextPage}
       nextPageUrl={nextPageUrl}
       counts={counts}
-      toggleCommentBtn={toggleCommentBtn}
       handleDeleteComment={handleDeleteComment}
     />
   );

@@ -17,16 +17,16 @@ function CommentComponent(props) {
       {/** Form Component
        * Form Component only displays when user logged in
        */}
-      {!props.parent && <CommentForm parent={props.parent} />}
+      {!props.parent && (
+        <CommentForm parent={props.parent} setComments={props.setComments} />
+      )}
 
       {/** Comment Component */}
       <CommentBox
         nullPage={props.nullPage}
         parent={props.parent}
         comments={props.comments}
-        commentState={props.commentState}
         loaded={props.loaded}
-        toggleCommentBtn={props.toggleCommentBtn}
         handleDeleteComment={props.handleDeleteComment}
       />
       {props.loaded && props.nextPageUrl && (
