@@ -30,3 +30,14 @@ export function checkIfContentIsModified(dtCreated, dtModified) {
    * dtModified: String modified Date from api */
   return new Date(dtCreated).valueOf() + 1000 < new Date(dtModified).valueOf();
 }
+
+export function replaceNewLineToBr(text) {
+  return text.split("\n").map((line) => {
+    return (
+      <span>
+        {line}
+        <br />
+      </span>
+    );
+  });
+}

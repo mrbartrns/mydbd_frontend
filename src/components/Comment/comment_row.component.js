@@ -7,6 +7,7 @@ import UserService from "../../services/user.service";
 
 // functions
 import { checkIfContentIsModified } from "../../functions";
+import { replaceNewLineToBr } from "../../functions";
 
 // css
 import "../../css/component/comment.component.scss";
@@ -70,7 +71,9 @@ function Comment(props) {
             props.comment.dt_created,
             props.comment.dt_modified
           ) && <span className="modified">**수정됨</span>}
-          <span className="content">{props.comment.content}</span>
+          <span className="content">
+            {replaceNewLineToBr(props.comment.content)}
+          </span>
         </div>
       ) : (
         <div className="comment__modify">
