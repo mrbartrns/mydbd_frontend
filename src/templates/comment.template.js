@@ -84,6 +84,7 @@ function CommentTemplate(props) {
   return (
     <CommentComponent
       comments={comments}
+      setComments={setComments}
       loaded={loaded}
       loading={loading}
       nullPage={nullPage}

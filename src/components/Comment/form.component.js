@@ -28,7 +28,11 @@ function CommentForm(props) {
     }
     UserService.postComment(location.pathname, data)
       .then((response) => {
-        console.log(response);
+        props.setComments((comment) => {
+          return [response.data, ...comment];
+        });
+        console.log("done");
+        setContent("");
       })
       .catch((error) => {
         // TODO: set error message (error.response.data)
@@ -45,7 +49,7 @@ function CommentForm(props) {
     <form
       className="comment__form"
       onSubmit={(e) => {
-        // e.preventDefault();
+        e.preventDefault();
         handlePostComment({
           parent: props.parent,
           content: content,
