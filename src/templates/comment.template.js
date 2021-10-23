@@ -5,11 +5,8 @@ import { useEffect } from "react";
 import { connect } from "react-redux";
 
 // custom imports
-import UserService from "../services/user.service";
-
-// functions
-import { parseQueryStringToDictionary } from "../functions";
 import CommentComponent from "../components/Comment/comment.component";
+import UserService from "../services/user.service";
 
 /**
  * CommentTemplate는 parent comment를 api로부터 불러온다.
@@ -25,8 +22,8 @@ function CommentTemplate(props) {
   const [loading, setLoading] = useState(true);
   const [comments, setComments] = useState([]);
   const [nullPage, setNullPage] = useState(false);
-  const [currentPage, setCurrentPage] = useState(null);
-  const [sortBy, setSortBy] = useState(null);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [sortBy, setSortBy] = useState("recent"); // TODO: change default value to like after api is ready
   const [counts, setCounts] = useState(null); // store total comment counts
 
   // functions
@@ -42,17 +39,13 @@ function CommentTemplate(props) {
     const source = UserService.getCancelToken();
 
     // set query to get comments
-    const queries = parseQueryStringToDictionary(location.search);
+    const queries = {};
     queries["parent"] = props.parent || null;
-    queries["page"] = parseInt(queries["page"]) || 1;
-    queries["sortby"] = queries["sortby"] || "recent";
+    queries["page"] = currentPage;
+    queries["sortby"] = sortBy;
     queries["cancelToken"] = source.token;
     let mounted = true;
     if (mounted) {
-      const page = queries["page"];
-      const sort = queries["sortby"];
-      setCurrentPage(page);
-      setSortBy(sort);
       setLoaded(false);
       setNullPage(false);
 
@@ -81,7 +74,7 @@ function CommentTemplate(props) {
       mounted = false;
       UserService.unsubscribe();
     };
-  }, [location, props.parent]);
+  }, [location, props.parent, currentPage, sortBy]);
   return (
     <CommentComponent
       comments={comments}
@@ -90,9 +83,11 @@ function CommentTemplate(props) {
       nullPage={nullPage}
       parent={props.parent}
       counts={counts}
-      handleDeleteComment={handleDeleteComment}
       currentPage={currentPage}
       sortBy={sortBy}
+      handleDeleteComment={handleDeleteComment}
+      setCurrentPage={setCurrentPage}
+      setSortBy={setSortBy}
     />
   );
 }

@@ -1,7 +1,7 @@
 // react imports
 import React, { useState } from "react";
 import { connect } from "react-redux";
-import { useHistory, useLocation } from "react-router";
+import { useLocation } from "react-router";
 
 // custom imports
 import UserService from "../../services/user.service";
@@ -12,7 +12,6 @@ import "../../css/component/comment.component.scss";
 function CommentForm(props) {
   // constants
   const location = useLocation();
-  const history = useHistory();
 
   // states
   const [content, setContent] = useState("");
@@ -30,9 +29,8 @@ function CommentForm(props) {
     // TODO: refresh data
     UserService.postComment(location.pathname, data)
       .then((response) => {
-        console.log(response.data);
-        // test
-
+        props.setCurrentPage(1);
+        props.setSortby("recent");
         setContent("");
       })
       .catch((error) => {
