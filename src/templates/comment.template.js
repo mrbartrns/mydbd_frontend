@@ -25,6 +25,7 @@ function CommentTemplate(props) {
   const [currentPage, setCurrentPage] = useState(1);
   const [sortBy, setSortBy] = useState("recent"); // TODO: change default value to like after api is ready
   const [counts, setCounts] = useState(null); // store total comment counts
+  const [posted, setPosted] = useState(false); // page=1, sortby=recent 일때 post 후 refresh를 위한 state
 
   // functions
 
@@ -57,6 +58,7 @@ function CommentTemplate(props) {
           setCounts(response.data.count);
           setLoaded(true);
           setLoading(false);
+          setPosted(false);
         })
         .catch((error) => {
           // if page not have contents -> display null page
@@ -74,7 +76,7 @@ function CommentTemplate(props) {
       mounted = false;
       UserService.unsubscribe();
     };
-  }, [location, props.parent, currentPage, sortBy]);
+  }, [location, props.parent, currentPage, sortBy, posted]);
   return (
     <CommentComponent
       comments={comments}
@@ -88,6 +90,7 @@ function CommentTemplate(props) {
       handleDeleteComment={handleDeleteComment}
       setCurrentPage={setCurrentPage}
       setSortBy={setSortBy}
+      setPosted={setPosted}
     />
   );
 }

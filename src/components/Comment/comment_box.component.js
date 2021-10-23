@@ -24,6 +24,7 @@ function CommentBox(props) {
       })}
     </ul>
   ) : (
+    // props.loaded -> comment component 밖으로 꺼내기
     props.loaded && (
       <ul>
         <li>아직 댓글이 없습니다. 댓글을 써보세요!</li>

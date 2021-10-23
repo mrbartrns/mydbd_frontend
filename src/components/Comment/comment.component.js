@@ -23,6 +23,7 @@ function CommentComponent(props) {
           parent={props.parent}
           setCurrentPage={props.setCurrentPage}
           setSortBy={props.setSortBy}
+          setPosted={props.setPosted}
         />
       )}
       {/** temp */}
@@ -48,11 +49,13 @@ function CommentComponent(props) {
         handleDeleteComment={props.handleDeleteComment}
       />
       {/** Here goes pagination component */}
-      <Paginator
-        currentPage={props.currentPage}
-        setCurrentPage={props.setCurrentPage}
-        counts={props.counts}
-      />
+      {props.loaded && (
+        <Paginator
+          currentPage={props.currentPage}
+          setCurrentPage={props.setCurrentPage}
+          counts={props.counts}
+        />
+      )}
     </div>
   );
 }

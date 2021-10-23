@@ -26,11 +26,12 @@ function CommentForm(props) {
       alert("적어도 한 글자 이상 작성해야 합니다.");
       return;
     }
-    // TODO: refresh data
+
     UserService.postComment(location.pathname, data)
       .then((response) => {
         props.setCurrentPage(1);
-        props.setSortby("recent");
+        props.setSortBy("recent");
+        props.setPosted(true);
         setContent("");
       })
       .catch((error) => {
@@ -62,6 +63,7 @@ function CommentForm(props) {
           className={`comment__input ${props.isLoggedIn && "logined"}`}
           placeholder="댓글을 적으세요."
           onChange={handleContentChange}
+          value={content}
         />
       </div>
       <div className="comment__form__submit_area">
