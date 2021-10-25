@@ -23,7 +23,7 @@ function CommentComponent(props) {
           parent={props.parent}
           setCurrentPage={props.setCurrentPage}
           setSortBy={props.setSortBy}
-          setPosted={props.setPosted}
+          setRefresh={props.setRefresh}
         />
       )}
       {/** temp */}

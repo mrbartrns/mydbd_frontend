@@ -1,5 +1,6 @@
 import React from "react";
 
+// TODO: Separate pagination core from component
 function Paginator(props) {
   /**
    * pagination component에서 필요한 내용:
@@ -25,8 +26,12 @@ function Paginator(props) {
   // startIndex 와 endIndex는 props.currentPage를 이용하여 정의한다.
   // useState를 이용하여 5에 도달했을 때 다음 5개를 불러와야 한다.
   // TODO: set next Pagination arr over 5 pages
+  function getEndOfTotalPage(totalCounts) {
+    return Math.floor(totalCounts / POST_PER_PAGE) + 1;
+  }
+
   function setStartAndEndPage(currentPage, totalCounts) {
-    const endOfTotalPage = Math.floor(totalCounts / POST_PER_PAGE) + 1;
+    const endOfTotalPage = getEndOfTotalPage(totalCounts);
     const startIndex =
       Math.floor((currentPage - 1) / PAGE_OFFSET) * PAGE_OFFSET;
     const endIndex =
@@ -36,8 +41,29 @@ function Paginator(props) {
     return { startIndex, endIndex };
   }
 
+  function getNextPages(currentPage) {
+    const nextStartIdx =
+      Math.floor((currentPage - 1) / PAGE_OFFSET) * PAGE_OFFSET;
+    return nextStartIdx + 6;
+  }
+
+  function getPreviousPages(currentPage) {
+    const previousStartIdx =
+      Math.floor((currentPage - 1) / PAGE_OFFSET) * PAGE_OFFSET;
+    return previousStartIdx - 4;
+  }
+
   return (
     <ul>
+      {getPreviousPages(props.currentPage) >= 0 && (
+        <li
+          onClick={() => {
+            props.setCurrentPage(getPreviousPages(props.currentPage));
+          }}
+        >
+          이전
+        </li>
+      )}
       {paginationArr.map((pageNumber) => {
         return (
           <li
@@ -51,6 +77,15 @@ function Paginator(props) {
           </li>
         );
       })}
+      {getNextPages(props.currentPage) <= getEndOfTotalPage(props.counts) && (
+        <li
+          onClick={() => {
+            props.setCurrentPage(getNextPages(props.currentPage));
+          }}
+        >
+          다음
+        </li>
+      )}
     </ul>
   );
 }
