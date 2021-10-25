@@ -41,12 +41,14 @@ function Paginator(props) {
     return { startIndex, endIndex };
   }
 
+  // display next PAGE_OFFSET arr
   function getNextPages(currentPage) {
     const nextStartIdx =
       Math.floor((currentPage - 1) / PAGE_OFFSET) * PAGE_OFFSET;
     return nextStartIdx + 6;
   }
 
+  // display previous PAGE_OFFSET arr
   function getPreviousPages(currentPage) {
     const previousStartIdx =
       Math.floor((currentPage - 1) / PAGE_OFFSET) * PAGE_OFFSET;
