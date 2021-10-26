@@ -30,9 +30,6 @@ const setup = (store) => {
         // Access token was expired
         // TODO: modify logic when refresh token === null
 
-        if (!TokenService.getLocalRefreshToken()) {
-          return;
-        }
         if (err.response.status === 401 && !originalConfig._retry) {
           originalConfig._retry = true;
 
