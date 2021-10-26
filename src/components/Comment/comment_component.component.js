@@ -6,7 +6,7 @@ import { connect } from "react-redux";
 import CommentBox from "./comment_box.component";
 import CommentForm from "./form.component";
 import CommentNavbar from "./comment_navbar.component";
-import Paginator from "./comment_paginator.component";
+import Paginator from "../../templates/paginator_standard1.template";
 
 // css
 import "../../css/component/comment.component.scss";
