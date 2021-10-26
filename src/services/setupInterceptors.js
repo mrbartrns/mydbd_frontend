@@ -49,8 +49,10 @@ const setup = (store) => {
 
             return axiosInstance(originalConfig);
           } catch (_error) {
-            // TODO: NEED TO TEST
             TokenService.removeUser();
+            if (_error.response && _error.response.data) {
+              return Promise.reject(_error.response.data);
+            }
             return Promise.reject(_error);
           }
         }
