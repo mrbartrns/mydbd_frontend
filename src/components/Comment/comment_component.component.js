@@ -3,8 +3,9 @@ import React from "react";
 import { connect } from "react-redux";
 
 // custom imports
-import CommentForm from "./form.component";
 import CommentBox from "./comment_box.component";
+import CommentForm from "./form.component";
+import CommentNavbar from "./comment_navbar.component";
 import Paginator from "./comment_paginator.component";
 
 // css
@@ -28,24 +29,11 @@ function CommentComponent(props) {
       )}
       {/** temp */}
       {props.loaded && !props.parent && (
-        <ul>
-          <li>인기순</li>
-          <li
-            style={{ cursor: "pointer" }}
-            onClick={() => {
-              props.setSortBy("recent");
-            }}
-          >
-            최신순
-          </li>
-          <li
-            onClick={() => {
-              props.setRefresh(true);
-            }}
-          >
-            새로고침
-          </li>
-        </ul>
+        <CommentNavbar
+          sortBy={props.sortBy}
+          setSortBy={props.setSortBy}
+          setRefresh={props.setRefresh}
+        />
       )}
       {
         /** Comment Component */

@@ -3,10 +3,13 @@ import React, { useState } from "react";
 
 // custom imports
 import CommentTemplate from "../../templates/comment.template";
+import CommentFooter from "./comment_footer.component";
 import UserService from "../../services/user.service";
-
-// functions
-import { checkIfContentIsModified } from "../../functions";
+import {
+  CommentHeader,
+  CommentContent,
+  CommentModifyForm,
+} from "./comment.component";
 
 // css
 import "../../css/component/comment.component.scss";
@@ -18,7 +21,7 @@ function CommentRow(props) {
   // states
   const [modificationMode, setModificationMode] = useState(false);
   const [subcommentBtn, setSubcommentBtn] = useState(false);
-  const [replyForm, toggleReplyFrom] = useState(true);
+  const [replyForm, setReplyForm] = useState(true);
   const [modificatedContent, setModificatedContent] = useState("");
 
   // functions
@@ -29,7 +32,7 @@ function CommentRow(props) {
 
   function toggleReplyForm(e) {
     e.preventDefault();
-    toggleReplyFrom(!replyForm);
+    setReplyForm(!replyForm);
   }
 
   function handleUpdateContentChange(e) {
@@ -66,86 +69,27 @@ function CommentRow(props) {
     <li className="comment_row">
       <div className="comment">
         {/** comment info */}
-        <div className="comment__header">
-          <div className="comment__header__left">
-            <span className="comment__header__username">
-              {props.comment.author.username}
-            </span>
-          </div>
-          <div className="comment__header__right">
-            <span className="comment__header__dt_created">
-              {new Date(props.comment.dt_created).toLocaleString()}
-            </span>
-          </div>
-        </div>
+        <CommentHeader comment={props.comment} />
         {/** comment content || comment modification form */}
         {!modificationMode ? (
-          <div className="comment__content">
-            {checkIfContentIsModified(
-              props.comment.dt_created,
-              props.comment.dt_modified
-            ) && <span className="modified">**수정됨</span>}
-            <span className="content">{props.comment.content}</span>
-          </div>
+          <CommentContent comment={props.comment} />
         ) : (
-          <div className="comment__modify">
-            <form
-              onSubmit={() => {
-                submitModificatedContent(props.comment.id, {
-                  content: modificatedContent,
-                });
-              }}
-            >
-              <textarea
-                defaultValue={props.comment.content}
-                onChange={handleUpdateContentChange}
-                required
-              />
-              <input type="submit" value="수정하기" />
-            </form>
-          </div>
+          <CommentModifyForm
+            submitModificatedContent={submitModificatedContent}
+            comment={props.comment}
+            modificatedContent={modificatedContent}
+            handleUpdateContentChange={handleUpdateContentChange}
+          />
         )}
         {/** comment footer */}
-        <div className="comment__footer">
-          {props.isLoggedIn && (
-            <ul className="comment__management_menu">
-              {props.isLoggedIn && !props.comment.parent && (
-                <li onClick={toggleReplyForm}>답글</li>
-              )}
-              {(props.user.user.username === props.comment.author.username ||
-                props.user.user.is_staff) && (
-                // TODO: change component to ul - li and apply display: flex
-                <>
-                  <li onClick={handleModificationMode}>수정</li>
-                  <li
-                    onClick={() => {
-                      if (
-                        !window.confirm(
-                          "정말 삭제합니까? 이 동작은 취소할 수 없습니다."
-                        )
-                      )
-                        return;
-                      deleteComment(props.comment.id);
-                    }}
-                  >
-                    삭제
-                  </li>
-                </>
-              )}
-            </ul>
-          )}
-          {!props.comment.parent && (
-            <button
-              className="comment__child_toggle_btn"
-              onClick={toggleSubcommentBtn}
-            >
-              답글
-              <span className="comment__child_count">
-                {props.comment.children_count}
-              </span>
-            </button>
-          )}
-        </div>
+        <CommentFooter
+          comment={props.comment}
+          replyForm={replyForm}
+          toggleReplyForm={toggleReplyForm}
+          handleModificationMode={handleModificationMode}
+          deleteComment={deleteComment}
+          toggleSubcommentBtn={toggleSubcommentBtn}
+        />
       </div>
       {/* {replyForm && <CommentForm parent={props.comment.id} />} */}
       {subcommentBtn && (
