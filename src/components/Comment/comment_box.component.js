@@ -13,13 +13,11 @@ function CommentBox(props) {
       {props.comments.map((comment) => {
         return (
           // key에대하여 index를 사용할 경우 새로고침 될 시 하나씩 뒤로 밀려나게 됨
-          <li className="comment__box__comment" key={comment.id}>
-            <Comment
-              comment={comment}
-              key={comment.id}
-              handleDeleteComment={props.handleDeleteComment}
-            />
-          </li>
+          <Comment
+            comment={comment}
+            key={comment.id}
+            handleDeleteComment={props.handleDeleteComment}
+          />
         );
       })}
     </ul>

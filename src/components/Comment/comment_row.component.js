@@ -13,7 +13,7 @@ import { checkIfContentIsModified } from "../../functions";
 import "../../css/component/comment.component.scss";
 import { connect } from "react-redux";
 
-function Comment(props) {
+function CommentRow(props) {
   // When click 답글쓰기 -> have to open form
 
   // states
@@ -64,79 +64,89 @@ function Comment(props) {
   }
 
   return (
-    <div className="comment">
-      {/** comment info */}
-      <div className="comment__info">
-        <span className="comment__info__username">
-          {props.comment.author.username}
-        </span>
-        <span className="comment__info__dt_created">
-          {new Date(props.comment.dt_created).toLocaleString()}
-        </span>
-      </div>
-      {/** comment content || comment modification form */}
-      {!modificationMode ? (
-        <div className="comment__content">
-          {checkIfContentIsModified(
-            props.comment.dt_created,
-            props.comment.dt_modified
-          ) && <span className="modified">**수정됨</span>}
-          <span className="content">{props.comment.content}</span>
-        </div>
-      ) : (
-        <div className="comment__modify">
-          <form
-            onSubmit={() => {
-              submitModificatedContent(props.comment.id, {
-                content: modificatedContent,
-              });
-            }}
-          >
-            <textarea
-              defaultValue={props.comment.content}
-              onChange={handleUpdateContentChange}
-              required
-            />
-            <input type="submit" value="수정하기" />
-          </form>
-        </div>
-      )}
-      <div className="comment__footer">
-        {!props.comment.parent && (
-          <button
-            className="comment__child_toggle_btn"
-            onClick={toggleSubcommentBtn}
-          >
-            답글
-            <span className="comment__child_count">
-              {props.comment.children_count}
+    <li className="comment_row">
+      <div className="comment">
+        {/** comment info */}
+        <div className="comment__header">
+          <div className="comment__header__left">
+            <span className="comment__header__username">
+              {props.comment.author.username}
             </span>
-          </button>
+          </div>
+          <div className="comment__header__right">
+            <span className="comment__header__dt_created">
+              {new Date(props.comment.dt_created).toLocaleString()}
+            </span>
+          </div>
+        </div>
+        {/** comment content || comment modification form */}
+        {!modificationMode ? (
+          <div className="comment__content">
+            {checkIfContentIsModified(
+              props.comment.dt_created,
+              props.comment.dt_modified
+            ) && <span className="modified">**수정됨</span>}
+            <span className="content">{props.comment.content}</span>
+          </div>
+        ) : (
+          <div className="comment__modify">
+            <form
+              onSubmit={() => {
+                submitModificatedContent(props.comment.id, {
+                  content: modificatedContent,
+                });
+              }}
+            >
+              <textarea
+                defaultValue={props.comment.content}
+                onChange={handleUpdateContentChange}
+                required
+              />
+              <input type="submit" value="수정하기" />
+            </form>
+          </div>
         )}
-        {props.isLoggedIn &&
-          (props.user.user.username === props.comment.author.username ||
-            props.user.user.is_staff) && (
-            // TODO: change component to ul - li and apply display: flex
-            <div style={{ display: "inline-block" }}>
-              <span onClick={handleModificationMode}>수정하기</span>
-              <span
-                onClick={() => {
-                  if (
-                    !window.confirm(
-                      "정말 삭제합니까? 이 동작은 취소할 수 없습니다."
-                    )
-                  )
-                    return;
-                  deleteComment(props.comment.id);
-                }}
-              >
-                삭제하기
-              </span>
-            </div>
+        {/** comment footer */}
+        <div className="comment__footer">
+          {props.isLoggedIn && (
+            <ul className="comment__management_menu">
+              {props.isLoggedIn && !props.comment.parent && (
+                <li onClick={toggleReplyForm}>답글</li>
+              )}
+              {(props.user.user.username === props.comment.author.username ||
+                props.user.user.is_staff) && (
+                // TODO: change component to ul - li and apply display: flex
+                <>
+                  <li onClick={handleModificationMode}>수정</li>
+                  <li
+                    onClick={() => {
+                      if (
+                        !window.confirm(
+                          "정말 삭제합니까? 이 동작은 취소할 수 없습니다."
+                        )
+                      )
+                        return;
+                      deleteComment(props.comment.id);
+                    }}
+                  >
+                    삭제
+                  </li>
+                </>
+              )}
+            </ul>
           )}
-        {props.isLoggedIn && !props.comment.parent && (
-          <span onClick={toggleReplyForm}>답글쓰기</span>
-        )}
+          {!props.comment.parent && (
+            <button
+              className="comment__child_toggle_btn"
+              onClick={toggleSubcommentBtn}
+            >
+              답글
+              <span className="comment__child_count">
+                {props.comment.children_count}
+              </span>
+            </button>
+          )}
+        </div>
       </div>
       {replyForm && <CommentForm parent={props.comment.id} />}
       {subcommentBtn && (
@@ -144,7 +154,7 @@ function Comment(props) {
           <CommentTemplate parent={props.comment.id} />
         </div>
       )}
-    </div>
+    </li>
   );
 }
 
@@ -153,4 +163,4 @@ function mapStateToProps(state) {
   return { isLoggedIn, user };
 }
 
-export default connect(mapStateToProps)(Comment);
+export default connect(mapStateToProps)(CommentRow);
