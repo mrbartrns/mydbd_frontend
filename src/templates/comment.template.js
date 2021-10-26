@@ -5,7 +5,7 @@ import { useEffect } from "react";
 import { connect } from "react-redux";
 
 // custom imports
-import CommentComponent from "../components/Comment/comment.component";
+import CommentComponent from "../components/Comment/comment_component.component";
 import UserService from "../services/user.service";
 
 /**
