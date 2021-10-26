@@ -26,55 +26,53 @@ function Navbar(props) {
   }, [location.pathname]);
   return (
     <nav className="navbar">
-      <Container md="true">
-        <div className="navbar__logo">
-          {/* <img src="https://pin.it/3Eab5Lk" alt="" /> */}
-          <Link to="/">
-            <FaPlay className="icon" />
-            MYDBD
-          </Link>
-        </div>
-        {!isTablet || (isTablet && onToggle) ? (
-          <ul className="navbar__menu">
+      <div className="navbar__logo">
+        {/* <img src="https://pin.it/3Eab5Lk" alt="" /> */}
+        <Link to="/">
+          <FaPlay className="icon" />
+          MYDBD
+        </Link>
+      </div>
+      {!isTablet || (isTablet && onToggle) ? (
+        <ul className="navbar__menu">
+          <li>
+            <Link to="/killers/list">Killers</Link>
+          </li>
+          <li>
+            <Link to="/survivors/list">Survivors</Link>
+          </li>
+          <li>
+            <Link to="/perks/list">Perks</Link>
+          </li>
+          <li>
+            <Link to="/items/list">Items</Link>
+          </li>
+          <li>
+            <Link to="/addons/list">Addons</Link>
+          </li>
+        </ul>
+      ) : null}
+      {!isTablet || (isTablet && onToggle) ? (
+        !props.isLoggedIn ? (
+          <ul className="navbar__account">
             <li>
-              <Link to="/killers/list">Killers</Link>
+              <Link to="/login">Login</Link>
             </li>
             <li>
-              <Link to="/survivors/list">Survivors</Link>
-            </li>
-            <li>
-              <Link to="/perks/list">Perks</Link>
-            </li>
-            <li>
-              <Link to="/items/list">Items</Link>
-            </li>
-            <li>
-              <Link to="/addons/list">Addons</Link>
+              <Link to="/signup">Signup</Link>
             </li>
           </ul>
-        ) : null}
-        {!isTablet || (isTablet && onToggle) ? (
-          !props.isLoggedIn ? (
-            <ul className="navbar__account">
-              <li>
-                <Link to="/login">Login</Link>
-              </li>
-              <li>
-                <Link to="/signup">Signup</Link>
-              </li>
-            </ul>
-          ) : (
-            <ul className="navbar__account">
-              <li>
-                <Link to="#">{props.user.user.username}님</Link>
-              </li>
-              <li className="navbar__account__logout" onClick={props.logout}>
-                Logout
-              </li>
-            </ul>
-          )
-        ) : null}
-      </Container>
+        ) : (
+          <ul className="navbar__account">
+            <li>
+              <Link to="#">{props.user.user.username}님</Link>
+            </li>
+            <li className="navbar__account__logout" onClick={props.logout}>
+              Logout
+            </li>
+          </ul>
+        )
+      ) : null}
 
       <FaBars className="navbar__toggle" onClick={handleToggleBtn} />
     </nav>
