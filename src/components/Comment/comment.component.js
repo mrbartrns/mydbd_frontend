@@ -27,7 +27,7 @@ function CommentComponent(props) {
         />
       )}
       {/** temp */}
-      {!props.parent && (
+      {props.loaded && !props.parent && (
         <ul>
           <li>인기순</li>
           <li
@@ -38,17 +38,28 @@ function CommentComponent(props) {
           >
             최신순
           </li>
+          <li
+            onClick={() => {
+              props.setRefresh(true);
+            }}
+          >
+            새로고침
+          </li>
         </ul>
       )}
-      {/** Comment Component */}
-      <CommentBox
-        nullPage={props.nullPage}
-        parent={props.parent}
-        comments={props.comments}
-        loaded={props.loaded}
-        handleDeleteComment={props.handleDeleteComment}
-      />
-      {/** Here goes pagination component */}
+      {
+        /** Comment Component */
+        props.loaded && (
+          <CommentBox
+            nullPage={props.nullPage}
+            parent={props.parent}
+            comments={props.comments}
+            loaded={props.loaded}
+            handleDeleteComment={props.handleDeleteComment}
+          />
+        )
+      }
+
       {props.loaded && (
         <Paginator
           currentPage={props.currentPage}
