@@ -91,6 +91,7 @@ function CommentTemplate(props) {
       setCurrentPage={setCurrentPage}
       setSortBy={setSortBy}
       setRefresh={setRefresh}
+      replyForm={props.replyForm}
     />
   );
 }

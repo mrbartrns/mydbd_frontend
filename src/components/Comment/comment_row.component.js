@@ -2,7 +2,6 @@
 import React, { useState } from "react";
 
 // custom imports
-import CommentForm from "./form.component";
 import CommentTemplate from "../../templates/comment.template";
 import UserService from "../../services/user.service";
 
@@ -19,7 +18,7 @@ function CommentRow(props) {
   // states
   const [modificationMode, setModificationMode] = useState(false);
   const [subcommentBtn, setSubcommentBtn] = useState(false);
-  const [replyForm, toggleReplyFrom] = useState(false);
+  const [replyForm, toggleReplyFrom] = useState(true);
   const [modificatedContent, setModificatedContent] = useState("");
 
   // functions
@@ -148,10 +147,10 @@ function CommentRow(props) {
           )}
         </div>
       </div>
-      {replyForm && <CommentForm parent={props.comment.id} />}
+      {/* {replyForm && <CommentForm parent={props.comment.id} />} */}
       {subcommentBtn && (
         <div className="comment__re">
-          <CommentTemplate parent={props.comment.id} />
+          <CommentTemplate parent={props.comment.id} replyForm={replyForm} />
         </div>
       )}
     </li>

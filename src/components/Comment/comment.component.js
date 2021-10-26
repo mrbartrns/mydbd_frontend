@@ -18,7 +18,7 @@ function CommentComponent(props) {
       {/** Form Component
        * Form Component only displays when user logged in
        */}
-      {!props.parent && (
+      {!props.replyForm && (
         <CommentForm
           parent={props.parent}
           setCurrentPage={props.setCurrentPage}
