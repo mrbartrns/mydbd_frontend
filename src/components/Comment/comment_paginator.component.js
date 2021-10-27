@@ -19,7 +19,9 @@ function PaginatorComponent(props) {
         {props.paginationArr.map((pageNumber) => {
           return (
             <li
-              className="paginator__page"
+              className={`paginator__page ${
+                props.currentPage === pageNumber ? "current" : null
+              }`}
               key={pageNumber}
               onClick={() => {
                 props.setCurrentPage(pageNumber);
