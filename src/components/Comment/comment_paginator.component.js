@@ -1,41 +1,47 @@
 import React from "react";
 
+import "../../css/component/pagination.component.scss";
+
 function PaginatorComponent(props) {
   return (
-    <ul>
-      {props.getPreviousPages(props.currentPage) >= 0 && (
-        <li
-          onClick={() => {
-            props.setCurrentPage(props.getPreviousPages(props.currentPage));
-          }}
-        >
-          이전
-        </li>
-      )}
-      {props.paginationArr.map((pageNumber) => {
-        return (
+    <div className="pagination_container">
+      <ul className="paginator">
+        {props.getPreviousPages(props.currentPage) >= 0 && (
           <li
-            key={pageNumber}
-            style={{ cursor: "pointer", textDecoration: "underline" }}
+            className="previous"
             onClick={() => {
-              props.setCurrentPage(pageNumber);
+              props.setCurrentPage(props.getPreviousPages(props.currentPage));
             }}
           >
-            {pageNumber}
+            이전
           </li>
-        );
-      })}
-      {props.getNextPages(props.currentPage) <=
-        props.getEndOfTotalPage(props.counts) && (
-        <li
-          onClick={() => {
-            props.setCurrentPage(props.getNextPages(props.currentPage));
-          }}
-        >
-          다음
-        </li>
-      )}
-    </ul>
+        )}
+        {props.paginationArr.map((pageNumber) => {
+          return (
+            <li
+              className="paginator__page"
+              key={pageNumber}
+              onClick={() => {
+                props.setCurrentPage(pageNumber);
+              }}
+            >
+              {pageNumber}
+            </li>
+          );
+        })}
+        {props.getNextPages(props.currentPage) <=
+          props.getEndOfTotalPage(props.counts) && (
+          <li
+            className="next"
+            onClick={() => {
+              props.setCurrentPage(props.getNextPages(props.currentPage));
+            }}
+          >
+            다음
+          </li>
+        )}
+      </ul>
+    </div>
   );
 }
 
