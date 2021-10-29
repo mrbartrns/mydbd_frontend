@@ -15,29 +15,31 @@ import "../../css/component/comment.component.scss";
 
 function CommentComponent(props) {
   return (
-    <div className="comment-container">
-      {/** Form Component
-       * Form Component only displays when user logged in
-       */}
-      {!props.replyForm && (
-        <CommentForm
-          parent={props.parent}
-          setCurrentPage={props.setCurrentPage}
-          setSortBy={props.setSortBy}
-          setRefresh={props.setRefresh}
-        />
-      )}
-      {/** temp */}
-      {props.loaded && !props.parent && (
-        <CommentNavbar
-          sortBy={props.sortBy}
-          setSortBy={props.setSortBy}
-          setRefresh={props.setRefresh}
-        />
-      )}
-      {
-        /** Comment Component */
-        props.loaded && (
+    props.loaded && (
+      <div className="comment-container">
+        {/** Form Component
+         * Form Component only displays when user logged in
+         */}
+        {!props.replyForm && (
+          <CommentForm
+            parent={props.parent}
+            setCurrentPage={props.setCurrentPage}
+            setSortBy={props.setSortBy}
+            setRefresh={props.setRefresh}
+            refresh={props.refresh}
+          />
+        )}
+        {/** temp */}
+        {!props.parent && (
+          <CommentNavbar
+            sortBy={props.sortBy}
+            setSortBy={props.setSortBy}
+            setRefresh={props.setRefresh}
+            refresh={props.refresh}
+          />
+        )}
+        {
+          /** Comment Component */
           <CommentBox
             nullPage={props.nullPage}
             parent={props.parent}
@@ -45,17 +47,17 @@ function CommentComponent(props) {
             loaded={props.loaded}
             handleDeleteComment={props.handleDeleteComment}
           />
-        )
-      }
+        }
 
-      {props.loaded && (
-        <Paginator
-          currentPage={props.currentPage}
-          setCurrentPage={props.setCurrentPage}
-          counts={props.counts}
-        />
-      )}
-    </div>
+        {props.loaded && (
+          <Paginator
+            currentPage={props.currentPage}
+            setCurrentPage={props.setCurrentPage}
+            counts={props.counts}
+          />
+        )}
+      </div>
+    )
   );
 }
 

@@ -58,7 +58,7 @@ function CommentTemplate(props) {
           setCounts(response.data.count);
           setLoaded(true);
           setLoading(false);
-          setRefresh(false);
+          console.log("test");
         })
         .catch((error) => {
           // if page not have contents -> display null page
@@ -91,6 +91,7 @@ function CommentTemplate(props) {
       setCurrentPage={setCurrentPage}
       setSortBy={setSortBy}
       setRefresh={setRefresh}
+      refresh={refresh}
       replyForm={props.replyForm}
     />
   );

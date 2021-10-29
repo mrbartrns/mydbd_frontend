@@ -31,8 +31,7 @@ const setup = (store) => {
         // TODO: modify logic when refresh token === null
 
         if (err.response.status === 401 && !originalConfig._retry) {
-          originalConfig._retry = true;
-
+          // originalConfig._retry = true;
           // FIXME: Fix Infinity loop after access token is expired
           // when access token expires, client post refresh token if there is
           // get refreshed access token, save to redux store and localstorage

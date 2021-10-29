@@ -31,7 +31,7 @@ function CommentForm(props) {
       .then((response) => {
         props.setCurrentPage(1);
         props.setSortBy("recent");
-        props.setRefresh(true);
+        props.setRefresh(!props.refresh);
         setContent("");
       })
       .catch((error) => {

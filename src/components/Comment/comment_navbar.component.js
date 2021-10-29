@@ -10,7 +10,7 @@ function CommentNavbar(props) {
   }
 
   function handleRefresh() {
-    props.setRefresh(true);
+    props.setRefresh(!props.refresh);
   }
 
   return (
