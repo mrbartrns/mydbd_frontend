@@ -35,6 +35,7 @@ function CommentComponent(props) {
             sortBy={props.sortBy}
             setSortBy={props.setSortBy}
             setRefresh={props.setRefresh}
+            setCurrentPage={props.setCurrentPage}
             refresh={props.refresh}
           />
         )}

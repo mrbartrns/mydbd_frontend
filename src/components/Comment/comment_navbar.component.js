@@ -10,6 +10,8 @@ function CommentNavbar(props) {
   }
 
   function handleRefresh() {
+    props.setCurrentPage(1);
+    props.setSortBy("recent");
     props.setRefresh(!props.refresh);
   }
 

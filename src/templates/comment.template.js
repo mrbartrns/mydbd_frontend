@@ -58,7 +58,7 @@ function CommentTemplate(props) {
           setCounts(response.data.count);
           setLoaded(true);
           setLoading(false);
-          console.log("test");
+          console.log(currentPage);
         })
         .catch((error) => {
           // if page not have contents -> display null page
