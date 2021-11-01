@@ -70,6 +70,11 @@ export const logout = () => (dispatch) => {
   });
 };
 
+export const logoutWithExpiredRefreshToken = () => (dispatch) => {
+  TokenService.removeUser();
+  dispatch({ type: LOGOUT });
+};
+
 // refrech: accessToken -> refreshAccessToken
 export const refreshToken = (refresh) => (dispatch) => {
   dispatch({
