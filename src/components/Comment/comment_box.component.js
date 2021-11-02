@@ -8,7 +8,7 @@ import Comment from "./comment_row.component";
 import "../../css/component/comment.component.scss";
 
 function CommentBox(props) {
-  return !props.nullPage && props.comments.length > 0 ? (
+  return props.comments.length > 0 ? (
     <ul className={`comment__box ${!props.parent && "first"}`}>
       {props.comments.map((comment) => {
         return (
