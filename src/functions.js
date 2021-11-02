@@ -49,5 +49,6 @@ export function isValidToken(token) {
   }
   // getTime -> milliseconds exp -> seconds
   // decodeJwt exp에 1000을 곱한값이 현재 시간보다 작으면 만료된 토큰
+  if (!decodedJwt.hasOwnProperty("exp")) return false;
   return decodedJwt["exp"] * 1000 < new Date().getTime() ? false : true;
 }
