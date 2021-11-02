@@ -44,7 +44,7 @@ function App(props) {
           <Route component={Error} />
         </Switch>
       </Container>
-      <AuthVerify logout={handleLogout} />
+      {/* <AuthVerify logout={handleLogout} /> */}
     </div>
   );
 }

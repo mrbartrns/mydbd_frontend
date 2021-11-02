@@ -1,26 +1,16 @@
 import React from "react";
 import { withRouter, useHistory } from "react-router-dom";
-import jwt_decode from "jwt-decode";
+import { isValidToken } from "../functions";
+import TokenService from "../services/token.service";
 
-const parseJwt = (token) => {
-  try {
-    const jwt = jwt_decode(token);
-    return jwt;
-  } catch (e) {
-    return null;
-  }
-};
-
+// TODO: separate options when check automatically login
 function AuthVerify(props) {
   const history = useHistory();
   history.listen(() => {
-    const user = JSON.parse(localStorage.getItem("user"));
+    const refreshToken = TokenService.getLocalRefreshToken();
 
-    if (user) {
-      const decodedJwt = parseJwt(user.access);
-      if (decodedJwt["exp"] * 1000 < new Date().getTime()) {
-        props.logout();
-      }
+    if (!isValidToken(refreshToken)) {
+      props.logout();
     }
   });
   return <div />;
