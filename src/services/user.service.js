@@ -15,7 +15,7 @@ class UserService {
   }
 
   postComment(pathname, data) {
-    return api.post("service/list" + pathname + "/comments", data);
+    return api.post("service/list" + pathname + "/comments/create", data);
   }
 
   updateComment(commentId, data) {
