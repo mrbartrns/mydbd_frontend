@@ -44,5 +44,10 @@ function parseJwt(token) {
 
 export function isValidToken(token) {
   const decodedJwt = parseJwt(token);
-  return decodedJwt["exp"] * 1000 < new Date().getTime();
+  if (!decodedJwt) {
+    return false;
+  }
+  // getTime -> milliseconds exp -> seconds
+  // decodeJwt exp에 1000을 곱한값이 현재 시간보다 작으면 만료된 토큰
+  return decodedJwt["exp"] * 1000 < new Date().getTime() ? false : true;
 }
