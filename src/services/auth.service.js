@@ -1,6 +1,7 @@
 import TokenService from "./token.service";
 import api from "./api";
 
+import { isValidToken } from "../functions";
 class AuthService {
   login(username, password) {
     return api.post("/user/login", { username, password }).then((response) => {
@@ -13,6 +14,10 @@ class AuthService {
   }
 
   logout() {
+    const token = TokenService.getLocalRefreshToken();
+    if (!isValidToken(token)) {
+      return Promise.resolve();
+    }
     return api.post("/user/logout", {
       refresh: TokenService.getLocalRefreshToken(),
     });
