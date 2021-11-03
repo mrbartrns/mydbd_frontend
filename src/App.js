@@ -8,7 +8,7 @@ import { logout } from "./actions/auth";
 import Home from "./components/home.component";
 import Error from "./components/error.component";
 import Navbar from "./components/Navbar/index";
-import AuthVerify from "./common/auth-verify";
+// import AuthVerify from "./common/auth-verify";
 import ListTemplate from "./templates/list.template";
 import DetailTemplate from "./templates/detail.template";
 import LoginTemplate from "./templates/login.template";
