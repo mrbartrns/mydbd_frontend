@@ -1,6 +1,7 @@
 import React from "react";
 
 import { checkIfContentIsModified } from "../../functions";
+import CommentTextarea from "./comment_textarea.component";
 
 export function CommentHeader(props) {
   return (
@@ -21,20 +22,28 @@ export function CommentHeader(props) {
 
 export function CommentModifyForm(props) {
   return (
-    <div className="comment__modify">
+    <div className="comment__content">
       <form
+        className="modify_form"
         onSubmit={() => {
           props.submitModificatedContent(props.comment.id, {
             content: props.modificatedContent,
           });
         }}
       >
-        <textarea
-          defaultValue={props.comment.content}
+        <CommentTextarea
+          className={"modify_form__textarea"}
           onChange={props.handleUpdateContentChange}
-          required
+          placeholder={"수정할 내용을 입력하세요."}
+          required={true}
+          spellCheck={false}
+          defaultValue={props.comment.content}
         />
-        <input type="submit" value="수정하기" />
+        <input
+          type="submit"
+          value="수정하기"
+          className="modify_form__submit_btn"
+        />
       </form>
     </div>
   );
@@ -47,7 +56,9 @@ export function CommentContent(props) {
         props.comment.dt_created,
         props.comment.dt_modified
       ) && <span className="modified">**수정됨</span>}
-      <span className="content">{props.comment.content}</span>
+      <span className="comment__content content_field">
+        {props.comment.content}
+      </span>
     </div>
   );
 }

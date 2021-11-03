@@ -35,8 +35,12 @@ function CommentRow(props) {
     setReplyForm(!replyForm);
   }
 
+  // TODO: e.target.value to CommentTextarea
   function handleUpdateContentChange(e) {
+    // modifiy textarea의 height를 동시에 변화시킨다.
     e.preventDefault();
+    e.target.style.height = "inherit";
+    e.target.style.height = `${e.target.scrollHeight}px`;
     setModificatedContent(e.target.value);
   }
 
@@ -50,7 +54,9 @@ function CommentRow(props) {
     UserService.updateComment(commentId, data)
       .then((response) => {})
       .catch((error) => {
-        console.error(error);
+        if (error.response && error.response.data) {
+          console.log(error.response.data);
+        }
       });
   }
 

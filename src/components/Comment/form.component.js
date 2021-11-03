@@ -8,6 +8,7 @@ import UserService from "../../services/user.service";
 
 // css
 import "../../css/component/comment.component.scss";
+import CommentTextarea from "./comment_textarea.component";
 
 function CommentForm(props) {
   // constants
@@ -40,8 +41,11 @@ function CommentForm(props) {
       });
   }
 
+  // TODO: e.target to CommentTextarea
   function handleContentChange(e) {
     e.preventDefault();
+    e.target.style.height = "inherit";
+    e.target.style.height = `${e.target.scrollHeight}px`;
     setContent(e.target.value);
   }
 
@@ -58,12 +62,11 @@ function CommentForm(props) {
     >
       <div className="comment__form__input_area">
         {props.isLoggedIn && <label>{props.user.user.username}</label>}
-        <textarea
-          required
-          className={`comment__input ${props.isLoggedIn && "logined"}`}
-          placeholder="댓글을 적으세요."
+        <CommentTextarea
+          required={true}
+          placeholder={"댓글을 적으세요."}
           onChange={handleContentChange}
-          value={content}
+          className={`${props.isLoggedIn && "logined"}`}
         />
       </div>
       <div className="comment__form__submit_area">
