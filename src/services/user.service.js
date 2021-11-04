@@ -30,6 +30,11 @@ class UserService {
     return api.get("api" + pathname + "/detail");
   }
 
+  // likeInfo = {like: false, dislike: false}
+  toggleCommentLike(commentId, likeInfo) {
+    return api.post("service/comment/" + String(commentId) + "/like", likeInfo);
+  }
+
   // unsubscribe
   getCancelToken() {
     return axios.CancelToken.source();
