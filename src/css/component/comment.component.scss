@@ -21,11 +21,11 @@ $comment-form-button-color-with-signature-color: white;
 
 /* comment navbar */
 .comment_navbar {
+  display: flex;
+  flex-direction: row-reverse;
+  list-style: none;
   padding: $comment-navbar-padding-top-bottom $comment-navbar-padding-right-left;
   margin: 0;
-  display: flex;
-  list-style: none;
-  flex-direction: row-reverse;
 
   & li {
     padding: 0 0.25rem;
@@ -42,19 +42,19 @@ $comment-form-button-color-with-signature-color: white;
 }
 
 .current {
-  text-decoration: underline;
   font-weight: bold;
+  text-decoration: underline;
 }
 
 /* comment form */
 .comment__form {
-  border: $outline-width $outline-style $outline-color;
   margin: 0.18rem 0;
+  border: $outline-width $outline-style $outline-color;
   background-color: #fff;
 
   .comment__form__input_area {
-    border-bottom: $outline-width $outline-style $outline-color;
     padding: 0.5rem 1rem;
+    border-bottom: $outline-width $outline-style $outline-color;
   }
 
   .comment__form__submit_area {
@@ -62,11 +62,11 @@ $comment-form-button-color-with-signature-color: white;
     flex-direction: row-reverse;
 
     .comment__submit_btn {
-      background-color: $signature-color;
-      color: $comment-form-button-color-with-signature-color;
+      padding: 1rem;
       border-radius: 0;
       border: 0;
-      padding: 1rem;
+      background-color: $signature-color;
+      color: $comment-form-button-color-with-signature-color;
       font-weight: bold;
     }
   }
@@ -79,9 +79,9 @@ $comment-form-button-color-with-signature-color: white;
 
 /* comment */
 .comment {
-  border-bottom: 1px solid #666;
-  margin: 0 auto;
   padding: 0.5rem 0.5rem 0.5rem 0.5rem; /*상 우 하 좌*/
+  margin: 0 auto;
+  border-bottom: 1px solid $outline-color;
   font-size: 0.8rem;
   white-space: break-spaces;
 
@@ -111,9 +111,9 @@ $comment-form-button-color-with-signature-color: white;
 
     .modified {
       display: inline-block;
+      margin-right: 1rem;
       font-weight: bold;
       font-size: 0.7rem;
-      margin-right: 1rem;
     }
   }
 
@@ -124,8 +124,8 @@ $comment-form-button-color-with-signature-color: white;
     align-items: center;
 
     .comment__child_toggle_btn {
+      border: $outline-width $outline-style $outline-color;
       background-color: white;
-      border: 1px solid black;
 
       .comment__child_count {
         font-weight: bold;
@@ -139,12 +139,13 @@ $comment-form-button-color-with-signature-color: white;
 .comment__management_menu {
   display: flex;
   justify-content: flex-end;
+  align-items: center;
   list-style: none;
   cursor: pointer;
-  align-items: center;
 
   & li {
     padding: 0 0.25rem;
+
     &:hover {
       text-decoration: underline;
     }
@@ -152,8 +153,8 @@ $comment-form-button-color-with-signature-color: white;
 }
 
 .comment__re {
-  background-color: #fafafa;
   border-bottom: $outline-width $outline-style $outline-color;
+  background-color: #fafafa;
 }
 
 /* Modify form */
@@ -166,12 +167,12 @@ $comment-form-button-color-with-signature-color: white;
 }
 /* Comment Textarea */
 .comment_textarea {
-  overflow: hidden;
   width: 100%;
-  font-size: inherit;
   resize: none;
-  border: none;
+  overflow: hidden;
   padding: 0.5rem 0;
+  border: none;
+  font-size: inherit;
 
   &:focus {
     outline: 2 * $outline-width $outline-style $outline-color;
