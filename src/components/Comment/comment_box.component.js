@@ -2,7 +2,7 @@
 import React from "react";
 
 // custom imports
-import Comment from "./comment_row.component";
+import CommentRow from "./comment_row.component";
 
 // css
 import "../../css/component/comment.component.scss";
@@ -13,10 +13,10 @@ function CommentBox(props) {
       {props.comments.map((comment) => {
         return (
           // key에대하여 index를 사용할 경우 새로고침 될 시 하나씩 뒤로 밀려나게 됨
-          <Comment
+          <CommentRow
             comment={comment}
             key={comment.id}
-            handleDeleteComment={props.handleDeleteComment}
+            refreshAfterDeleteComment={props.refreshAfterDeleteComment}
           />
         );
       })}

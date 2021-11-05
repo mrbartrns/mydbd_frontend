@@ -46,7 +46,7 @@ function CommentComponent(props) {
             parent={props.parent}
             comments={props.comments}
             loaded={props.loaded}
-            handleDeleteComment={props.handleDeleteComment}
+            refreshAfterDeleteComment={props.refreshAfterDeleteComment}
           />
         }
 

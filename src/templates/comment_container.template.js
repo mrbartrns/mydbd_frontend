@@ -29,7 +29,7 @@ function CommentContainerTemplate(props) {
 
   // functions
 
-  function handleDeleteComment(commentId) {
+  function refreshAfterDeleteComment(commentId) {
     // comment delete function without refreshing current page
     // USE JAVASCRIPT Array.filter FUNCTION WHEN REMOVE ELEMENT
     setComments(comments.filter((comment) => comment.id !== commentId));
@@ -87,7 +87,7 @@ function CommentContainerTemplate(props) {
       counts={counts}
       currentPage={currentPage}
       sortBy={sortBy}
-      handleDeleteComment={handleDeleteComment}
+      refreshAfterDeleteComment={refreshAfterDeleteComment}
       setCurrentPage={setCurrentPage}
       setSortBy={setSortBy}
       setRefresh={setRefresh}

@@ -6,7 +6,7 @@ import { connect } from "react-redux";
 // custom imports
 import UserService from "../services/user.service";
 import DetailComponent from "../components/Detail/detail.component";
-import CommentTemplate from "./comment.template";
+import CommentContainerTemplate from "./comment_container.template";
 
 // css
 import "../css/component/detail.component.scss";
@@ -32,7 +32,7 @@ function DetailTemplate(props) {
   return (
     <div className="content_container">
       <DetailComponent post={article} loaded={loaded} />
-      <CommentTemplate />
+      <CommentContainerTemplate />
     </div>
   );
 }
