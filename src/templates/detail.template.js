@@ -1,7 +1,6 @@
 // react imports
 import React, { useState, useEffect } from "react";
 import { useLocation } from "react-router";
-import { connect } from "react-redux";
 
 // custom imports
 import UserService from "../services/user.service";
@@ -37,26 +36,4 @@ function DetailTemplate(props) {
   );
 }
 
-function mapStateToProps(state) {
-  const {
-    currentPage,
-    start,
-    end,
-    count,
-    total,
-    sliceStartIndex,
-    sliceEndIndex,
-  } = state.paginationReducer;
-  return {
-    currentPage,
-    start,
-    end,
-    count,
-    total,
-    sliceStartIndex,
-    sliceEndIndex,
-  };
-}
-
-export default connect(mapStateToProps)(DetailTemplate);
-// export default DetailTemplate;
+export default DetailTemplate;
