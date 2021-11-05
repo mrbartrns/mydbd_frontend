@@ -92,7 +92,6 @@ function CommentContainerTemplate(props) {
       setSortBy={setSortBy}
       setRefresh={setRefresh}
       refresh={refresh}
-      replyForm={props.replyForm}
     />
   );
 }

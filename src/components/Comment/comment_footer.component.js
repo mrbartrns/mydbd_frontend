@@ -6,9 +6,6 @@ function CommentFooter(props) {
     <div className="comment__footer">
       {props.isLoggedIn && (
         <ul className="comment__management_menu">
-          {props.isLoggedIn && !props.comment.parent && (
-            <li onClick={props.toggleReplyForm}>답글</li>
-          )}
           {(props.user.user.username === props.comment.author.username ||
             props.user.user.is_staff) && (
             // TODO: change component to ul - li and apply display: flex

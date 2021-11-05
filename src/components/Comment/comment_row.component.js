@@ -21,7 +21,6 @@ function CommentRow(props) {
   // states
   const [modificationMode, setModificationMode] = useState(false);
   const [subcommentBtn, setSubcommentBtn] = useState(false);
-  const [replyForm, setReplyForm] = useState(true);
   const [modificatedContent, setModificatedContent] = useState("");
   const [userLikeController, setUserLikeController] = useState({
     like: props.comment.user_liked,
@@ -91,11 +90,6 @@ function CommentRow(props) {
     setModificationMode(!modificationMode);
   }
 
-  function toggleReplyForm(e) {
-    e.preventDefault();
-    setReplyForm(!replyForm);
-  }
-
   // TODO: e.target.value to CommentTextarea
   function handleUpdateContentChange(e) {
     // modifiy textarea의 height를 동시에 변화시킨다.
@@ -148,8 +142,6 @@ function CommentRow(props) {
         {/** comment footer */}
         <CommentFooter
           comment={props.comment}
-          replyForm={replyForm}
-          toggleReplyForm={toggleReplyForm}
           handleModificationMode={handleModificationMode}
           deleteComment={deleteComment}
           toggleSubcommentBtn={toggleSubcommentBtn}
@@ -162,10 +154,7 @@ function CommentRow(props) {
       {/* {replyForm && <CommentForm parent={props.comment.id} />} */}
       {subcommentBtn && (
         <div className="comment__re">
-          <CommentContainerTemplate
-            parent={props.comment.id}
-            replyForm={replyForm}
-          />
+          <CommentContainerTemplate parent={props.comment.id} />
         </div>
       )}
     </li>
