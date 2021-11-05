@@ -31,6 +31,20 @@ function CommentFooter(props) {
           )}
         </ul>
       )}
+      <ul>
+        <li
+          onClick={(e) => {
+            props.toggleLike();
+          }}
+        >
+          <span>좋아요</span>
+          <span>{props.commentLikeCount}</span>
+        </li>
+        <li>
+          <span>싫어요</span>
+          <span>{props.comment.dislike_count}</span>
+        </li>
+      </ul>
       {!props.comment.parent && (
         <button
           className="comment__child_toggle_btn"

@@ -23,8 +23,44 @@ function CommentRow(props) {
   const [subcommentBtn, setSubcommentBtn] = useState(false);
   const [replyForm, setReplyForm] = useState(true);
   const [modificatedContent, setModificatedContent] = useState("");
+  // FIXME: Like logic runs weiredly
+  const [userLikeController, setuserLikeController] = useState({
+    like: props.comment.user_liked,
+    dislike: props.comment.user_disliked,
+  });
+  const [commentLikeCount, setCommentLikeCount] = useState(
+    props.comment.like_count
+  );
+  const [commentDislikeCount, setCommentDislikeCount] = useState(
+    props.comment.dislike_count
+  );
+  if (props.comment.id === 116) {
+    console.log(props.comment.id, props.comment.user_liked, userLikeController);
+  }
 
   // functions
+  function toggleLike() {
+    const userController = { ...userLikeController };
+    userController.like = !userLikeController.like;
+    userController.dislike = false;
+    console.log(userController.like);
+    if (userController.like) {
+      console.log("user liked this comment");
+      setCommentLikeCount(commentLikeCount + 1);
+    } else {
+      setCommentLikeCount(commentLikeCount > 0 ? commentLikeCount - 1 : 0);
+    }
+    setuserLikeController(userController);
+    UserService.toggleCommentLike(props.comment.id, { ...userController })
+      .then((response) => {
+        console.log(response.data);
+        console.log(props.comment);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  }
+
   function handleModificationMode(e) {
     e.preventDefault();
     setModificationMode(!modificationMode);
@@ -54,9 +90,7 @@ function CommentRow(props) {
     UserService.updateComment(commentId, data)
       .then((response) => {})
       .catch((error) => {
-        if (error.response && error.response.data) {
-          console.log(error.response.data);
-        }
+        console.error(error);
       });
   }
 
@@ -95,6 +129,8 @@ function CommentRow(props) {
           handleModificationMode={handleModificationMode}
           deleteComment={deleteComment}
           toggleSubcommentBtn={toggleSubcommentBtn}
+          commentLikeCount={commentLikeCount}
+          toggleLike={toggleLike}
         />
       </div>
       {/* {replyForm && <CommentForm parent={props.comment.id} />} */}
