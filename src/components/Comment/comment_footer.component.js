@@ -40,9 +40,13 @@ function CommentFooter(props) {
           <span>좋아요</span>
           <span>{props.commentLikeCount}</span>
         </li>
-        <li>
+        <li
+          onClick={(e) => {
+            props.toggleDislike();
+          }}
+        >
           <span>싫어요</span>
-          <span>{props.comment.dislike_count}</span>
+          <span>{props.commentDislikeCount}</span>
         </li>
       </ul>
       {!props.comment.parent && (

@@ -23,8 +23,7 @@ function CommentRow(props) {
   const [subcommentBtn, setSubcommentBtn] = useState(false);
   const [replyForm, setReplyForm] = useState(true);
   const [modificatedContent, setModificatedContent] = useState("");
-  // FIXME: Like logic runs weiredly
-  const [userLikeController, setuserLikeController] = useState({
+  const [userLikeController, setUserLikeController] = useState({
     like: props.comment.user_liked,
     dislike: props.comment.user_disliked,
   });
@@ -34,23 +33,49 @@ function CommentRow(props) {
   const [commentDislikeCount, setCommentDislikeCount] = useState(
     props.comment.dislike_count
   );
-  if (props.comment.id === 116) {
-    console.log(props.comment.id, props.comment.user_liked, userLikeController);
-  }
 
   // functions
   function toggleLike() {
     const userController = { ...userLikeController };
+    if (userController.dislike) {
+      userController.dislike = false;
+      setCommentDislikeCount(
+        commentDislikeCount > 0 ? commentDislikeCount - 1 : 0
+      );
+    }
     userController.like = !userLikeController.like;
-    userController.dislike = false;
-    console.log(userController.like);
     if (userController.like) {
-      console.log("user liked this comment");
       setCommentLikeCount(commentLikeCount + 1);
     } else {
       setCommentLikeCount(commentLikeCount > 0 ? commentLikeCount - 1 : 0);
     }
-    setuserLikeController(userController);
+    setUserLikeController(userController);
+    UserService.toggleCommentLike(props.comment.id, { ...userController })
+      .then((response) => {
+        console.log(response.data);
+        console.log(props.comment);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  }
+
+  function toggleDislike() {
+    const userController = { ...userLikeController };
+    if (userController.like) {
+      userController.like = false;
+      setCommentLikeCount(commentLikeCount > 0 ? commentLikeCount - 1 : 0);
+    }
+
+    userController.dislike = !userController.dislike;
+    if (userController.dislike) {
+      setCommentDislikeCount(commentDislikeCount + 1);
+    } else {
+      setCommentDislikeCount(
+        commentDislikeCount > 0 ? commentDislikeCount - 1 : 0
+      );
+    }
+    setUserLikeController(userController);
     UserService.toggleCommentLike(props.comment.id, { ...userController })
       .then((response) => {
         console.log(response.data);
@@ -94,7 +119,6 @@ function CommentRow(props) {
       });
   }
 
-  // TODO: 데이터 조작과 관련된 함수를 comment template로 옮기기
   function deleteComment(commentId) {
     UserService.deleteComment(commentId)
       .then((response) => {
@@ -130,7 +154,9 @@ function CommentRow(props) {
           deleteComment={deleteComment}
           toggleSubcommentBtn={toggleSubcommentBtn}
           commentLikeCount={commentLikeCount}
+          commentDislikeCount={commentDislikeCount}
           toggleLike={toggleLike}
+          toggleDislike={toggleDislike}
         />
       </div>
       {/* {replyForm && <CommentForm parent={props.comment.id} />} */}
