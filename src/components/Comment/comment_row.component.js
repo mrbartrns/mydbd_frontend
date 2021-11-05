@@ -2,7 +2,7 @@
 import React, { useState } from "react";
 
 // custom imports
-import CommentTemplate from "../../templates/comment.template";
+import CommentContainerTemplate from "../../templates/comment_container.template";
 import CommentFooter from "./comment_footer.component";
 import UserService from "../../services/user.service";
 import {
@@ -162,7 +162,10 @@ function CommentRow(props) {
       {/* {replyForm && <CommentForm parent={props.comment.id} />} */}
       {subcommentBtn && (
         <div className="comment__re">
-          <CommentTemplate parent={props.comment.id} replyForm={replyForm} />
+          <CommentContainerTemplate
+            parent={props.comment.id}
+            replyForm={replyForm}
+          />
         </div>
       )}
     </li>
