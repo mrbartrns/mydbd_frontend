@@ -1,7 +1,14 @@
 import React from "react";
 import { connect } from "react-redux";
 
+const DELETE_COMMENT_CONFIRM_MESSAGE =
+  "정말 삭제합니까? 이 동작은 취소할 수 없습니다.";
+
 function CommentFooter(props) {
+  function confirmDeleteComment(e) {
+    if (!window.confirm(DELETE_COMMENT_CONFIRM_MESSAGE)) return;
+    props.deleteComment(props.comment.id);
+  }
   return (
     <div className="comment__footer">
       {props.isLoggedIn && (
@@ -11,19 +18,7 @@ function CommentFooter(props) {
             // TODO: change component to ul - li and apply display: flex
             <>
               <li onClick={props.handleModificationMode}>수정</li>
-              <li
-                onClick={() => {
-                  if (
-                    !window.confirm(
-                      "정말 삭제합니까? 이 동작은 취소할 수 없습니다."
-                    )
-                  )
-                    return;
-                  props.deleteComment(props.comment.id);
-                }}
-              >
-                삭제
-              </li>
+              <li onClick={confirmDeleteComment}>삭제</li>
             </>
           )}
         </ul>
