@@ -22,13 +22,16 @@ function DetailComponent(props) {
         <li>공포 범위: {props.post.terror_radius}m</li>
       </ul>
       <div className="like_box_container">
-        <div className="like_box__like like_box">
+        <div className="like_box__like like_box" onClick={props.toggleLike}>
           <span>좋아요</span>
-          <span>{props.post.like_count}</span>
+          <span>{props.articleLikeCount}</span>
         </div>
-        <div className="like_box__dislike like_box">
+        <div
+          className="like_box__dislike like_box"
+          onClick={props.toggleDislike}
+        >
           <span>싫어요</span>
-          <span>{props.post.dislike_count}</span>
+          <span>{props.articleDislikeCount}</span>
         </div>
       </div>
     </div>

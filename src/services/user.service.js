@@ -31,6 +31,10 @@ class UserService {
   }
 
   // likeInfo = {like: false, dislike: false}
+  toggleArticleLike(pathname, likeInfo) {
+    return api.post("service" + pathname + "/like", likeInfo);
+  }
+
   toggleCommentLike(commentId, likeInfo) {
     return api.post("service/comment/" + String(commentId) + "/like", likeInfo);
   }
