@@ -6,7 +6,9 @@ $pagination-border-radius: 2px;
 .pagination_container {
   display: flex;
   justify-content: center;
-  margin: 1rem 0 0.5rem 0;
+  margin-left: -2rem;
+  padding: 0.75rem 0;
+  border-bottom: 1px solid #666;
 }
 
 .paginator {

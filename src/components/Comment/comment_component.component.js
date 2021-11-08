@@ -16,7 +16,7 @@ import "../../css/component/comment.component.scss";
 function CommentComponent(props) {
   return (
     props.loaded && (
-      <div className="comment_container">
+      <div className={`comment_container ${props.parent ? "re" : ""}`}>
         {/** Form Component
          * Form Component only displays when user logged in
          */}
@@ -57,6 +57,20 @@ function CommentComponent(props) {
             counts={props.counts}
           />
         )}
+        {props.parent && props.isLoggedIn && (
+          <div className="comment_write_box">
+            <CommentForm
+              parent={props.parent}
+              setCurrentPage={props.setCurrentPage}
+              setSortBy={props.setSortBy}
+              setRefresh={props.setRefresh}
+              refresh={props.refresh}
+            />
+          </div>
+        )}
+        <div className="comment_re_close">
+          <span onClick={props.toggleSubcommentBtn}>답글 접기</span>
+        </div>
       </div>
     )
   );

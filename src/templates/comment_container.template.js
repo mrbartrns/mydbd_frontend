@@ -91,6 +91,7 @@ function CommentContainerTemplate(props) {
       setSortBy={setSortBy}
       setRefresh={setRefresh}
       refresh={refresh}
+      toggleSubcommentBtn={props.toggleSubcommentBtn}
     />
   );
 }

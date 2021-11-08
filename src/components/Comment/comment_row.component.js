@@ -154,7 +154,10 @@ function CommentRow(props) {
       {/* {replyForm && <CommentForm parent={props.comment.id} />} */}
       {subcommentBtn && (
         <div className="comment__re">
-          <CommentContainerTemplate parent={props.comment.id} />
+          <CommentContainerTemplate
+            parent={props.comment.id}
+            toggleSubcommentBtn={toggleSubcommentBtn}
+          />
         </div>
       )}
     </li>

@@ -14,11 +14,11 @@ $comment-form-button-color-with-signature-color: white;
   font-size: 0.9rem;
 }
 
-/* comment box */
-.first {
-  padding-left: 0;
+.re {
+  padding-left: 2rem;
 }
 
+/* comment box */
 /* comment navbar */
 .comment_navbar {
   display: flex;
@@ -39,6 +39,7 @@ $comment-form-button-color-with-signature-color: white;
 
 .comment__box {
   margin: 0;
+  padding-left: 0;
 }
 
 .current {
@@ -48,7 +49,7 @@ $comment-form-button-color-with-signature-color: white;
 
 /* comment form */
 .comment__form {
-  margin: 0.18rem 0;
+  margin: 0;
   border: $outline-width $outline-style $outline-color;
   background-color: #fff;
 
@@ -69,6 +70,25 @@ $comment-form-button-color-with-signature-color: white;
       color: $comment-form-button-color-with-signature-color;
       font-weight: bold;
     }
+  }
+}
+
+.comment_write_box {
+  padding: 1rem 1.25rem;
+}
+
+.comment_re_close {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-left: -2rem;
+  margin-top: -1px;
+  padding: 0.5rem 0;
+  border-top: 1px solid #666;
+
+  & span {
+    cursor: pointer;
+    font-size: 0.8rem;
   }
 }
 
