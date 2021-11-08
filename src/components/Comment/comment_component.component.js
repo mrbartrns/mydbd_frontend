@@ -16,7 +16,7 @@ import "../../css/component/comment.component.scss";
 function CommentComponent(props) {
   return (
     props.loaded && (
-      <div className="comment-container">
+      <div className="comment_container">
         {/** Form Component
          * Form Component only displays when user logged in
          */}
