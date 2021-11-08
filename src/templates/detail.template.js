@@ -14,7 +14,11 @@ function DetailTemplate(props) {
   const location = useLocation();
   const [article, setArticle] = useState({});
   const [loaded, setLoaded] = useState(false);
+
   useEffect(() => {
+    const source = UserService.getCancelToken();
+    const queries = {};
+    queries["cancelToken"] = source.token;
     let mounted = true;
     if (mounted) {
       setLoaded(false);
@@ -26,6 +30,7 @@ function DetailTemplate(props) {
     }
     return () => {
       mounted = false;
+      UserService.unsubscribe();
     };
   }, [location]);
   return (
