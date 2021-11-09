@@ -106,6 +106,7 @@ function DetailTemplate(props) {
         articleDislikeCount={articleDislikeCount}
         toggleLike={toggleLike}
         toggleDislike={toggleDislike}
+        userLikeController={userLikeController}
       />
       <CommentContainerTemplate />
     </div>
