@@ -1,6 +1,5 @@
 import React from "react";
 
-import ForumArticleList from "./forum_article_list.component";
 import "../../css/component/forum.component.scss";
 import { Link } from "react-router-dom";
 
