@@ -13,6 +13,7 @@ import ListTemplate from "./templates/list.template";
 import DetailTemplate from "./templates/detail.template";
 import LoginTemplate from "./templates/login.template";
 import RegisterTemplate from "./templates/register.template";
+import ForumListTemplate from "./templates/forum_list.template";
 
 // css
 import "./css/Component.scss";
@@ -38,6 +39,7 @@ function App(props) {
           <Route exact path="/" component={Home} />/
           <Route exact path="/login" component={LoginTemplate} />
           <Route exact path="/signup" component={RegisterTemplate} />
+          <Route exact path="/forum" component={ForumListTemplate} />
           <Route path="/:category/list" component={ListTemplate} />
           <Route path="/:category/:id" component={DetailTemplate} />
           <Route path="/my404" component={Error} />

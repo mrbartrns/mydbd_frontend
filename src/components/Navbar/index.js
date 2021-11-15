@@ -7,6 +7,7 @@ import { useMediaQuery } from "react-responsive";
 import { Container } from "react-bootstrap";
 import { connect } from "react-redux";
 
+// TODO: navigation bar 축소시 두 줄로 변하는 상태 바꾸기
 function Navbar(props) {
   const [onToggle, setToggle] = useState(false);
   const isTablet = useMediaQuery({ query: "(max-width: 768px)" });
@@ -50,6 +51,9 @@ function Navbar(props) {
             </li>
             <li>
               <Link to="/addons/list">Addons</Link>
+            </li>
+            <li>
+              <Link to="/forum">Forum</Link>
             </li>
           </ul>
         ) : null}
