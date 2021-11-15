@@ -1,0 +1,37 @@
+/* Forum List */
+
+/* 임시 */
+.board_article {
+  max-width: 768px;
+  margin: 0 auto;
+}
+
+.list_table {
+  border-top: 1px solid #666;
+  font-size: 0.9rem;
+}
+
+.vrow {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  padding: 0.4rem 0.6rem;
+  border-bottom: 1px solid #666;
+}
+
+.head {
+  font-weight: bold;
+}
+
+.vrow__top {
+  display: flex;
+  flex: 1;
+}
+
+.vrow__bottom {
+  display: flex;
+}
+
+.vcol {
+  margin-right: 1rem;
+}

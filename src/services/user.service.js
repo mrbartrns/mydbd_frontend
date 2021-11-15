@@ -14,6 +14,10 @@ class UserService {
     return api.get("service/list" + pathname + "/comments", { params });
   }
 
+  getForumList(params) {
+    return api.get("service/forum/list", { params });
+  }
+
   postComment(pathname, data) {
     return api.post("service/list" + pathname + "/comments/create", data);
   }
