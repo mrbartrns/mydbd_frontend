@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from "react";
-import { useLocation } from "react-router-dom";
+// import { useLocation } from "react-router-dom";
 import ForumListComponent from "../components/Forum/forum_list.component";
 
 import userService from "../services/user.service";
 
 function ForumListTemplate(props) {
-  const location = useLocation();
+  // const location = useLocation();
   const [posts, setPosts] = useState([]);
   useEffect(() => {
     let mount = true;

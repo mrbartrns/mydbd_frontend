@@ -2,13 +2,13 @@
 
 /* 임시 */
 .board_article {
-  max-width: 768px;
+  max-width: 1024px;
   margin: 0 auto;
 }
 
 .list_table {
   border-top: 1px solid #666;
-  font-size: 0.9rem;
+  font-size: 0.95rem;
 }
 
 .vrow {
@@ -34,4 +34,24 @@
 
 .vcol {
   margin-right: 1rem;
+}
+
+.col_id {
+  width: 3rem;
+}
+
+.col_author {
+  width: 6rem;
+}
+
+.col_time {
+  width: 4rem;
+}
+
+.col_hit {
+  width: 3rem;
+}
+
+.col_rate {
+  width: 3rem;
 }

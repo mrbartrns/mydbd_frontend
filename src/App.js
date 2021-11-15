@@ -15,9 +15,6 @@ import LoginTemplate from "./templates/login.template";
 import RegisterTemplate from "./templates/register.template";
 import ForumListTemplate from "./templates/forum_list.template";
 
-// css
-import "./css/Component.scss";
-
 function App(props) {
   // constants
   const history = useHistory();

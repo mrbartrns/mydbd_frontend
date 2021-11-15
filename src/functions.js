@@ -52,3 +52,36 @@ export function isValidToken(token) {
   if (!decodedJwt.hasOwnProperty("exp")) return false;
   return decodedJwt["exp"] * 1000 < new Date().getTime() ? false : true;
 }
+
+export function foramttedDateString(rawDate) {
+  const fullDate = new Date(rawDate);
+  const strMinute = fullDate.getMinutes().toString();
+  const strHour = fullDate.getHours().toString();
+  const strYear = fullDate.getFullYear().toString().substring(2);
+  const strMonth =
+    fullDate.getMonth() + 1 < 10
+      ? "0" + (fullDate.getMonth() + 1).toString()
+      : (fullDate.getMonth() + 1).toString();
+  const strDate =
+    fullDate.getDate() < 10
+      ? "0" + fullDate.getDate().toString()
+      : fullDate.getDate().toString();
+
+  const now = new Date();
+  const comparedFullDate = new Date(
+    fullDate.getFullYear(),
+    fullDate.getMonth(),
+    fullDate.getDate()
+  );
+  const comparedNowDate = new Date(
+    now.getFullYear(),
+    now.getMonth(),
+    now.getDate()
+  );
+  const formatedDate =
+    comparedFullDate < comparedNowDate
+      ? `${strYear}-${strMonth}-${strDate}`
+      : `${strHour}:${strMinute}`;
+
+  return formatedDate;
+}
