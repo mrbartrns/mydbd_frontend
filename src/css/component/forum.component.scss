@@ -27,6 +27,7 @@ a.vrow:hover {
 
 .head {
   font-weight: bold;
+  margin-right: 0.3rem;
 }
 
 .vrow__top {
@@ -60,4 +61,44 @@ a.vrow:hover {
 
 .col_rate {
   width: 3rem;
+}
+
+.article_wrapper {
+  margin-top: 1rem;
+}
+
+.article_head {
+  border-top: 1px solid #666;
+  border-bottom: 1px solid #666;
+}
+
+.title_row {
+  padding: 0.5rem 0.75rem;
+  border-bottom: 1px solid #666;
+  background-color: #eee;
+}
+
+.title_name {
+  font-size: 1.3rem;
+}
+
+.article_info {
+  font-size: 0.87rem;
+}
+.info_row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.3rem 0.75rem;
+}
+
+.sep {
+  &::before {
+    content: "|";
+    margin: 0 0.3rem;
+  }
+}
+
+.article_body {
+  padding: 0.75rem;
 }
