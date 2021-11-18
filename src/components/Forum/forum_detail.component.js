@@ -1,6 +1,7 @@
 import React from "react";
 
 import "../../css/component/forum.component.scss";
+import CommentTextarea from "../Comment/comment_textarea.component";
 import VoteArea from "../VoteArea/vote_area.component";
 
 function ForumDetailComponent(props) {
@@ -54,7 +55,21 @@ function ForumDetailComponent(props) {
           toggleDislike={props.toggleDislike}
           userLikeController={props.userLikeController}
         />
+        <div className="article_comments">
+          <div className="title">
+            <span>댓글</span>
+          </div>
+        </div>
       </div>
+      <form className="write_area">
+        <div className="subtitle">댓글 작성</div>
+        <div className="input_wrapper">
+          <div className="comment_input">
+            {/* <CommentTextarea /> */}
+            <input type="submit" value="작성" />
+          </div>
+        </div>
+      </form>
     </article>
   );
 }

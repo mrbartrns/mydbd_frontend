@@ -78,7 +78,14 @@ a.vrow:hover {
   background-color: #eee;
 }
 
-.title_name {
+.title {
+  font-size: 1.3rem;
+}
+
+.article_comments .title {
+  padding: 0.5rem 0.75rem;
+  border-top: 1px solid #666;
+  border-bottom: 1px solid #666;
   font-size: 1.3rem;
 }
 
@@ -106,4 +113,8 @@ a.vrow:hover {
 
 .fr_view {
   word-break: break-word;
+}
+
+.write_area {
+  padding: 0.75rem;
 }
