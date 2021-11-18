@@ -100,5 +100,10 @@ a.vrow:hover {
 }
 
 .article_body {
+  max-width: 100%;
   padding: 0.75rem;
+}
+
+.fr_view {
+  word-break: break-word;
 }
