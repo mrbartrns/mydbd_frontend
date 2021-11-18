@@ -21,7 +21,7 @@ function DetailComponent(props) {
         </li>
         <li>공포 범위: {props.post.terror_radius}m</li>
       </ul>
-      <div className="like_box_container">
+      <div className="vote_container">
         <div
           className={`like_box__like like_box${
             props.userLikeController.like ? " toggled" : ""
