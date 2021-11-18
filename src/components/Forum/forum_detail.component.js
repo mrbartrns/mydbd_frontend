@@ -1,6 +1,7 @@
 import React from "react";
 
 import "../../css/component/forum.component.scss";
+import VoteArea from "../VoteArea/vote_area.component";
 
 function ForumDetailComponent(props) {
   return (
@@ -46,6 +47,13 @@ function ForumDetailComponent(props) {
           <div className="article_link"></div>
           <div className="article_content fr_view">{props.article.content}</div>
         </div>
+        <VoteArea
+          articleLikeCount={props.articleLikeCount}
+          articleDislikeCount={props.articleDislikeCount}
+          toggleLike={props.toggleLike}
+          toggleDislike={props.toggleDislike}
+          userLikeController={props.userLikeController}
+        />
       </div>
     </article>
   );
