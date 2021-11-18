@@ -4,6 +4,7 @@ import ForumListComponent from "../components/Forum/forum_list.component";
 
 import userService from "../services/user.service";
 
+// TODO: Pagination 적용
 function ForumListTemplate(props) {
   // const location = useLocation();
   const [posts, setPosts] = useState([]);
