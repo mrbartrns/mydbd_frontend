@@ -24,7 +24,12 @@ function ForumListComponent(props) {
         </div>
         {props.posts.map((article) => {
           return (
-            <Link to="/#" id={article.id} className="vrow" key={article.id}>
+            <Link
+              to={`/forum/article/${article.id}`}
+              id={article.id}
+              className="vrow"
+              key={article.id}
+            >
               <div className="vrow__top">
                 <div className="vcol col_id">{article.id}</div>
                 <div className="vcol col_title">{article.title}</div>
