@@ -38,7 +38,11 @@ function App(props) {
           <Route exact path="/login" component={LoginTemplate} />
           <Route exact path="/signup" component={RegisterTemplate} />
           <Route exact path="/forum" component={ForumListTemplate} />
-          <Route exact path="/forum/:id" component={ForumDetailTemplate} />
+          <Route
+            exact
+            path="/forum/article/:id"
+            component={ForumDetailTemplate}
+          />
           <Route path="/:category/list" component={ListTemplate} />
           <Route path="/:category/:id" component={DetailTemplate} />
           <Route path="/my404" component={Error} />
