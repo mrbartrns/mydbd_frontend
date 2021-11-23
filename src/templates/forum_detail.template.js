@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from "react";
-import { useLocation } from "react-router-dom";
+import { useLocation, useHistory } from "react-router-dom";
 import ForumDetailComponent from "../components/Forum/forum_detail.component";
 import { parseQueryStringToDictionary } from "../functions";
 import userService from "../services/user.service";
 
 function ForumDetailTemplate(props) {
   const location = useLocation();
+  const history = useHistory();
+
   const [article, setArticle] = useState({});
   const [loaded, setLoaded] = useState(false);
   const [userLikeController, setUserLikeController] = useState({
@@ -14,6 +16,27 @@ function ForumDetailTemplate(props) {
   });
   const [articleLikeCount, setArticleLikeCount] = useState(0);
   const [articleDislikeCount, setArticleDislikeCount] = useState(0);
+  const [comment, setComment] = useState("");
+
+  function handleCommentChange(e) {
+    setComment(e.target.value);
+  }
+
+  // if created: refresh
+  function submitComment(e) {
+    userService
+      .postArticleComment(location.pathname, {
+        parent: null,
+        content: comment,
+      })
+      .then((response) => {
+        console.log(response);
+      })
+      .catch((error) => {
+        console.log(error.response);
+      });
+  }
+
   function toggleLike() {
     const userController = { ...userLikeController };
     if (userController.dislike) {
@@ -39,6 +62,7 @@ function ForumDetailTemplate(props) {
         console.error(error);
       });
   }
+
   function toggleDislike() {
     const userController = { ...userLikeController };
     if (userController.like) {
@@ -75,6 +99,7 @@ function ForumDetailTemplate(props) {
 
     if (mounted) {
       setLoaded(false);
+      console.log(location.pathname);
       userService
         .getForumArticle(location.pathname, queries)
         .then((response) => {
@@ -89,6 +114,9 @@ function ForumDetailTemplate(props) {
           setLoaded(true);
         })
         .catch((error) => {
+          if (error.response.status === 401) {
+            history.go(0);
+          }
           setLoaded(true);
           console.error(error);
         });
@@ -97,7 +125,7 @@ function ForumDetailTemplate(props) {
       mounted = false;
       userService.unsubscribe();
     };
-  }, [location]);
+  }, [location, history]);
   return (
     loaded && (
       <ForumDetailComponent
@@ -107,6 +135,8 @@ function ForumDetailTemplate(props) {
         toggleLike={toggleLike}
         toggleDislike={toggleDislike}
         userLikeController={userLikeController}
+        handleCommentChange={handleCommentChange}
+        submitComment={submitComment}
       />
     )
   );
