@@ -2,13 +2,15 @@ import React, { useRef } from "react";
 import { connect } from "react-redux";
 import { useHistory } from "react-router-dom";
 
-import { Editor, Viewer } from "@toast-ui/react-editor";
+import { Editor } from "@toast-ui/react-editor";
 import "@toast-ui/editor/dist/toastui-editor.css";
 import userService from "../services/user.service";
+
 function ForumPostTemplate(props) {
   const history = useHistory();
   const ref = useRef();
 
+  // TODO: Create title, tags field
   function handleSubmit(e) {
     e.preventDefault();
     const markdownValue = ref.current.getInstance().getMarkdown();

@@ -16,6 +16,7 @@ import RegisterTemplate from "./templates/register.template";
 import ForumListTemplate from "./templates/forum_list.template";
 import ForumDetailTemplate from "./templates/forum_detail.template";
 import ForumPostTemplate from "./templates/forum_post.template";
+import ForumEditTemplate from "./templates/forum_edit.template";
 
 function App(props) {
   // constants
@@ -30,6 +31,7 @@ function App(props) {
   };
 
   // return router and navbar component
+  // TODO: Separate All routes
   return (
     <div className="App">
       <Navbar logout={handleLogout} />
@@ -44,6 +46,11 @@ function App(props) {
             exact
             path="/forum/article/:id"
             component={ForumDetailTemplate}
+          />
+          <Route
+            exact
+            path="/forum/article/:id/edit"
+            component={ForumEditTemplate}
           />
           <Route path="/:category/list" component={ListTemplate} />
           <Route path="/:category/:id" component={DetailTemplate} />

@@ -26,6 +26,10 @@ class UserService {
     return api.post("service/forum/article/create", data);
   }
 
+  updateForumArticle(pathname, data) {
+    return api.put("service" + pathname, data);
+  }
+
   postComment(pathname, data) {
     return api.post("service/list" + pathname + "/comments/create", data);
   }
