@@ -1,10 +1,13 @@
-import React from "react";
+import React, { useRef } from "react";
+import { Viewer } from "@toast-ui/react-editor";
 
 import "../../css/component/forum.component.scss";
 import CommentTextarea from "../Comment/comment_textarea.component";
 import VoteArea from "../VoteArea/vote_area.component";
 
 function ForumDetailComponent(props) {
+  const ref = useRef();
+  // ref.current.getInstance().setMarkdown(props.content);
   return (
     <article className="board_article">
       <div className="article_wrapper">
@@ -46,7 +49,9 @@ function ForumDetailComponent(props) {
         </div>
         <div className="article_body">
           <div className="article_link"></div>
-          <div className="article_content fr_view">{props.article.content}</div>
+          <div className="article_content fr_view">
+            <Viewer ref={ref} initialValue={props.article.content} />
+          </div>
         </div>
         <VoteArea
           articleLikeCount={props.articleLikeCount}

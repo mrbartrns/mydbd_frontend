@@ -15,6 +15,7 @@ import LoginTemplate from "./templates/login.template";
 import RegisterTemplate from "./templates/register.template";
 import ForumListTemplate from "./templates/forum_list.template";
 import ForumDetailTemplate from "./templates/forum_detail.template";
+import ForumPostTemplate from "./templates/forum_post.template";
 
 function App(props) {
   // constants
@@ -38,6 +39,7 @@ function App(props) {
           <Route exact path="/login" component={LoginTemplate} />
           <Route exact path="/signup" component={RegisterTemplate} />
           <Route exact path="/forum" component={ForumListTemplate} />
+          <Route exact path="/forum/write" component={ForumPostTemplate} />
           <Route
             exact
             path="/forum/article/:id"

@@ -22,6 +22,10 @@ class UserService {
     return api.get("service" + pathname, { params });
   }
 
+  postForumArticle(data) {
+    return api.post("service/forum/article/create", data);
+  }
+
   postComment(pathname, data) {
     return api.post("service/list" + pathname + "/comments/create", data);
   }

@@ -9,6 +9,16 @@ function ForumListComponent(props) {
   return (
     <article className="board_article">
       <h1>포럼</h1>
+      <div className="btns_board">
+        <div className="left">
+          <button>TEST 버튼</button>
+        </div>
+        <div className="right">
+          <Link to="/forum/write" className="btn">
+            글쓰기
+          </Link>
+        </div>
+      </div>
       <div className="list_table">
         <div className="vrow head">
           <div className="vrow__top">
