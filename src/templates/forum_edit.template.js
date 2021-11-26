@@ -3,6 +3,7 @@ import { useHistory, useLocation } from "react-router-dom";
 import { connect } from "react-redux";
 
 import { Editor } from "@toast-ui/react-editor";
+
 import "@toast-ui/editor/dist/toastui-editor.css";
 import userService from "../services/user.service";
 
@@ -11,16 +12,42 @@ function ForumEditTemplate(props) {
   const location = useLocation();
   const history = useHistory();
   const editRef = useRef();
-  const titleRef = useRef();
-  const [isAuthenticated, SetIsAuthenticated] = useState(false);
-  console.log(location.pathname);
+  // TODO: set title response value to input element
+  const [title, setTitle] = useState("");
+  // const [isAuthenticated, SetIsAuthenticated] = useState(false);
+  // TODO: tag -> new element
+  function handleTitleChange(e) {
+    e.preventDefault();
+    setTitle(e.target.value);
+  }
+
+  function handleSubmit(e) {
+    e.preventDefault();
+    userService
+      .updateForumArticle(location.pathname, {
+        title: title,
+        content: editRef.current.getInstance().getMarkdown(),
+      })
+      .then((response) => {
+        history.push("/forum/article/" + props.match.params.id);
+      })
+      .catch((error) => {
+        console.error(error);
+        if (error.response && error.response.data) {
+          console.log(error.response.data);
+        }
+      });
+  }
+
   useEffect(() => {
     let mounted = true;
     if (mounted) {
       userService
         .getForumArticle(location.pathname)
         .then((response) => {
-          console.log(response.data);
+          editRef.current.getInstance().setMarkdown(response.data.content);
+          setTitle(response.data.title);
+          // SetIsAuthenticated(true);
         })
         .catch((error) => {
           if (error.response && error.response.status === 401) {
@@ -41,8 +68,13 @@ function ForumEditTemplate(props) {
   return (
     <div>
       <h1>글 수정</h1>
-      <form className="post_wrapper">
-        <input type="text" className="title" />
+      <form className="post_wrapper" onSubmit={handleSubmit}>
+        <input
+          type="text"
+          className="title"
+          value={title}
+          onChange={handleTitleChange}
+        />
         <Editor
           initialValue=""
           previewStyle="vertical"
@@ -53,6 +85,7 @@ function ForumEditTemplate(props) {
           placeholder="자유롭게 글쓰세요!"
           ref={editRef}
         />
+        <input type="submit" value="수정하기" />
       </form>
     </div>
   );

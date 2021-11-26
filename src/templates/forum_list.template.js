@@ -11,6 +11,7 @@ function ForumListTemplate(props) {
   const history = useHistory();
   const [posts, setPosts] = useState([]);
   useEffect(() => {
+    // TODO: Modify api with query string for pagination
     let mount = true;
     if (mount) {
       userService

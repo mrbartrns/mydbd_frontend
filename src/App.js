@@ -34,7 +34,7 @@ function App(props) {
       <Navbar logout={handleLogout} />
       <Container md="true">
         <Switch>
-          <Route exact path="/" component={Home} />/
+          <Route exact path="/" component={Home} />
           <Route exact path="/login" component={LoginTemplate} />
           <Route exact path="/signup" component={RegisterTemplate} />
           <Route path="/forum" component={Forum} />
