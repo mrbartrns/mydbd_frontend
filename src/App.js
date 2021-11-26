@@ -13,10 +13,7 @@ import ListTemplate from "./templates/list.template";
 import DetailTemplate from "./templates/detail.template";
 import LoginTemplate from "./templates/login.template";
 import RegisterTemplate from "./templates/register.template";
-import ForumListTemplate from "./templates/forum_list.template";
-import ForumDetailTemplate from "./templates/forum_detail.template";
-import ForumPostTemplate from "./templates/forum_post.template";
-import ForumEditTemplate from "./templates/forum_edit.template";
+import Forum from "./routes/forum.routes";
 
 function App(props) {
   // constants
@@ -40,18 +37,7 @@ function App(props) {
           <Route exact path="/" component={Home} />/
           <Route exact path="/login" component={LoginTemplate} />
           <Route exact path="/signup" component={RegisterTemplate} />
-          <Route exact path="/forum" component={ForumListTemplate} />
-          <Route exact path="/forum/write" component={ForumPostTemplate} />
-          <Route
-            exact
-            path="/forum/article/:id"
-            component={ForumDetailTemplate}
-          />
-          <Route
-            exact
-            path="/forum/article/:id/edit"
-            component={ForumEditTemplate}
-          />
+          <Route path="/forum" component={Forum} />
           <Route path="/:category/list" component={ListTemplate} />
           <Route path="/:category/:id" component={DetailTemplate} />
           <Route path="/my404" component={Error} />
