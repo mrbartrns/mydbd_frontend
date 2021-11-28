@@ -6,6 +6,7 @@ import CommentTextarea from "../Comment/comment_textarea.component";
 import VoteArea from "../VoteArea/vote_area.component";
 
 function ForumDetailComponent(props) {
+  console.log(props.comments);
   const ref = useRef();
   // ref.current.getInstance().setMarkdown(props.content);
   return (
@@ -64,44 +65,45 @@ function ForumDetailComponent(props) {
           <div className="title">
             <span>댓글</span>
           </div>
-          {/* TODO: Complete list comment area */}
+          {/** Here goes article comment component */}
           <div className="list_area">
-            {/** TODO: map으로 작성 */}
-            {props.article.comments.map((comment) => {
-              return (
-                // Wrapper contains comment id and it will be used to link
-                <div className="comment_wrapper" key={comment.id}>
-                  {/** Comment list remove element */}
-                  <div className="comment_item">
-                    <div className="comment_content">
-                      <div className="info_row">
-                        <div className="member_info">
-                          <span className="user_info">
-                            {comment.author.username}
-                          </span>
+            {props.commentLoaded &&
+              props.comments.map((comment) => {
+                console.log(comment);
+                return (
+                  // Wrapper contains comment id and it will be used to link
+                  <div className="comment_wrapper" key={comment.id}>
+                    {/** Comment list remove element */}
+                    <div className="comment_item">
+                      <div className="comment_content">
+                        <div className="info_row">
+                          <div className="member_info">
+                            <span className="user_info">
+                              {comment.author.username}
+                            </span>
+                          </div>
+                          <div className="article_info">
+                            <span className="article_info_datetime">
+                              {new Date(comment.dt_created).toLocaleString()}
+                            </span>
+                            <span className="sep" />
+                            <span className="article_info_delete">삭제</span>
+                            <span className="sep" />
+                            <span className="article_info_modify">수정</span>
+                            <span className="sep" />
+                            <span className="article_info_reply">답글</span>
+                          </div>
                         </div>
-                        <div className="article_info">
-                          <span className="article_info_datetime">
-                            {new Date(comment.dt_created).toLocaleString()}
-                          </span>
-                          <span className="sep" />
-                          <span className="article_info_delete">삭제</span>
-                          <span className="sep" />
-                          <span className="article_info_modify">수정</span>
-                          <span className="sep" />
-                          <span className="article_info_reply">답글</span>
-                        </div>
-                      </div>
-                      <div className="message">
-                        <div className="comment_text">
-                          <span>{comment.content}</span>
+                        <div className="message">
+                          <div className="comment_text">
+                            <span>{comment.content}</span>
+                          </div>
                         </div>
                       </div>
                     </div>
                   </div>
-                </div>
-              );
-            })}
+                );
+              })}
           </div>
         </div>
       </div>

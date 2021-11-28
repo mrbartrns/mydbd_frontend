@@ -18,8 +18,8 @@ class UserService {
     return api.get("service/forum/list", { params });
   }
 
-  getForumArticle(pathname, params) {
-    return api.get("service" + pathname, { params });
+  getForumArticle(pathname) {
+    return api.get("service" + pathname);
   }
 
   postForumArticle(data) {
@@ -32,6 +32,10 @@ class UserService {
 
   postComment(pathname, data) {
     return api.post("service/list" + pathname + "/comments/create", data);
+  }
+
+  getArticleCommentList(pathname, params) {
+    return api.get("service" + pathname + "/comment/list", { params });
   }
 
   postArticleComment(pathname, data) {

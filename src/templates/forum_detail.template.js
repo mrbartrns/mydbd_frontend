@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useLocation, useHistory } from "react-router-dom";
 import ForumDetailComponent from "../components/Forum/forum_detail.component";
-import { parseQueryStringToDictionary } from "../functions";
 import userService from "../services/user.service";
 
 function ForumDetailTemplate(props) {
@@ -16,6 +15,10 @@ function ForumDetailTemplate(props) {
   });
   const [articleLikeCount, setArticleLikeCount] = useState(0);
   const [articleDislikeCount, setArticleDislikeCount] = useState(0);
+  const [comments, setComments] = useState([]);
+  const [commentLoaded, setCommentLoaded] = useState(false);
+  const [currentCommentPage, setCurrentCommentPage] = useState(1);
+  const [nextCommentPage, setNextCommentPage] = useState(null);
   const [comment, setComment] = useState("");
 
   function handleCommentChange(e) {
@@ -91,19 +94,14 @@ function ForumDetailTemplate(props) {
       });
   }
 
+  // TODO: Make comment useEffect
   useEffect(() => {
     let mounted = true;
-    const source = userService.getCancelToken();
-    const queries = parseQueryStringToDictionary(location.search);
-    queries["cancelToken"] = source.token;
-
     if (mounted) {
       setLoaded(false);
-      console.log(location.pathname);
       userService
-        .getForumArticle(location.pathname, queries)
+        .getForumArticle(location.pathname)
         .then((response) => {
-          console.log(response.data);
           setArticle(response.data);
           setUserLikeController({
             like: response.data.user_liked,
@@ -123,9 +121,41 @@ function ForumDetailTemplate(props) {
     }
     return () => {
       mounted = false;
-      userService.unsubscribe();
     };
-  }, [location, history]);
+  }, [location.pathname, history]);
+
+  useEffect(() => {
+    let mounted = true;
+    if (mounted) {
+      setCommentLoaded(false);
+      const queries = {};
+      if (currentCommentPage === null) {
+        queries["cp"] = 1;
+        queries["all"] = true;
+        userService
+          .getArticleCommentList(location.pathname, queries)
+          .then((response) => {
+            setComments(response.data.results);
+            // TODO: 추가적인 조치가 있어야 하는지 확인하기
+            setCommentLoaded(true);
+          });
+      } else {
+        queries["cp"] = currentCommentPage;
+        userService
+          .getArticleCommentList(location.pathname, queries)
+          .then((response) => {
+            setComments((c) => {
+              return [...c, ...response.data.results];
+            });
+            setNextCommentPage(response.data.next);
+            setCommentLoaded(true);
+          });
+      }
+    }
+    return () => {
+      mounted = false;
+    };
+  }, [location.pathname, currentCommentPage]);
   return (
     loaded && (
       <ForumDetailComponent
@@ -137,6 +167,8 @@ function ForumDetailTemplate(props) {
         userLikeController={userLikeController}
         handleCommentChange={handleCommentChange}
         submitComment={submitComment}
+        comments={comments}
+        commentLoaded={commentLoaded}
       />
     )
   );
