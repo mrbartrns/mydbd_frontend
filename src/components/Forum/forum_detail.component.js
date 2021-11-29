@@ -6,7 +6,6 @@ import CommentTextarea from "../Comment/comment_textarea.component";
 import VoteArea from "../VoteArea/vote_area.component";
 
 function ForumDetailComponent(props) {
-  console.log(props.comments);
   const ref = useRef();
   // ref.current.getInstance().setMarkdown(props.content);
   return (
@@ -63,13 +62,12 @@ function ForumDetailComponent(props) {
         />
         <div className="article_comments">
           <div className="title">
-            <span>댓글</span>
+            <span>{props.commentCounts}개의 댓글</span>
           </div>
           {/** Here goes article comment component */}
           <div className="list_area">
             {props.commentLoaded &&
               props.comments.map((comment) => {
-                console.log(comment);
                 return (
                   // Wrapper contains comment id and it will be used to link
                   <div className="comment_wrapper" key={comment.id}>
@@ -107,6 +105,7 @@ function ForumDetailComponent(props) {
           </div>
         </div>
       </div>
+      <div onClick={props.loadNextCommentList}>추가 댓글 불러오기 </div>
       <form className="write_area" onSubmit={props.submitComment}>
         <div className="subtitle">댓글 작성</div>
         <div className="input_wrapper">
