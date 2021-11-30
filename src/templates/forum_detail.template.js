@@ -1,77 +1,34 @@
-import React, { useState, useEffect, useReducer } from "react";
+import React, { useState, useEffect, useReducer, useCallback } from "react";
 import { useLocation, useHistory } from "react-router-dom";
 import ForumDetailComponent from "../components/Forum/forum_detail.component";
 import userService from "../services/user.service";
 
-function reducer(state, action) {
-  switch (action.type) {
-    case "CHANGE_INPUT":
-      return {
-        ...state,
-        inputs: {
-          ...state.inputs,
-          parent: action.comment.parent,
-          content: action.comment.content,
-        },
-      };
-    case "PUSH_COMMENT":
-      return {
-        ...state,
-        comments: [...state.comments, ...action.comments],
-      };
-    case "REFRESH_COMMENTS":
-      return {
-        ...state,
-        comments: [...action.comments],
-      };
-    case "POST_COMMENT":
-      return {
-        ...state,
-        comments: [
-          ...state.comments.slice(0, action.idx),
-          action.comment,
-          ...state.comments.slice(action.idx),
-        ],
-      };
-    case "REMOVE_COMMENT":
-      return {
-        ...state,
-        comments: state.comments.filter((comment) => comment.id !== action.id),
-      };
-    case "SET_COUNT":
-      return {
-        ...state,
-        count: action.count,
-      };
-    case "LOADING":
-      return {
-        ...state,
-        loading: true,
-      };
-    case "LOADED":
-      return {
-        ...state,
-        loading: false,
-      };
-    case "FETCH_INIT":
-      return {
-        ...state,
-        success: false,
-      };
-    case "FETCH_SUCCESS":
-      return {
-        ...state,
-        success: true,
-      };
-    case "FETCH_FAIL":
-      return {
-        ...state,
-        success: false,
-      };
-    default:
-      return state;
-  }
-}
+import {
+  COMMENT_INPUT_INIT,
+  CHANGE_INPUT,
+  PUSH_COMMENTS,
+  REFRESH_COMMENTS,
+  POST_COMMENT,
+  SET_COUNT,
+  COMMENT_LOADING,
+  COMMENT_LOADED,
+  COMMENT_FETCH_INIT,
+  COMMENT_FETCH_SUCCESS,
+  COMMENT_FETCH_FAIL,
+  COMMENT_ERROR,
+  commentState,
+  commentReducer,
+} from "../abstractStructures/comment";
+
+// function GetComments() {
+//   const getFetchUrl = useCallback((pathname, query) => {
+//     return userService.getTestApiList(pathname, query)
+//   }, [])
+
+//   useEffect(() => {
+
+//   }, [])
+// }
 
 function ForumDetailTemplate(props) {
   const location = useLocation();
@@ -86,18 +43,68 @@ function ForumDetailTemplate(props) {
   const [articleLikeCount, setArticleLikeCount] = useState(0);
   const [articleDislikeCount, setArticleDislikeCount] = useState(0);
 
-  const initialState = {
-    inputs: {
-      parent: null,
-      content: "",
-    },
-    count: 0,
-    comments: [],
-    success: false,
-    loading: false,
-  };
+  const [state, dispatch] = useReducer(commentReducer, commentState);
+  const [commentQuery, setCommentQuery] = useState({
+    query: { cp: 1, pagesize: 100 },
+    refresh: false,
+  });
 
-  const [state, dispatch] = useReducer(reducer, initialState);
+  const getFetchComments = useCallback(async () => {
+    dispatch({ type: COMMENT_LOADING });
+    try {
+      const response = await userService.getArticleCommentList(
+        location.pathname,
+        { ...commentQuery.query }
+      );
+      dispatch({ type: SET_COUNT, payload: response.data.count });
+      // TODO: capsulation and abstraction
+      if (commentQuery.refresh) {
+        dispatch({ type: REFRESH_COMMENTS, payload: response.data.results });
+      } else {
+        dispatch({ type: PUSH_COMMENTS, payload: response.data.results });
+      }
+      dispatch({ type: COMMENT_FETCH_SUCCESS });
+      dispatch({ type: COMMENT_LOADED });
+    } catch (error) {
+      dispatch({ type: COMMENT_FETCH_FAIL });
+      if (error.response && error.response.data) {
+        dispatch({ type: COMMENT_ERROR, payload: error.response.data });
+      }
+
+      dispatch({ type: COMMENT_LOADED });
+    }
+  }, [location.pathname, commentQuery]);
+
+  const onChange = useCallback((e, parent = null) => {
+    dispatch({
+      type: CHANGE_INPUT,
+      payload: { parent: parent, content: e.target.value },
+    });
+    console.log(e.target.value);
+  }, []);
+
+  const onSubmit = useCallback(
+    async (comment, index) => {
+      try {
+        const response = await userService.postArticleComment(
+          location.pathname,
+          comment
+        );
+        // dispatch({ type: POST_COMMENT, payload: response.data });
+        dispatch({ type: SET_COUNT, payload: index + 1 });
+        dispatch({
+          type: POST_COMMENT,
+          payload: { comment: response.data, index: index },
+        });
+        dispatch({ type: COMMENT_INPUT_INIT });
+      } catch (error) {
+        if (error.response && error.response.data) {
+          dispatch({ type: COMMENT_ERROR, payload: error.response.data });
+        }
+      }
+    },
+    [location.pathname]
+  );
 
   // function submitComment(e) {
   //   e.preventDefault();
@@ -198,32 +205,40 @@ function ForumDetailTemplate(props) {
   }, [location.pathname, history]);
 
   useEffect(() => {
-    let mounted = true;
-    const queries = { "page-size": 10, cp: 1 };
-
-    if (mounted) {
-      dispatch({ type: "LOADING" });
-      userService
-        .getArticleCommentList(location.pathname, queries)
-        .then((response) => {
-          dispatch({ type: "SET_COUNT", count: response.data.count });
-          dispatch({ type: "PUSH_COMMENT", comments: response.data.results });
-          dispatch({ type: "FETCH_SUCCESS" });
-        })
-        .catch((error) => {
-          dispatch({ type: "FETCH_FAIL" });
-        })
-        .finally(() => {
-          dispatch({ type: "LOADED" });
-        });
+    let isMounted = true;
+    if (isMounted) {
+      getFetchComments();
     }
     return () => {
-      mounted = false;
-      dispatch({ type: "FETCH_INIT" });
+      isMounted = false;
     };
-  }, [location]);
+  }, [getFetchComments]);
 
-  console.log(state);
+  // useEffect(() => {
+  //   let mounted = true;
+  //   const queries = { "page-size": 10, cp: 1 };
+
+  //   if (mounted) {
+  //     dispatch({ type: COMMENT_LOADING });
+  //     userService
+  //       .getArticleCommentList(location.pathname, queries)
+  //       .then((response) => {
+  //         dispatch({ type: SET_COUNT, payload: response.data.count });
+  //         dispatch({ type: PUSH_COMMENTS, payload: response.data.results });
+  //         dispatch({ type: COMMENT_FETCH_SUCCESS });
+  //       })
+  //       .catch((error) => {
+  //         dispatch({ type: COMMENT_FETCH_FAIL });
+  //       })
+  //       .finally(() => {
+  //         dispatch({ type: COMMENT_LOADED });
+  //       });
+  //   }
+  //   return () => {
+  //     mounted = false;
+  //     dispatch({ type: COMMENT_FETCH_INIT });
+  //   };
+  // }, [location]);
 
   return (
     loaded && (
@@ -234,6 +249,9 @@ function ForumDetailTemplate(props) {
         toggleLike={toggleLike}
         toggleDislike={toggleDislike}
         userLikeController={userLikeController}
+        onChange={onChange}
+        onSubmit={onSubmit}
+        state={state}
         // handleCommentChange={handleCommentChange}
         // submitComment={submitComment}
       />
