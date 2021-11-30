@@ -66,8 +66,8 @@ function ForumDetailComponent(props) {
           </div>
           {/** Here goes article comment component */}
           <div className="list_area">
-            {props.commentLoaded &&
-              props.comments.map((comment) => {
+            {props.state?.fetchSuccess &&
+              props.state.comments.map((comment) => {
                 return (
                   // Wrapper contains comment id and it will be used to link
                   <div className="comment_wrapper" key={comment.id}>
@@ -106,13 +106,22 @@ function ForumDetailComponent(props) {
         </div>
       </div>
       <div onClick={props.loadNextCommentList}>추가 댓글 불러오기 </div>
-      <form className="write_area" onSubmit={props.submitComment}>
+      <form
+        className="write_area"
+        onSubmit={(e) => {
+          e.preventDefault();
+          console.log("count", props.state.count);
+          props.onSubmit(props.state.inputs, props.state.count);
+        }}
+      >
         <div className="subtitle">댓글 작성</div>
         <div className="input_wrapper">
           <div className="comment_input">
             <CommentTextarea
               placeholder={"댓글을 입력하세요."}
-              onChange={props.handleCommentChange}
+              onChange={(e) => {
+                props.onChange(e, null);
+              }}
               spellCheck={false}
               defaultValue={null}
             />
@@ -120,6 +129,13 @@ function ForumDetailComponent(props) {
           </div>
         </div>
       </form>
+      <button
+        onClick={() => {
+          console.log(props.state.count);
+        }}
+      >
+        테스트
+      </button>
     </article>
   );
 }
