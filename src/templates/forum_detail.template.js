@@ -20,20 +20,9 @@ import {
   commentReducer,
 } from "../abstractStructures/comment";
 
-// function GetComments() {
-//   const getFetchUrl = useCallback((pathname, query) => {
-//     return userService.getTestApiList(pathname, query)
-//   }, [])
-
-//   useEffect(() => {
-
-//   }, [])
-// }
-
 function ForumDetailTemplate(props) {
   const location = useLocation();
   const history = useHistory();
-
   const [article, setArticle] = useState({});
   const [loaded, setLoaded] = useState(false);
   const [userLikeController, setUserLikeController] = useState({
@@ -42,11 +31,10 @@ function ForumDetailTemplate(props) {
   });
   const [articleLikeCount, setArticleLikeCount] = useState(0);
   const [articleDislikeCount, setArticleDislikeCount] = useState(0);
-
   const [state, dispatch] = useReducer(commentReducer, commentState);
   const [commentQuery, setCommentQuery] = useState({
-    query: { cp: 1, pagesize: 100 },
-    refresh: false,
+    query: { cp: 1, pagesize: 10 },
+    refresh: true,
   });
 
   const getFetchComments = useCallback(async () => {
@@ -57,7 +45,6 @@ function ForumDetailTemplate(props) {
         { ...commentQuery.query }
       );
       dispatch({ type: SET_COUNT, payload: response.data.count });
-      // TODO: capsulation and abstraction
       if (commentQuery.refresh) {
         dispatch({ type: REFRESH_COMMENTS, payload: response.data.results });
       } else {
@@ -80,7 +67,6 @@ function ForumDetailTemplate(props) {
       type: CHANGE_INPUT,
       payload: { parent: parent, content: e.target.value },
     });
-    console.log(e.target.value);
   }, []);
 
   const onSubmit = useCallback(
@@ -105,21 +91,6 @@ function ForumDetailTemplate(props) {
     },
     [location.pathname]
   );
-
-  // function submitComment(e) {
-  //   e.preventDefault();
-  //   userService
-  //     .postArticleComment(location.pathname, {
-  //       parent: null,
-  //       content: comment,
-  //     })
-  //     .then((response) => {
-  //       console.log(response);
-  //     })
-  //     .catch((error) => {
-  //       console.log(error.response);
-  //     });
-  // }
 
   function toggleLike() {
     const userController = { ...userLikeController };
@@ -214,32 +185,6 @@ function ForumDetailTemplate(props) {
     };
   }, [getFetchComments]);
 
-  // useEffect(() => {
-  //   let mounted = true;
-  //   const queries = { "page-size": 10, cp: 1 };
-
-  //   if (mounted) {
-  //     dispatch({ type: COMMENT_LOADING });
-  //     userService
-  //       .getArticleCommentList(location.pathname, queries)
-  //       .then((response) => {
-  //         dispatch({ type: SET_COUNT, payload: response.data.count });
-  //         dispatch({ type: PUSH_COMMENTS, payload: response.data.results });
-  //         dispatch({ type: COMMENT_FETCH_SUCCESS });
-  //       })
-  //       .catch((error) => {
-  //         dispatch({ type: COMMENT_FETCH_FAIL });
-  //       })
-  //       .finally(() => {
-  //         dispatch({ type: COMMENT_LOADED });
-  //       });
-  //   }
-  //   return () => {
-  //     mounted = false;
-  //     dispatch({ type: COMMENT_FETCH_INIT });
-  //   };
-  // }, [location]);
-
   return (
     loaded && (
       <ForumDetailComponent
@@ -252,8 +197,8 @@ function ForumDetailTemplate(props) {
         onChange={onChange}
         onSubmit={onSubmit}
         state={state}
-        // handleCommentChange={handleCommentChange}
-        // submitComment={submitComment}
+        getFetchComments={getFetchComments}
+        setCommentQuery={setCommentQuery}
       />
     )
   );

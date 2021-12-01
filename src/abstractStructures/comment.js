@@ -62,9 +62,11 @@ export function commentReducer(state, action) {
       return {
         ...state,
         comments: [
-          ...state.comments.slice(0, action.payload.index),
-          action.payload.comment,
-          ...state.comments.slice(action.payload.index),
+          ...new Set([
+            ...state.comments.slice(0, action.payload.index),
+            action.payload.comment,
+            ...state.comments.slice(action.payload.index),
+          ]),
         ],
       };
     case REMOVE_COMMENT:

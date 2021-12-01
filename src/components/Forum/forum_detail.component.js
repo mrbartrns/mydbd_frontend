@@ -105,7 +105,22 @@ function ForumDetailComponent(props) {
           </div>
         </div>
       </div>
-      <div onClick={props.loadNextCommentList}>추가 댓글 불러오기 </div>
+      <div
+        onClick={() => {
+          props.setCommentQuery((prev) => {
+            return {
+              ...prev,
+              refresh: false,
+              query: {
+                cp: 2,
+                pagesize: 10,
+              },
+            };
+          });
+        }}
+      >
+        추가 댓글 불러오기{" "}
+      </div>
       <form
         className="write_area"
         onSubmit={(e) => {
@@ -129,13 +144,6 @@ function ForumDetailComponent(props) {
           </div>
         </div>
       </form>
-      <button
-        onClick={() => {
-          console.log(props.state.count);
-        }}
-      >
-        테스트
-      </button>
     </article>
   );
 }
