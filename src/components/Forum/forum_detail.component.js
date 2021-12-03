@@ -2,115 +2,66 @@ import React, { useRef } from "react";
 import { Viewer } from "@toast-ui/react-editor";
 
 import "../../css/component/forum.component.scss";
+import ArticleHead from "./articleHead.component";
 import CommentTextarea from "../Comment/comment_textarea.component";
 import VoteArea from "../VoteArea/vote_area.component";
+import ArticleCommentList from "./articleCommentList.component";
 
-function ForumDetailComponent(props) {
+function ForumDetailComponent({
+  articleState,
+  commentState,
+  voteState,
+  onLike,
+  onSubmit,
+  onChange,
+  onDelete,
+  onUpdate,
+  setCommentQuery,
+}) {
   const ref = useRef();
   return (
     <article className="board_article">
-      {props.articleState.fetchSuccess && props.commentState.fetchSuccess && (
+      {articleState.fetchSuccess && commentState.fetchSuccess && (
         <div className="article_wrapper">
-          <div className="article_head">
-            <div className="title_row">
-              <div className="title">
-                <span className="title_name">{props.articleState.title}</span>
-              </div>
-            </div>
-            <div className="info_row">
-              <div className="member_info">
-                <span className="user_info">
-                  {props.articleState.author.username}
-                </span>
-              </div>
-              <div className="article_info">
-                <span className="article_info__head head">추천</span>
-                <span className="article_info__body">
-                  {props.voteState.likes}
-                </span>
-                <span className="sep"></span>
-                <span className="article_info__head head">비추천</span>
-                <span className="article_info__body">
-                  {props.voteState.dislikes}
-                </span>
-                <span className="sep"></span>
-                <span className="article_info__head head">조회수</span>
-                <span className="article_info__body">
-                  {props.articleState.hit}
-                </span>
-                <span className="sep"></span>
-                <span className="article_info__head head">작성일</span>
-                <span className="article_info__body">
-                  {new Date(props.articleState.createdAt).toLocaleString()}
-                </span>
-                <span className="sep"></span>
-                <span className="article_info__head head">수정일</span>
-                <span className="article_info__body">
-                  {new Date(props.articleState.modifiedAt).toLocaleString()}
-                </span>
-              </div>
-            </div>
-          </div>
+          {/** Article 정보 표시 컴포넌트 */}
+          <ArticleHead
+            title={articleState.title}
+            username={articleState.author.username}
+            likes={articleState.likes}
+            dislikes={voteState.dislikes}
+            hit={articleState.hit}
+            createdAt={articleState.createdAt}
+            modifiedAt={articleState.modifiedAt}
+          />
           <div className="article_body">
             <div className="article_link"></div>
             <div className="article_content fr_view">
-              <Viewer ref={ref} initialValue={props.articleState.content} />
+              <Viewer ref={ref} initialValue={articleState.content} />
             </div>
           </div>
           <VoteArea
-            voteState={props.voteState}
-            toggleLike={props.onLike}
-            toggleDislike={props.onLike}
+            voteState={voteState}
+            toggleLike={onLike}
+            toggleDislike={onLike}
           />
           <div className="article_comments">
             <div className="title">
-              <span>{props.commentState.count}개의 댓글</span>
+              <span>{commentState.count}개의 댓글</span>
             </div>
             {/** Here goes article comment component */}
-            <div className="list_area">
-              {props.commentState?.fetchSuccess &&
-                props.commentState.comments.map((comment) => {
-                  return (
-                    // Wrapper contains comment id and it will be used to link
-                    <div className="comment_wrapper" key={comment.id}>
-                      {/** Comment list remove element */}
-                      <div className="comment_item">
-                        <div className="comment_content">
-                          <div className="info_row">
-                            <div className="member_info">
-                              <span className="user_info">
-                                {comment.author.username}
-                              </span>
-                            </div>
-                            <div className="article_info">
-                              <span className="article_info_datetime">
-                                {new Date(comment.dt_created).toLocaleString()}
-                              </span>
-                              <span className="sep" />
-                              <span className="article_info_delete">삭제</span>
-                              <span className="sep" />
-                              <span className="article_info_modify">수정</span>
-                              <span className="sep" />
-                              <span className="article_info_reply">답글</span>
-                            </div>
-                          </div>
-                          <div className="message">
-                            <div className="comment_text">
-                              <span>{comment.content}</span>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  );
-                })}
-            </div>
+            <ArticleCommentList
+              commentState={commentState}
+              onUpdate={onUpdate}
+              onDelete={onDelete}
+              onSubmit={onSubmit}
+            />
           </div>
         </div>
       )}
+      {/** TODO: Add pagination */}
       <div
         onClick={() => {
-          props.setCommentQuery((prev) => {
+          setCommentQuery((prev) => {
             return {
               ...prev,
               cp: 2,
@@ -125,8 +76,7 @@ function ForumDetailComponent(props) {
         className="write_area"
         onSubmit={(e) => {
           e.preventDefault();
-          console.log("count", props.state.count);
-          props.onSubmit(props.state.inputs, props.state.count);
+          onSubmit(commentState.inputs, commentState.count);
         }}
       >
         <div className="subtitle">댓글 작성</div>
@@ -135,7 +85,7 @@ function ForumDetailComponent(props) {
             <CommentTextarea
               placeholder={"댓글을 입력하세요."}
               onChange={(e) => {
-                props.onChange(e, null);
+                onChange(e, null);
               }}
               spellCheck={false}
               defaultValue={null}
