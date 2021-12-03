@@ -11,20 +11,22 @@ export const COMMENT_FETCH_INIT = "COMMENT_FETCH_INIT";
 export const COMMENT_FETCH_SUCCESS = "COMMENT_FETCH_SUCCESS";
 export const COMMENT_FETCH_FAIL = "COMMENT_FETCH_FAIL";
 export const COMMENT_ERROR = "COMMENT_ERROR";
+export const UPDATE_COMMENT = "UPDATE_COMMENT";
 
-export const commentState = {
+export const initialiState = {
   inputs: {
     parent: null,
     content: "",
   },
   count: 0,
+  commentIdSet: new Set(),
   comments: [],
   fetchSuccess: false,
   loading: false,
   error: null,
 };
 
-export function commentReducer(state, action) {
+export function reducer(state, action) {
   switch (action.type) {
     case COMMENT_INPUT_INIT: {
       return {
@@ -55,19 +57,31 @@ export function commentReducer(state, action) {
         comments: [...action.payload],
       };
     case POST_COMMENT:
-      // return {
-      //   ...state,
-      //   comments: [...state.comments, action.payload],
-      // };
       return {
         ...state,
+        // comments: [
+        //   ...new Set([
+        //     ...state.comments.slice(0, action.payload.index),
+        //     action.payload.comment,
+        //     ...state.comments.slice(action.payload.index),
+        //   ]),
+        // ],
         comments: [
-          ...new Set([
-            ...state.comments.slice(0, action.payload.index),
-            action.payload.comment,
-            ...state.comments.slice(action.payload.index),
-          ]),
+          ...state.comments.slice(0, action.payload.index),
+          action.payload.comment,
+          ...state.comments.slice(action.payload.index),
         ],
+      };
+    // TODO: TEST
+    case UPDATE_COMMENT:
+      return {
+        ...state,
+        comments: state.comments.reduce((updatedComments, comment) => {
+          comment.id === action.payload.id
+            ? updatedComments.push(action.payload)
+            : updatedComments.push(comment);
+          return updatedComments;
+        }, []),
       };
     case REMOVE_COMMENT:
       return {
@@ -95,7 +109,6 @@ export function commentReducer(state, action) {
       return {
         ...state,
         loading: false,
-        fetchSuccess: false,
         error: null,
       };
     case COMMENT_FETCH_SUCCESS:
