@@ -5,8 +5,8 @@ export const REFRESH_COMMENTS = "REFRESH_COMMENTS";
 export const POST_COMMENT = "POST_COMMENT";
 export const REMOVE_COMMENT = "REMOVE_COMMENT";
 export const SET_COUNT = "SET_COUNT";
-export const COMMENT_LOADING = "COMMENT_LOADING";
-export const COMMENT_LOADED = "COMMENT_LOADED";
+export const LOADING = "LOADING";
+export const LOADED = "LOADED";
 export const COMMENT_FETCH_INIT = "COMMENT_FETCH_INIT";
 export const COMMENT_FETCH_SUCCESS = "COMMENT_FETCH_SUCCESS";
 export const COMMENT_FETCH_FAIL = "COMMENT_FETCH_FAIL";
@@ -95,12 +95,12 @@ export function reducer(state, action) {
         ...state,
         count: action.payload,
       };
-    case COMMENT_LOADING:
+    case LOADING:
       return {
         ...state,
         loading: true,
       };
-    case COMMENT_LOADED:
+    case LOADED:
       return {
         ...state,
         loading: false,

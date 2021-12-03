@@ -10,7 +10,7 @@ import {
   POST_COMMENT,
   REMOVE_COMMENT,
   SET_COUNT,
-  COMMENT_LOADED,
+  LOADED as COMMENT_LOADED,
   COMMENT_FETCH_INIT,
   COMMENT_FETCH_SUCCESS,
   COMMENT_FETCH_FAIL,
@@ -30,10 +30,25 @@ import {
   SET_USER_LIKED,
 } from "../abstractStructures/vote";
 
+import {
+  FETCH_ARTICLE,
+  ARTICLE_FETCH_INIT,
+  ARTICLE_FETCH_SUCCESS,
+  LOADED as ARTICLE_LOADED,
+  ARTICLE_ERROR,
+  initialState as initialArticleState,
+  reducer as articleReducer,
+} from "../abstractStructures/article";
+
 function ForumDetailTemplate(props) {
   const location = useLocation();
   const [article, setArticle] = useState({});
   const [loaded, setLoaded] = useState(false);
+
+  const [articleState, articleDispatch] = useReducer(
+    articleReducer,
+    initialArticleState
+  );
   const [commentState, commentDispatch] = useReducer(
     commentReducer,
     initialCommentState
@@ -43,9 +58,22 @@ function ForumDetailTemplate(props) {
   const [commentQuery, setCommentQuery] = useState({ cp: 1, pagesize: 10 });
 
   const getFetchArticle = useCallback(async () => {
-    setLoaded(false);
+    articleDispatch({ type: ARTICLE_FETCH_INIT });
     try {
       const response = await userService.getForumArticle(location.pathname);
+      articleDispatch({
+        type: FETCH_ARTICLE,
+        payload: {
+          id: response.data.id,
+          author: response.data.author,
+          title: response.data.title,
+          content: response.data.content,
+          tags: response.data.tags,
+          hit: response.data.hit,
+          createdAt: response.data.dt_created,
+          modifiedAt: response.data.dt_modified,
+        },
+      });
       setArticle(response.data);
       voteDispatch({
         type: FETCH_LIKES,
@@ -61,8 +89,14 @@ function ForumDetailTemplate(props) {
           userDisliked: response.data.user_disliked,
         },
       });
+      articleDispatch({ type: ARTICLE_FETCH_SUCCESS });
+      articleDispatch({ type: ARTICLE_LOADED });
       setLoaded(true);
     } catch (error) {
+      if (error.response && error.response.data) {
+        articleDispatch({ type: ARTICLE_ERROR, payload: error.response.data });
+        articleDispatch({ type: ARTICLE_LOADED });
+      }
       setLoaded(true);
       console.error(error);
     }
@@ -201,19 +235,18 @@ function ForumDetailTemplate(props) {
   }, [getFetchComments]);
 
   return (
-    loaded && (
-      <ForumDetailComponent
-        article={article}
-        onLike={onLike}
-        onUpdate={onUpdate}
-        onDelete={onDelete}
-        onChange={onChange}
-        onSubmit={onSubmit}
-        commentState={commentState}
-        voteState={voteState}
-        setCommentQuery={setCommentQuery}
-      />
-    )
+    <ForumDetailComponent
+      article={article}
+      articleState={articleState}
+      onLike={onLike}
+      onUpdate={onUpdate}
+      onDelete={onDelete}
+      onChange={onChange}
+      onSubmit={onSubmit}
+      commentState={commentState}
+      voteState={voteState}
+      setCommentQuery={setCommentQuery}
+    />
   );
 }
 
