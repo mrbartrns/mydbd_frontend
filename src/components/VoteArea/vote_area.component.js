@@ -7,21 +7,25 @@ function VoteArea(props) {
     <div className="vote_container">
       <div
         className={`like vote_box${
-          props.userLikeController.like ? " toggled" : ""
+          props.voteState.userLiked.like ? " toggled" : ""
         }`}
-        onClick={props.toggleLike}
+        onClick={(e) => {
+          props.toggleLike({ like: true, dislike: false });
+        }}
       >
         <span>좋아요</span>
-        <span>{props.articleLikeCount}</span>
+        <span>{props.voteState.likes}</span>
       </div>
       <div
         className={`dislike vote_box${
-          props.userLikeController.dislike ? " toggled" : ""
+          props.voteState.userLiked.dislike ? " toggled" : ""
         }`}
-        onClick={props.toggleDislike}
+        onClick={(e) => {
+          props.toggleDislike({ like: false, dislike: true });
+        }}
       >
         <span>싫어요</span>
-        <span>{props.articleDislikeCount}</span>
+        <span>{props.voteState.dislikes}</span>
       </div>
     </div>
   );

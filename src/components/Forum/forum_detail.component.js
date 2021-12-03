@@ -7,7 +7,6 @@ import VoteArea from "../VoteArea/vote_area.component";
 
 function ForumDetailComponent(props) {
   const ref = useRef();
-  // ref.current.getInstance().setMarkdown(props.content);
   return (
     <article className="board_article">
       <div className="article_wrapper">
@@ -54,11 +53,9 @@ function ForumDetailComponent(props) {
           </div>
         </div>
         <VoteArea
-          articleLikeCount={props.articleLikeCount}
-          articleDislikeCount={props.articleDislikeCount}
-          toggleLike={props.toggleLike}
-          toggleDislike={props.toggleDislike}
-          userLikeController={props.userLikeController}
+          voteState={props.voteState}
+          toggleLike={props.onLike}
+          toggleDislike={props.onLike}
         />
         <div className="article_comments">
           <div className="title">
@@ -66,8 +63,8 @@ function ForumDetailComponent(props) {
           </div>
           {/** Here goes article comment component */}
           <div className="list_area">
-            {props.state?.fetchSuccess &&
-              props.state.comments.map((comment) => {
+            {props.commentState?.fetchSuccess &&
+              props.commentState.comments.map((comment) => {
                 return (
                   // Wrapper contains comment id and it will be used to link
                   <div className="comment_wrapper" key={comment.id}>
@@ -110,11 +107,8 @@ function ForumDetailComponent(props) {
           props.setCommentQuery((prev) => {
             return {
               ...prev,
-              refresh: false,
-              query: {
-                cp: 2,
-                pagesize: 10,
-              },
+              cp: 2,
+              pagesize: 10,
             };
           });
         }}

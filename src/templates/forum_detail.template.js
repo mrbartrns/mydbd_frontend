@@ -1,69 +1,99 @@
 import React, { useState, useEffect, useReducer, useCallback } from "react";
-import { useLocation, useHistory } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import ForumDetailComponent from "../components/Forum/forum_detail.component";
 import userService from "../services/user.service";
 
 import {
   COMMENT_INPUT_INIT,
   CHANGE_INPUT,
-  PUSH_COMMENTS,
   REFRESH_COMMENTS,
   POST_COMMENT,
+  REMOVE_COMMENT,
   SET_COUNT,
-  COMMENT_LOADING,
   COMMENT_LOADED,
   COMMENT_FETCH_INIT,
   COMMENT_FETCH_SUCCESS,
   COMMENT_FETCH_FAIL,
   COMMENT_ERROR,
-  commentState,
-  commentReducer,
+  UPDATE_COMMENT,
+  initialiState as initialCommentState,
+  reducer as commentReducer,
 } from "../abstractStructures/comment";
+
+import {
+  FETCH_LIKES,
+  INCREASE_LIKE,
+  INCREASE_DISLIKE,
+  VOTE_ERROR,
+  reducer as voteReducer,
+  initialState as initialVoteState,
+  SET_USER_LIKED,
+} from "../abstractStructures/vote";
 
 function ForumDetailTemplate(props) {
   const location = useLocation();
-  const history = useHistory();
   const [article, setArticle] = useState({});
   const [loaded, setLoaded] = useState(false);
-  const [userLikeController, setUserLikeController] = useState({
-    like: false,
-    dislike: false,
-  });
-  const [articleLikeCount, setArticleLikeCount] = useState(0);
-  const [articleDislikeCount, setArticleDislikeCount] = useState(0);
-  const [state, dispatch] = useReducer(commentReducer, commentState);
-  const [commentQuery, setCommentQuery] = useState({
-    query: { cp: 1, pagesize: 10 },
-    refresh: true,
-  });
+  const [commentState, commentDispatch] = useReducer(
+    commentReducer,
+    initialCommentState
+  );
+  const [voteState, voteDispatch] = useReducer(voteReducer, initialVoteState);
+
+  const [commentQuery, setCommentQuery] = useState({ cp: 1, pagesize: 10 });
+
+  const getFetchArticle = useCallback(async () => {
+    setLoaded(false);
+    try {
+      const response = await userService.getForumArticle(location.pathname);
+      setArticle(response.data);
+      voteDispatch({
+        type: FETCH_LIKES,
+        payload: {
+          likes: response.data.like_count,
+          dislikes: response.data.dislike_count,
+        },
+      });
+      voteDispatch({
+        type: SET_USER_LIKED,
+        payload: {
+          userLiked: response.data.user_liked,
+          userDisliked: response.data.user_disliked,
+        },
+      });
+      setLoaded(true);
+    } catch (error) {
+      setLoaded(true);
+      console.error(error);
+    }
+  }, [location.pathname]);
 
   const getFetchComments = useCallback(async () => {
-    dispatch({ type: COMMENT_LOADING });
+    commentDispatch({ type: COMMENT_FETCH_INIT });
     try {
       const response = await userService.getArticleCommentList(
         location.pathname,
-        { ...commentQuery.query }
+        { ...commentQuery }
       );
-      dispatch({ type: SET_COUNT, payload: response.data.count });
-      if (commentQuery.refresh) {
-        dispatch({ type: REFRESH_COMMENTS, payload: response.data.results });
-      } else {
-        dispatch({ type: PUSH_COMMENTS, payload: response.data.results });
-      }
-      dispatch({ type: COMMENT_FETCH_SUCCESS });
-      dispatch({ type: COMMENT_LOADED });
+      commentDispatch({ type: SET_COUNT, payload: response.data.count });
+      commentDispatch({
+        type: REFRESH_COMMENTS,
+        payload: response.data.results,
+      });
+      commentDispatch({ type: COMMENT_FETCH_SUCCESS });
+      commentDispatch({ type: COMMENT_LOADED });
     } catch (error) {
-      dispatch({ type: COMMENT_FETCH_FAIL });
+      commentDispatch({ type: COMMENT_FETCH_FAIL });
       if (error.response && error.response.data) {
-        dispatch({ type: COMMENT_ERROR, payload: error.response.data });
+        commentDispatch({ type: COMMENT_ERROR, payload: error.response.data });
       }
 
-      dispatch({ type: COMMENT_LOADED });
+      commentDispatch({ type: COMMENT_LOADED });
     }
   }, [location.pathname, commentQuery]);
 
   const onChange = useCallback((e, parent = null) => {
-    dispatch({
+    commentDispatch({
       type: CHANGE_INPUT,
       payload: { parent: parent, content: e.target.value },
     });
@@ -76,104 +106,89 @@ function ForumDetailTemplate(props) {
           location.pathname,
           comment
         );
-        // dispatch({ type: POST_COMMENT, payload: response.data });
-        dispatch({ type: SET_COUNT, payload: index + 1 });
-        dispatch({
+        commentDispatch({ type: SET_COUNT, payload: index + 1 });
+        commentDispatch({
           type: POST_COMMENT,
           payload: { comment: response.data, index: index },
         });
-        dispatch({ type: COMMENT_INPUT_INIT });
+        commentDispatch({ type: COMMENT_INPUT_INIT });
       } catch (error) {
         if (error.response && error.response.data) {
-          dispatch({ type: COMMENT_ERROR, payload: error.response.data });
+          commentDispatch({
+            type: COMMENT_ERROR,
+            payload: error.response.data,
+          });
         }
       }
     },
     [location.pathname]
   );
 
-  function toggleLike() {
-    const userController = { ...userLikeController };
-    if (userController.dislike) {
-      userController.dislike = false;
-      setArticleDislikeCount(
-        articleDislikeCount > 0 ? articleDislikeCount - 1 : 0
-      );
+  const onUpdate = useCallback(async (commentId, comment) => {
+    try {
+      const response = userService.updateComment(commentId, comment);
+      commentDispatch({ type: UPDATE_COMMENT, payload: response.data });
+    } catch (error) {
+      if (error.response && error.response.data) {
+        commentDispatch({ type: COMMENT_ERROR, payload: error.response.data });
+      }
     }
-    userController.like = !userLikeController.like;
-    if (userController.like) {
-      setArticleLikeCount(articleLikeCount + 1);
-    } else {
-      setArticleLikeCount(articleLikeCount > 0 ? articleLikeCount - 1 : 0);
-    }
-    setUserLikeController(userController);
-    userService
-      .toggleArticleLike(location.pathname, { ...userController })
-      .then((response) => {
-        console.log(response.data);
-      })
-      .catch((error) => {
-        console.error(error);
-      });
-  }
+  }, []);
 
-  function toggleDislike() {
-    const userController = { ...userLikeController };
-    if (userController.like) {
-      userController.like = false;
-      setArticleLikeCount(articleLikeCount > 0 ? articleLikeCount - 1 : 0);
+  const onDelete = useCallback(async (commentId) => {
+    try {
+      await userService.deleteComment(commentId);
+      commentDispatch({ type: REMOVE_COMMENT, payload: commentId });
+    } catch (error) {
+      if (error.response && error.response.data) {
+        commentDispatch({ type: COMMENT_ERROR, payload: error.response.data });
+      }
     }
-    userController.dislike = !userLikeController.dislike;
-    if (userController.dislike) {
-      setArticleDislikeCount(articleDislikeCount + 1);
-    } else {
-      setArticleDislikeCount(
-        articleDislikeCount > 0 ? articleDislikeCount - 1 : 0
-      );
-    }
-    setUserLikeController(userController);
-    // here goes api.post
-    userService
-      .toggleArticleLike(location.pathname, { ...userController })
-      .then((response) => {
-        console.log(response.data);
-      })
-      .catch((error) => {
+  }, []);
+
+  const onLike = useCallback(
+    async ({ like, dislike }) => {
+      // temp
+      if (voteState.userLiked.like || voteState.userLiked.dislike) return;
+      if (like) {
+        voteDispatch({ type: INCREASE_LIKE });
+      } else if (dislike) {
+        voteDispatch({ type: INCREASE_DISLIKE });
+      }
+      try {
+        const response = await userService.toggleArticleLike(
+          location.pathname,
+          {
+            like,
+            dislike,
+          }
+        );
+        voteDispatch({
+          type: SET_USER_LIKED,
+          payload: {
+            userLiked: response.data.like,
+            userDisliked: response.data.dislike,
+          },
+        });
+      } catch (error) {
         if (error.response && error.response.data) {
-          console.log(error.response.data);
+          voteDispatch({ type: VOTE_ERROR, payload: error.response.data });
         }
-      });
-  }
+      }
+    },
+    [location.pathname, voteState]
+  );
 
-  // Article Detail useEffect
+  // useEffect
   useEffect(() => {
     let mounted = true;
     if (mounted) {
-      setLoaded(false);
-      userService
-        .getForumArticle(location.pathname)
-        .then((response) => {
-          setArticle(response.data);
-          setUserLikeController({
-            like: response.data.user_liked,
-            dislike: response.data.user_disliked,
-          });
-          setArticleLikeCount(response.data.like_count);
-          setArticleDislikeCount(response.data.dislike_count);
-          setLoaded(true);
-        })
-        .catch((error) => {
-          if (error.response.status === 401) {
-            history.go(0);
-          }
-          setLoaded(true);
-          console.error(error);
-        });
+      getFetchArticle();
     }
     return () => {
       mounted = false;
     };
-  }, [location.pathname, history]);
+  }, [getFetchArticle]);
 
   useEffect(() => {
     let isMounted = true;
@@ -189,15 +204,13 @@ function ForumDetailTemplate(props) {
     loaded && (
       <ForumDetailComponent
         article={article}
-        articleLikeCount={articleLikeCount}
-        articleDislikeCount={articleDislikeCount}
-        toggleLike={toggleLike}
-        toggleDislike={toggleDislike}
-        userLikeController={userLikeController}
+        onLike={onLike}
+        onUpdate={onUpdate}
+        onDelete={onDelete}
         onChange={onChange}
         onSubmit={onSubmit}
-        state={state}
-        getFetchComments={getFetchComments}
+        commentState={commentState}
+        voteState={voteState}
         setCommentQuery={setCommentQuery}
       />
     )
