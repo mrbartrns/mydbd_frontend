@@ -9,7 +9,7 @@ function ForumDetailComponent(props) {
   const ref = useRef();
   return (
     <article className="board_article">
-      {props.articleState.fetchSuccess && (
+      {props.articleState.fetchSuccess && props.commentState.fetchSuccess && (
         <div className="article_wrapper">
           <div className="article_head">
             <div className="title_row">
@@ -26,12 +26,12 @@ function ForumDetailComponent(props) {
               <div className="article_info">
                 <span className="article_info__head head">추천</span>
                 <span className="article_info__body">
-                  {props.article.like_count}
+                  {props.voteState.likes}
                 </span>
                 <span className="sep"></span>
                 <span className="article_info__head head">비추천</span>
                 <span className="article_info__body">
-                  {props.article.dislike_count}
+                  {props.voteState.dislikes}
                 </span>
                 <span className="sep"></span>
                 <span className="article_info__head head">조회수</span>

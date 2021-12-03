@@ -42,8 +42,6 @@ import {
 
 function ForumDetailTemplate(props) {
   const location = useLocation();
-  const [article, setArticle] = useState({});
-  const [loaded, setLoaded] = useState(false);
 
   const [articleState, articleDispatch] = useReducer(
     articleReducer,
@@ -74,7 +72,6 @@ function ForumDetailTemplate(props) {
           modifiedAt: response.data.dt_modified,
         },
       });
-      setArticle(response.data);
       voteDispatch({
         type: FETCH_LIKES,
         payload: {
@@ -91,13 +88,11 @@ function ForumDetailTemplate(props) {
       });
       articleDispatch({ type: ARTICLE_FETCH_SUCCESS });
       articleDispatch({ type: ARTICLE_LOADED });
-      setLoaded(true);
     } catch (error) {
       if (error.response && error.response.data) {
         articleDispatch({ type: ARTICLE_ERROR, payload: error.response.data });
         articleDispatch({ type: ARTICLE_LOADED });
       }
-      setLoaded(true);
       console.error(error);
     }
   }, [location.pathname]);
@@ -236,7 +231,6 @@ function ForumDetailTemplate(props) {
 
   return (
     <ForumDetailComponent
-      article={article}
       articleState={articleState}
       onLike={onLike}
       onUpdate={onUpdate}
