@@ -6,7 +6,10 @@ export const SET_USER_LIKED = "SET_USER_LIKED";
 export const VOTE_ERROR = "VOTE_ERROR";
 
 export const initialState = {
-  userLiked: false,
+  userLiked: {
+    like: false,
+    dislike: false,
+  },
   likes: 0,
   dislikes: 0,
   error: null,
@@ -23,17 +26,26 @@ export function reducer(state, action) {
     case INCREASE_LIKE:
       return {
         ...state,
-        likes: state.userLiked ? state.likes + 1 : state.likes,
+        likes:
+          !state.userLiked.like && !state.userLiked.dislike
+            ? state.likes + 1
+            : state.likes,
       };
     case INCREASE_DISLIKE:
       return {
         ...state,
-        dislikes: state.userLiked ? state.dislikes + 1 : state.dislikes,
+        dislikes:
+          !state.userLiked.like && !state.userLiked.dislike
+            ? state.dislikes + 1
+            : state.dislikes,
       };
     case SET_USER_LIKED:
       return {
         ...state,
-        userLiked: action.payload,
+        userLiked: {
+          like: action.payload.userLiked,
+          dislike: action.payload.userDisliked,
+        },
       };
     case VOTE_ERROR:
       return {
