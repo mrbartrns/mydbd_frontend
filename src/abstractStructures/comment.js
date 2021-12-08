@@ -12,8 +12,11 @@ export const COMMENT_FETCH_SUCCESS = "COMMENT_FETCH_SUCCESS";
 export const COMMENT_FETCH_FAIL = "COMMENT_FETCH_FAIL";
 export const COMMENT_ERROR = "COMMENT_ERROR";
 export const UPDATE_COMMENT = "UPDATE_COMMENT";
+export const INCREASE_COUNT = "INCREASE_COUNT";
+export const DECREASE_COUNT = "DECREASE_COUNT";
+export const POST_SUB_COMMENT = "POST_SUB_COMMENT";
 
-export const initialiState = {
+export const initialState = {
   inputs: {
     parent: null,
     content: "",
@@ -46,6 +49,16 @@ export function reducer(state, action) {
           content: action.payload.content,
         },
       };
+    case INCREASE_COUNT:
+      return {
+        ...state,
+        count: state.count + 1,
+      };
+    case DECREASE_COUNT:
+      return {
+        ...state,
+        count: state.count > 0 ? state.count - 1 : 0,
+      };
     case PUSH_COMMENTS:
       return {
         ...state,
@@ -59,18 +72,24 @@ export function reducer(state, action) {
     case POST_COMMENT:
       return {
         ...state,
-        // comments: [
-        //   ...new Set([
-        //     ...state.comments.slice(0, action.payload.index),
-        //     action.payload.comment,
-        //     ...state.comments.slice(action.payload.index),
-        //   ]),
-        // ],
-        comments: [
-          ...state.comments.slice(0, action.payload.index),
-          action.payload.comment,
-          ...state.comments.slice(action.payload.index),
-        ],
+        comments: [...state.comments, action.payload],
+      };
+    case POST_SUB_COMMENT:
+      const reversedIndex = [...state.comments]
+        .reverse()
+        .findIndex((el) => el.parent === action.payload.parent);
+      const count = state.comments.length;
+      const index = reversedIndex >= 0 ? count - reversedIndex : reversedIndex;
+      return {
+        ...state,
+        comments:
+          index > -1
+            ? [
+                ...state.comments.slice(0, index),
+                action.payload,
+                ...state.comments.slice(index),
+              ]
+            : [...state.comments],
       };
     // TODO: TEST
     case UPDATE_COMMENT:
