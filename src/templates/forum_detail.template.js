@@ -16,8 +16,10 @@ import {
   COMMENT_FETCH_FAIL,
   COMMENT_ERROR,
   UPDATE_COMMENT,
-  initialiState as initialCommentState,
+  INCREASE_COUNT,
+  initialState as initialCommentState,
   reducer as commentReducer,
+  POST_SUB_COMMENT,
 } from "../abstractStructures/comment";
 
 import {
@@ -40,6 +42,14 @@ import {
   reducer as articleReducer,
 } from "../abstractStructures/article";
 
+import {
+  UPDATE_START_END_INDEX,
+  initialState as initialPaginationState,
+  reducer as paginationReducer,
+  getStartAndEndIndex,
+  UPDATE_PAGINATION_INFO,
+} from "../abstractStructures/paginator";
+
 function ForumDetailTemplate(props) {
   const location = useLocation();
 
@@ -52,9 +62,16 @@ function ForumDetailTemplate(props) {
     initialCommentState
   );
   const [voteState, voteDispatch] = useReducer(voteReducer, initialVoteState);
+  const [paginationState, paginationDispatch] = useReducer(
+    paginationReducer,
+    initialPaginationState
+  );
 
   const [commentQuery, setCommentQuery] = useState({ cp: 1, pagesize: 10 });
+  const [replyFormKey, setReplyFormKey] = useState(null);
+  const PAGINATION_OFFSET = 5;
 
+  // set Article and pagination
   const getFetchArticle = useCallback(async () => {
     articleDispatch({ type: ARTICLE_FETCH_INIT });
     try {
@@ -109,8 +126,30 @@ function ForumDetailTemplate(props) {
         type: REFRESH_COMMENTS,
         payload: response.data.results,
       });
+      console.log(response.data);
       commentDispatch({ type: COMMENT_FETCH_SUCCESS });
       commentDispatch({ type: COMMENT_LOADED });
+
+      /* pagination dispatch */
+      paginationDispatch({
+        type: UPDATE_PAGINATION_INFO,
+        payload: {
+          currentPage: commentQuery.cp,
+          pageSize: commentQuery.pagesize,
+          offset: PAGINATION_OFFSET,
+          count: response.data.count,
+        },
+      });
+      const { start, end } = getStartAndEndIndex(
+        commentQuery.cp,
+        commentQuery.pagesize,
+        PAGINATION_OFFSET,
+        response.data.count
+      );
+      paginationDispatch({
+        type: UPDATE_START_END_INDEX,
+        payload: { start: start, end: end },
+      });
     } catch (error) {
       commentDispatch({ type: COMMENT_FETCH_FAIL });
       if (error.response && error.response.data) {
@@ -129,17 +168,25 @@ function ForumDetailTemplate(props) {
   }, []);
 
   const onSubmit = useCallback(
-    async (comment, index) => {
+    async (comment) => {
       try {
         const response = await userService.postArticleComment(
           location.pathname,
           comment
         );
-        commentDispatch({ type: SET_COUNT, payload: index + 1 });
-        commentDispatch({
-          type: POST_COMMENT,
-          payload: { comment: response.data, index: index },
-        });
+        commentDispatch({ type: INCREASE_COUNT });
+        if (!comment.parent) {
+          commentDispatch({
+            type: POST_COMMENT,
+            payload: response.data,
+          });
+        } else {
+          commentDispatch({
+            type: POST_SUB_COMMENT,
+            payload: response.data,
+          });
+        }
+
         commentDispatch({ type: COMMENT_INPUT_INIT });
       } catch (error) {
         if (error.response && error.response.data) {
@@ -208,6 +255,33 @@ function ForumDetailTemplate(props) {
     [location.pathname, voteState]
   );
 
+  const onNext = useCallback(() => {
+    setCommentQuery((prev) => {
+      return {
+        ...prev,
+        cp: prev.cp + 1,
+      };
+    });
+  }, []);
+
+  const onPrev = useCallback(() => {
+    setCommentQuery((prev) => {
+      return {
+        ...prev,
+        cp: prev.cp > 0 ? prev.cp - 1 : 0,
+      };
+    });
+  }, []);
+
+  const goTo = useCallback((index) => {
+    setCommentQuery((prev) => {
+      return {
+        ...prev,
+        cp: index,
+      };
+    });
+  }, []);
+
   // useEffect
   useEffect(() => {
     let mounted = true;
@@ -239,7 +313,10 @@ function ForumDetailTemplate(props) {
       onSubmit={onSubmit}
       commentState={commentState}
       voteState={voteState}
-      setCommentQuery={setCommentQuery}
+      paginationState={paginationState}
+      onNext={onNext}
+      onPrev={onPrev}
+      goTo={goTo}
     />
   );
 }
