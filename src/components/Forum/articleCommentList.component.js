@@ -1,8 +1,18 @@
 import React from "react";
 
 import CommentWrapper from "./articleCommentWrapper.component";
+import Paginator from "../Paginator/paginator.component";
 
-function ArticleCommentList({ commentState, onUpdate, onSubmit, onDelete }) {
+function ArticleCommentList({
+  commentState,
+  onUpdate,
+  onSubmit,
+  onDelete,
+  paginationState,
+  onNext,
+  onPrev,
+  goTo,
+}) {
   return (
     <div className="list_area">
       {commentState.comments.map((comment) => {
@@ -17,6 +27,17 @@ function ArticleCommentList({ commentState, onUpdate, onSubmit, onDelete }) {
           />
         );
       })}
+      <Paginator
+        pageSize={paginationState.pageSize}
+        currentPage={paginationState.currentPage}
+        offset={paginationState.offset}
+        count={paginationState.count}
+        startIndex={paginationState.startIndex}
+        endIndex={paginationState.endIndex}
+        goTo={goTo}
+        onNext={onNext}
+        onPrev={onPrev}
+      />
     </div>
   );
 }
