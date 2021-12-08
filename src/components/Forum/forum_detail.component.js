@@ -16,7 +16,10 @@ function ForumDetailComponent({
   onChange,
   onDelete,
   onUpdate,
-  setCommentQuery,
+  paginationState,
+  goTo,
+  onNext,
+  onPrev,
 }) {
   const ref = useRef();
   return (
@@ -51,32 +54,22 @@ function ForumDetailComponent({
             {/** Here goes article comment component */}
             <ArticleCommentList
               commentState={commentState}
+              paginationState={paginationState}
               onUpdate={onUpdate}
               onDelete={onDelete}
               onSubmit={onSubmit}
+              goTo={goTo}
+              onPrev={onPrev}
+              onNext={onNext}
             />
           </div>
         </div>
       )}
-      {/** TODO: Add pagination */}
-      <div
-        onClick={() => {
-          setCommentQuery((prev) => {
-            return {
-              ...prev,
-              cp: 2,
-              pagesize: 10,
-            };
-          });
-        }}
-      >
-        추가 댓글 불러오기{" "}
-      </div>
       <form
         className="write_area"
         onSubmit={(e) => {
           e.preventDefault();
-          onSubmit(commentState.inputs, commentState.count);
+          onSubmit(commentState.inputs);
         }}
       >
         <div className="subtitle">댓글 작성</div>
@@ -88,7 +81,7 @@ function ForumDetailComponent({
                 onChange(e, null);
               }}
               spellCheck={false}
-              defaultValue={null}
+              value={commentState.inputs.content}
             />
             <input type="submit" value="작성" />
           </div>
