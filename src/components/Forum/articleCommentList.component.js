@@ -12,6 +12,8 @@ function ArticleCommentList({
   onNext,
   onPrev,
   goTo,
+  replyFormKey,
+  setReplyFormKey,
 }) {
   return (
     <div className="list_area">
@@ -24,6 +26,8 @@ function ArticleCommentList({
             onUpdate={onUpdate}
             onSubmit={onSubmit}
             onDelete={onDelete}
+            replyFormKey={replyFormKey}
+            setReplyFormKey={setReplyFormKey}
           />
         );
       })}

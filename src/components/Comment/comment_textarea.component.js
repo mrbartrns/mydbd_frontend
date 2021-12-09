@@ -10,7 +10,7 @@ function CommentTextarea(props) {
       onChange={props.onChange}
       required={props.required}
       spellCheck={props.spellCheck}
-      defaultValue={props.defaultValue}
+      value={props.value}
     />
   );
 }

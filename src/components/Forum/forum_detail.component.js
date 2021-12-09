@@ -20,6 +20,8 @@ function ForumDetailComponent({
   goTo,
   onNext,
   onPrev,
+  replyFormKey,
+  setReplyFormKey,
 }) {
   const ref = useRef();
   return (
@@ -61,6 +63,8 @@ function ForumDetailComponent({
               goTo={goTo}
               onPrev={onPrev}
               onNext={onNext}
+              replyFormKey={replyFormKey}
+              setReplyFormKey={setReplyFormKey}
             />
           </div>
         </div>
