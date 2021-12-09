@@ -75,11 +75,15 @@ export function reducer(state, action) {
         comments: [...state.comments, action.payload],
       };
     case POST_SUB_COMMENT:
+      console.log("here");
       const reversedIndex = [...state.comments]
         .reverse()
-        .findIndex((el) => el.parent === action.payload.parent);
+        .findIndex(
+          (el) => (el.parent ? el.parent : el.id) === action.payload.parent
+        );
       const count = state.comments.length;
       const index = reversedIndex >= 0 ? count - reversedIndex : reversedIndex;
+      console.log("index:", index);
       return {
         ...state,
         comments:
