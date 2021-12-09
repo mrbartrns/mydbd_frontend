@@ -6,7 +6,6 @@ import ForumListTemplate from "../templates/forum_list.template";
 import ForumDetailTemplate from "../templates/forum_detail.template";
 import ForumEditTemplate from "../templates/forum_edit.template";
 function Forum({ match }) {
-  console.log(match);
   return (
     <>
       <Route exact path={`${match.url}/write`} component={ForumPostTemplate} />

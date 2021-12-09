@@ -99,6 +99,13 @@ a.vrow:hover {
   padding: 0.3rem 0.75rem;
 }
 
+.info_col {
+  cursor: pointer;
+  &:hover {
+    text-decoration: underline;
+  }
+}
+
 .sep {
   &::before {
     content: "|";

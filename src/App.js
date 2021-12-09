@@ -13,7 +13,7 @@ import ListTemplate from "./templates/list.template";
 import DetailTemplate from "./templates/detail.template";
 import LoginTemplate from "./templates/login.template";
 import RegisterTemplate from "./templates/register.template";
-import Forum from "./routes/forum.routes";
+import Forum from "./Routes/forum.routes";
 
 function App(props) {
   // constants

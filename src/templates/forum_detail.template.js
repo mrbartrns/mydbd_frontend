@@ -317,6 +317,8 @@ function ForumDetailTemplate(props) {
       onNext={onNext}
       onPrev={onPrev}
       goTo={goTo}
+      replyFormKey={replyFormKey}
+      setReplyFormKey={setReplyFormKey}
     />
   );
 }
