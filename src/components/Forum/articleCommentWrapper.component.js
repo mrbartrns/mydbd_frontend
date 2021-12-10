@@ -2,9 +2,7 @@ import React, { useState, useCallback } from "react";
 import { connect } from "react-redux";
 
 import CommentTextarea from "../Comment/comment_textarea.component";
-import { useLocation } from "react-router-dom";
 
-// TODO: 내용 채우기
 function CommentWrapper({
   comment,
   onDelete,
@@ -12,13 +10,14 @@ function CommentWrapper({
   user,
   isLoggedIn,
   onSubmit,
-  commentState,
   replyFormKey,
   setReplyFormKey,
+  updateFormKey,
+  setUpdateFormKey,
 }) {
-  const location = useLocation();
+  // subComment state can be used not only on subcomment, but also on update comment
   const [subComment, setSubComment] = useState({
-    parent: comment.id,
+    parent: null,
     content: "",
   });
 
@@ -32,7 +31,6 @@ function CommentWrapper({
     });
   }, []);
 
-  // 버그 수정: 두번째 시도부터 작동 안함
   const onSubSubmit = useCallback(
     async (comment) => {
       try {
@@ -44,13 +42,37 @@ function CommentWrapper({
           };
         });
         setReplyFormKey(null);
+        setUpdateFormKey(null);
       } catch (error) {
         if (error.response && error.response.data) {
           console.log(error.response.data);
         }
       }
     },
-    [onSubmit, setReplyFormKey]
+    [onSubmit, setReplyFormKey, setUpdateFormKey]
+  );
+
+  const onSubUpdate = useCallback(
+    async (commentId, comment) => {
+      try {
+        await onUpdate(commentId, comment);
+        setSubComment((c) => {
+          return {
+            ...c,
+            content: "",
+          };
+        });
+        setReplyFormKey(null);
+        setUpdateFormKey(null);
+      } catch (error) {
+        if (error.response && error.response.data) {
+          console.log(error.response.data);
+        } else {
+          console.error(error);
+        }
+      }
+    },
+    [onUpdate, setReplyFormKey, setUpdateFormKey]
   );
 
   return (
@@ -71,7 +93,24 @@ function CommentWrapper({
                   <span className="sep" />
                   <span className="article_info_delete info_col">삭제</span>
                   <span className="sep" />
-                  <span className="article_info_modify info_col">수정</span>
+                  <span
+                    className="article_info_modify info_col"
+                    onClick={(e) => {
+                      setSubComment((c) => {
+                        return {
+                          ...c,
+                          parent: comment.parent ? comment.parent : null,
+                          content: comment.content,
+                        };
+                      });
+                      setUpdateFormKey((c) =>
+                        c !== comment.id ? comment.id : null
+                      );
+                      setReplyFormKey(() => null);
+                    }}
+                  >
+                    수정
+                  </span>
                 </>
               )}
               {isLoggedIn && (
@@ -83,12 +122,14 @@ function CommentWrapper({
                       setSubComment((c) => {
                         return {
                           ...c,
+                          parent: comment.parent ? comment.parent : comment.id,
                           content: "",
                         };
                       });
                       setReplyFormKey((c) =>
                         c !== comment.id ? comment.id : null
                       );
+                      setUpdateFormKey(() => null);
                     }}
                   >
                     답글
@@ -122,6 +163,34 @@ function CommentWrapper({
                   <CommentTextarea
                     onChange={(e) => {
                       onChange(e, comment.parent ? comment.parent : comment.id);
+                    }}
+                    value={subComment.content}
+                  />
+                  <input type="submit" value="답글 쓰기" />
+                </div>
+              </div>
+            </div>
+          </form>
+        </div>
+      )}
+      {updateFormKey === comment.id && (
+        <div className="reply_form_wrapper re">
+          <form
+            className="reply_form"
+            onSubmit={(e) => {
+              e.preventDefault();
+              onSubUpdate(comment.id, subComment);
+            }}
+          >
+            <div className="comment_item">
+              <div className="comment_content">
+                <div className="info_row">
+                  <span>댓글 수정</span>
+                </div>
+                <div className="message reply">
+                  <CommentTextarea
+                    onChange={(e) => {
+                      onChange(e, comment.parent ? comment.parent : null);
                     }}
                     value={subComment.content}
                   />

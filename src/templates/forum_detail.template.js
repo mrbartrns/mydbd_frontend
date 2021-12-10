@@ -68,6 +68,7 @@ function ForumDetailTemplate(props) {
 
   const [commentQuery, setCommentQuery] = useState({ cp: 1, pagesize: 10 });
   const [replyFormKey, setReplyFormKey] = useState(null);
+  const [updateFormKey, setUpdateFormKey] = useState(null);
   const PAGINATION_OFFSET = 5;
 
   // set Article and pagination
@@ -156,6 +157,7 @@ function ForumDetailTemplate(props) {
         payload: { start: start, end: end },
       });
     } catch (error) {
+      // catch error
       commentDispatch({ type: COMMENT_FETCH_FAIL });
       if (error.response && error.response.data) {
         commentDispatch({ type: COMMENT_ERROR, payload: error.response.data });
@@ -208,7 +210,7 @@ function ForumDetailTemplate(props) {
 
   const onUpdate = useCallback(async (commentId, comment) => {
     try {
-      const response = userService.updateComment(commentId, comment);
+      const response = await userService.updateComment(commentId, comment);
       commentDispatch({ type: UPDATE_COMMENT, payload: response.data });
     } catch (error) {
       if (error.response && error.response.data) {
@@ -325,6 +327,8 @@ function ForumDetailTemplate(props) {
       goTo={goTo}
       replyFormKey={replyFormKey}
       setReplyFormKey={setReplyFormKey}
+      updateFormKey={updateFormKey}
+      setUpdateFormKey={setUpdateFormKey}
     />
   );
 }
