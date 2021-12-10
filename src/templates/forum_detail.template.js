@@ -7,7 +7,6 @@ import {
   COMMENT_INPUT_INIT,
   CHANGE_INPUT,
   REFRESH_COMMENTS,
-  POST_COMMENT,
   REMOVE_COMMENT,
   SET_COUNT,
   LOADED as COMMENT_LOADED,
@@ -126,22 +125,28 @@ function ForumDetailTemplate(props) {
         type: REFRESH_COMMENTS,
         payload: response.data.results,
       });
-      console.log(response.data);
       commentDispatch({ type: COMMENT_FETCH_SUCCESS });
       commentDispatch({ type: COMMENT_LOADED });
 
       /* pagination dispatch */
+      const currentPage =
+        typeof commentQuery.cp === "string"
+          ? Math.floor(
+              (response.data.count > 0 ? response.data.count - 1 : 0) /
+                commentQuery.pagesize
+            ) + 1
+          : commentQuery.cp;
       paginationDispatch({
         type: UPDATE_PAGINATION_INFO,
         payload: {
-          currentPage: commentQuery.cp,
+          currentPage: currentPage,
           pageSize: commentQuery.pagesize,
           offset: PAGINATION_OFFSET,
           count: response.data.count,
         },
       });
       const { start, end } = getStartAndEndIndex(
-        commentQuery.cp,
+        currentPage,
         commentQuery.pagesize,
         PAGINATION_OFFSET,
         response.data.count
@@ -175,10 +180,13 @@ function ForumDetailTemplate(props) {
           comment
         );
         commentDispatch({ type: INCREASE_COUNT });
+        commentDispatch({ type: COMMENT_INPUT_INIT });
         if (!comment.parent) {
-          commentDispatch({
-            type: POST_COMMENT,
-            payload: response.data,
+          setCommentQuery((c) => {
+            return {
+              ...c,
+              cp: "last",
+            };
           });
         } else {
           commentDispatch({
@@ -186,8 +194,6 @@ function ForumDetailTemplate(props) {
             payload: response.data,
           });
         }
-
-        commentDispatch({ type: COMMENT_INPUT_INIT });
       } catch (error) {
         if (error.response && error.response.data) {
           commentDispatch({
