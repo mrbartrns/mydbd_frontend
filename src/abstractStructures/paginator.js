@@ -28,12 +28,16 @@ function getTotalPageCount(offsetCount, pageSize) {
   return Math.floor(offsetCount / pageSize) + 1;
 }
 
+/**
+ * 1 ~ 5까지 1 5 표시, 6부터 10까지는 그 다음 표시
+ * TODO: binding to class
+ */
 export function getStartAndEndIndex(currentPage, pageSize, offset, count) {
   const currentIndex = getCurrentIndex(currentPage);
   const offsetCount = getOffsetCount(count);
   const totalPageCount = getTotalPageCount(offsetCount, pageSize); // total count of pages
-  const start = Math.floor(currentIndex / offset);
-  const end = Math.floor(currentIndex / offset) + offset;
+  const start = Math.floor(currentIndex / offset) * offset;
+  const end = start + offset;
   return {
     start: start,
     end: end <= totalPageCount ? end : totalPageCount,
