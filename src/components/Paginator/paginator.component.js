@@ -18,7 +18,6 @@ export default function Paginator({
   for (let i = startIndex; i < endIndex; i++) {
     paginationArr.push(i + 1);
   }
-  console.log(paginationArr);
   return (
     <div className="paginator">
       <div

@@ -228,7 +228,6 @@ function ForumDetailTemplate(props) {
       const response = await userService.deleteComment(commentId);
       // commentDispatch({ type: REMOVE_COMMENT, payload: commentId });
       commentDispatch({ type: UPDATE_COMMENT, payload: response.data });
-      console.log(response.data);
     } catch (error) {
       if (error.response && error.response.data) {
         commentDispatch({ type: COMMENT_ERROR, payload: error.response.data });
