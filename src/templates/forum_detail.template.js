@@ -49,6 +49,8 @@ import {
 } from "../abstractStructures/paginator";
 
 function ForumDetailTemplate(props) {
+  const PAGINATION_OFFSET = 5;
+  const PAGE_SIZE = 10;
   const location = useLocation();
 
   const [articleState, articleDispatch] = useReducer(
@@ -65,10 +67,12 @@ function ForumDetailTemplate(props) {
     initialPaginationState
   );
 
-  const [commentQuery, setCommentQuery] = useState({ cp: 1, pagesize: 10 });
+  const [commentQuery, setCommentQuery] = useState({
+    cp: 1,
+    pagesize: PAGE_SIZE,
+  });
   const [replyFormKey, setReplyFormKey] = useState(null);
   const [updateFormKey, setUpdateFormKey] = useState(null);
-  const PAGINATION_OFFSET = 5;
 
   // set Article and pagination
   const getFetchArticle = useCallback(async () => {
