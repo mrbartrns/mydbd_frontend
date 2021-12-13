@@ -47,7 +47,7 @@ class UserService {
   }
 
   deleteComment(commentId) {
-    return api.delete("service/comment/" + String(commentId));
+    return api.post("service/comment/" + String(commentId) + "/delete");
   }
 
   getApiDetail(pathname) {

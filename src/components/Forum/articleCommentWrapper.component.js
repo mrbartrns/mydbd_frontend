@@ -165,7 +165,9 @@ function CommentWrapper({
           </div>
           <div className="message">
             <div className="comment_text">
-              <span>{comment.content}</span>
+              <span>
+                {comment.is_deleted ? "삭제된 댓글" : comment.content}
+              </span>
             </div>
           </div>
         </div>

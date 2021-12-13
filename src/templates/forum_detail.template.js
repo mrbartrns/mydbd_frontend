@@ -7,7 +7,6 @@ import {
   COMMENT_INPUT_INIT,
   CHANGE_INPUT,
   REFRESH_COMMENTS,
-  REMOVE_COMMENT,
   SET_COUNT,
   LOADED as COMMENT_LOADED,
   COMMENT_FETCH_INIT,
@@ -220,9 +219,12 @@ function ForumDetailTemplate(props) {
   }, []);
 
   const onDelete = useCallback(async (commentId) => {
+    // Refresh current page after requesting delete api
     try {
-      await userService.deleteComment(commentId);
-      commentDispatch({ type: REMOVE_COMMENT, payload: commentId });
+      const response = await userService.deleteComment(commentId);
+      // commentDispatch({ type: REMOVE_COMMENT, payload: commentId });
+      commentDispatch({ type: UPDATE_COMMENT, payload: response.data });
+      console.log(response.data);
     } catch (error) {
       if (error.response && error.response.data) {
         commentDispatch({ type: COMMENT_ERROR, payload: error.response.data });
