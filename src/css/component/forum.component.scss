@@ -64,6 +64,7 @@ a.vrow:hover {
 }
 
 .article_wrapper {
+  width: 100%;
   margin-top: 1rem;
 }
 
@@ -132,7 +133,7 @@ a.vrow:hover {
 
 /* FIXME: word-break not working */
 .comment_item {
-  width: 100%;
+  width: inherit;
   margin-bottom: 0.9rem;
   word-wrap: break-word;
   word-break: break-all;
