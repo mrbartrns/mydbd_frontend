@@ -21,7 +21,7 @@ function CommentWrapper({
     content: "",
   });
 
-  const onChange = useCallback((e, parent) => {
+  const onSubChange = useCallback((e, parent) => {
     setSubComment((c) => {
       return {
         ...c,
@@ -50,6 +50,23 @@ function CommentWrapper({
       }
     },
     [onSubmit, setReplyFormKey, setUpdateFormKey]
+  );
+
+  const onSubDelete = useCallback(
+    async (commentId) => {
+      const DELETE_MESSAGE = "이 동작은 취소할 수 없습니다. 삭제하시겠습니까?";
+      try {
+        if (window.confirm(DELETE_MESSAGE)) {
+          await onDelete(commentId);
+        }
+      } catch (error) {
+        if (error.response && error.response.data) {
+          console.log(error.response.data);
+        }
+        console.error(error);
+      }
+    },
+    [onDelete]
   );
 
   const onSubUpdate = useCallback(
@@ -91,7 +108,15 @@ function CommentWrapper({
               {user.user.id === comment.author.id && (
                 <>
                   <span className="sep" />
-                  <span className="article_info_delete info_col">삭제</span>
+                  <span
+                    className="article_info_delete info_col"
+                    onClick={(e) => {
+                      e.preventDefault();
+                      onSubDelete(comment.id);
+                    }}
+                  >
+                    삭제
+                  </span>
                   <span className="sep" />
                   <span
                     className="article_info_modify info_col"
@@ -162,7 +187,10 @@ function CommentWrapper({
                 <div className="message reply">
                   <CommentTextarea
                     onChange={(e) => {
-                      onChange(e, comment.parent ? comment.parent : comment.id);
+                      onSubChange(
+                        e,
+                        comment.parent ? comment.parent : comment.id
+                      );
                     }}
                     value={subComment.content}
                   />
@@ -190,7 +218,7 @@ function CommentWrapper({
                 <div className="message reply">
                   <CommentTextarea
                     onChange={(e) => {
-                      onChange(e, comment.parent ? comment.parent : null);
+                      onSubChange(e, comment.parent ? comment.parent : null);
                     }}
                     value={subComment.content}
                   />
