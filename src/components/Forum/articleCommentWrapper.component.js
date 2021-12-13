@@ -76,9 +76,9 @@ function CommentWrapper({
   );
 
   return (
-    <div className={`comment_wrapper${comment.parent ? " re" : ""}`}>
+    <div className={`comment_wrapper`}>
       {/** Comment list remove element */}
-      <div className="comment_item">
+      <div className={`comment_item${comment.parent ? " re" : ""}`}>
         <div className="comment_content">
           <div className="info_row">
             <div className="member_info">
