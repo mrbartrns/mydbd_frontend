@@ -76,8 +76,8 @@ class UserService {
     return axios.isCancel(error);
   }
 
-  getTestApiList() {
-    return axios.get("https://jsonplaceholder.typicode.com/comments");
+  test(data) {
+    return api.post("service/test", data);
   }
 }
 
