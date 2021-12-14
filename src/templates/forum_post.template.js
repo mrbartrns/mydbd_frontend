@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React, { useRef, useCallback } from "react";
 import { connect } from "react-redux";
 import { useHistory } from "react-router-dom";
 
@@ -9,6 +9,19 @@ import userService from "../services/user.service";
 function ForumPostTemplate(props) {
   const history = useHistory();
   const ref = useRef();
+
+  const uploadImage = useCallback(async (blob) => {
+    try {
+      const formData = new FormData();
+      formData.append("image", blob);
+      const response = await userService.uploadImage(formData);
+      return response.data.image;
+    } catch (error) {
+      if (error.response && error.response.data) {
+        console.log(error.response.data);
+      }
+    }
+  }, []);
 
   // TODO: Create title, tags field
   function handleSubmit(e) {
@@ -60,6 +73,13 @@ function ForumPostTemplate(props) {
             usageStatistics={false}
             placeholder="자유롭게 글쓰세요!"
             ref={ref}
+            hooks={{
+              addImageBlobHook: async (blob, callback) => {
+                const imgUrl = await uploadImage(blob);
+                callback(imgUrl, "alt text");
+                return false;
+              },
+            }}
           />
         </div>
         <input type="submit" value="글쓰기" />
