@@ -30,6 +30,10 @@ class UserService {
     return api.put("service" + pathname, data);
   }
 
+  uploadImage(data) {
+    return api.post("service/forum/image/upload", data);
+  }
+
   postComment(pathname, data) {
     return api.post("service/list" + pathname + "/comments/create", data);
   }
