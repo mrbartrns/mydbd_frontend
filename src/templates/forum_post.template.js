@@ -3,8 +3,16 @@ import { connect } from "react-redux";
 import { useHistory } from "react-router-dom";
 
 import { Editor } from "@toast-ui/react-editor";
-import "@toast-ui/editor/dist/toastui-editor.css";
 import userService from "../services/user.service";
+import {
+  SET_TITLE,
+  SET_TAGS,
+  initialState as initialArticleState,
+  reducer as articleReducer,
+} from "../abstractStructures/article";
+import "@toast-ui/editor/dist/toastui-editor.css";
+// TODO: set title, plain text
+// set Image editor
 
 function ForumPostTemplate(props) {
   const history = useHistory();
