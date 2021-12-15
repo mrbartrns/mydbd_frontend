@@ -281,7 +281,7 @@ function ForumDetailTemplate(props) {
     setCommentQuery((prev) => {
       return {
         ...prev,
-        cp: prev.cp > 1 ? prev.cp - 1 : 1,
+        cp: prev.cp - 1,
       };
     });
   }, []);

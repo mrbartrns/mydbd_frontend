@@ -20,11 +20,11 @@ function getCurrentIndex(currentPage) {
   return currentPage - 1;
 }
 
-function getOffsetCount(count) {
+export function getOffsetCount(count) {
   return count > 0 ? count - 1 : 0;
 }
 
-function getTotalPageCount(offsetCount, pageSize) {
+export function getTotalPageCount(offsetCount, pageSize) {
   return Math.floor(offsetCount / pageSize) + 1;
 }
 

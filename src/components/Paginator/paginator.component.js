@@ -2,6 +2,8 @@ import React from "react";
 import {
   getNextOffsetStep,
   getPrevOffsetStep,
+  getOffsetCount,
+  getTotalPageCount,
 } from "../../abstractStructures/paginator";
 export default function Paginator({
   currentPage,
@@ -32,6 +34,11 @@ export default function Paginator({
       <div
         className="page arrow_prev"
         onClick={() => {
+          const FIRST_PAGE_MESSAGE = "첫 번째 페이지입니다.";
+          if (currentPage <= 1) {
+            window.alert(FIRST_PAGE_MESSAGE);
+            return;
+          }
           onPrev();
         }}
       >
@@ -53,6 +60,13 @@ export default function Paginator({
       <div
         className="page arrow_next"
         onClick={() => {
+          const LAST_PAGE_MESSAGE = "마지막 페이지입니다.";
+          const offsetCount = getOffsetCount(count);
+          const totalPageCount = getTotalPageCount(offsetCount, pageSize);
+          if (currentPage >= totalPageCount) {
+            window.alert(LAST_PAGE_MESSAGE);
+            return;
+          }
           onNext();
         }}
       >
