@@ -1,15 +1,9 @@
-import React, { useRef, useCallback } from "react";
+import React, { useRef, useCallback, useState } from "react";
 import { connect } from "react-redux";
 import { useHistory } from "react-router-dom";
 
 import { Editor } from "@toast-ui/react-editor";
 import userService from "../services/user.service";
-import {
-  SET_TITLE,
-  SET_TAGS,
-  initialState as initialArticleState,
-  reducer as articleReducer,
-} from "../abstractStructures/article";
 import "@toast-ui/editor/dist/toastui-editor.css";
 // TODO: set title, plain text
 // set Image editor
@@ -17,6 +11,8 @@ import "@toast-ui/editor/dist/toastui-editor.css";
 function ForumPostTemplate(props) {
   const history = useHistory();
   const ref = useRef();
+  const [title, setTitle] = useState("");
+  const [tags, setTags] = useState([]);
 
   const uploadImage = useCallback(async (blob) => {
     try {
@@ -31,27 +27,39 @@ function ForumPostTemplate(props) {
     }
   }, []);
 
-  // TODO: Create title, tags field
-  function handleSubmit(e) {
-    e.preventDefault();
-    const markdownValue = ref.current.getInstance().getMarkdown();
-    const data = {
-      title: "test title",
-      content: markdownValue,
-      tags: [],
-    };
-    userService
-      .postForumArticle(data)
-      .then((response) => {
-        console.log(response.data);
-      })
-      .catch((error) => {
-        console.error(error);
+  const onSubmit = useCallback(
+    async (e) => {
+      e.preventDefault();
+      try {
+        const markdown = ref.current.getInstance().getMarkdown();
+        const article = {
+          title: title,
+          content: markdown,
+          tags: tags,
+        };
+        const response = await userService.postForumArticle(article);
+        history.push("/forum/article/" + String(response.data.id));
+      } catch (error) {
+        // TODO: React redux error message reducer
         if (error.response && error.response.data) {
           console.log(error.response.data);
+          if (error.response.data.title) {
+            console.log(error.response.data.title);
+          }
+          if (error.response.data.content) {
+            console.log(error.response.data.content);
+          }
         }
-      });
-  }
+        console.error(error);
+      }
+    },
+    [history, title, tags]
+  );
+
+  const onChangeTitle = useCallback((e) => {
+    setTitle(e.target.value);
+  }, []);
+
   if (!props.isLoggedIn) {
     return (
       <div>
@@ -69,8 +77,11 @@ function ForumPostTemplate(props) {
   return (
     <div>
       <h1>글쓰기</h1>
-      <form className="post_wrapper" onSubmit={handleSubmit}>
+      <form className="post_wrapper" onSubmit={onSubmit}>
         {/** Here goes navbar */}
+        <div className="title_wrapper">
+          <input type="text" onChange={onChangeTitle} />
+        </div>
         <div className="editor_wrapper">
           <Editor
             initialValue=""
