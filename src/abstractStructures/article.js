@@ -11,6 +11,7 @@ export const LOADED = "LOADED";
 export const ARTICLE_FETCH_SUCCESS = "ARTICLE_FETCH_SUCCESS";
 export const ARTICLE_FETCH_INIT = "ARTICLE_FETCH_INIT";
 export const ARTICLE_ERROR = "ARTICLE_ERROR";
+export const SET_IMAGE_URL = "SET_IMAGE_URL";
 
 export const initialState = {
   id: null,
@@ -24,6 +25,7 @@ export const initialState = {
   fetchSuccess: false,
   loading: false,
   error: null,
+  imgUrls: [],
 };
 
 export function reducer(state, action) {
