@@ -1,6 +1,6 @@
 import { SET_MESSAGE, CLEAR_MESSAGE } from "../actions/types";
 
-const initialState = {};
+const initialState = { message: null };
 export default function messageReducer(state = initialState, action) {
   const { type, payload } = action;
   switch (type) {
@@ -10,7 +10,10 @@ export default function messageReducer(state = initialState, action) {
         message: typeof payload === String ? payload : { ...payload },
       };
     case CLEAR_MESSAGE:
-      return {};
+      return {
+        ...state,
+        message: null,
+      };
     default:
       return state;
   }

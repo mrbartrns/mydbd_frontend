@@ -5,8 +5,11 @@ import { useHistory } from "react-router-dom";
 import { Editor } from "@toast-ui/react-editor";
 import userService from "../services/user.service";
 import "@toast-ui/editor/dist/toastui-editor.css";
+import ErrorPage from "../components/error.component";
 // TODO: set title, plain text
 // set Image editor
+
+const HTTP_401_UNAUTHORIZED_MESSAGE = "로그인이 필요한 화면입니다.";
 
 function ForumPostTemplate({ isLoggedIn }) {
   const history = useHistory();
@@ -61,18 +64,7 @@ function ForumPostTemplate({ isLoggedIn }) {
   }, []);
 
   if (!isLoggedIn) {
-    return (
-      <div>
-        로그인이 필요합니다.
-        <button
-          onClick={() => {
-            history.goBack();
-          }}
-        >
-          돌아가기
-        </button>
-      </div>
-    );
+    return <ErrorPage message={HTTP_401_UNAUTHORIZED_MESSAGE} />;
   }
   return (
     <div>

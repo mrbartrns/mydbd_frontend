@@ -4,7 +4,7 @@ import {
   getPrevOffsetStep,
   getOffsetCount,
   getTotalPageCount,
-} from "../../abstractStructures/paginator";
+} from "../../abstract_structures/paginator";
 export default function Paginator({
   currentPage,
   offset,

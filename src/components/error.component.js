@@ -1,11 +1,14 @@
 import React from "react";
+import { useHistory } from "react-router-dom";
 
-function Error(props) {
+function ErrorPage({ message }) {
+  const history = useHistory();
   return (
-    <div>
-      <h1>HTTP 404 not found</h1>
+    <div className="error">
+      <h1>{message ? message : "HTTP404ERROR"}</h1>
+      <span onClick={history.goBack}>뒤로가기</span>
     </div>
   );
 }
 
-export default Error;
+export default ErrorPage;

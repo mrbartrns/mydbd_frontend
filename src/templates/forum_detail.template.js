@@ -18,7 +18,7 @@ import {
   initialState as initialCommentState,
   reducer as commentReducer,
   POST_SUB_COMMENT,
-} from "../abstractStructures/comment";
+} from "../abstract_structures/comment";
 
 import {
   FETCH_LIKES,
@@ -28,7 +28,7 @@ import {
   reducer as voteReducer,
   initialState as initialVoteState,
   SET_USER_LIKED,
-} from "../abstractStructures/vote";
+} from "../abstract_structures/vote";
 
 import {
   FETCH_ARTICLE,
@@ -38,7 +38,7 @@ import {
   ARTICLE_ERROR,
   initialState as initialArticleState,
   reducer as articleReducer,
-} from "../abstractStructures/article";
+} from "../abstract_structures/article";
 
 import {
   UPDATE_START_END_INDEX,
@@ -46,7 +46,7 @@ import {
   reducer as paginationReducer,
   getStartAndEndIndex,
   UPDATE_PAGINATION_INFO,
-} from "../abstractStructures/paginator";
+} from "../abstract_structures/paginator";
 
 function ForumDetailTemplate(props) {
   const PAGINATION_OFFSET = 5;
