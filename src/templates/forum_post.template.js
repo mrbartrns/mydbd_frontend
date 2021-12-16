@@ -8,7 +8,7 @@ import "@toast-ui/editor/dist/toastui-editor.css";
 // TODO: set title, plain text
 // set Image editor
 
-function ForumPostTemplate(props) {
+function ForumPostTemplate({ isLoggedIn }) {
   const history = useHistory();
   const ref = useRef();
   const [title, setTitle] = useState("");
@@ -60,7 +60,7 @@ function ForumPostTemplate(props) {
     setTitle(e.target.value);
   }, []);
 
-  if (!props.isLoggedIn) {
+  if (!isLoggedIn) {
     return (
       <div>
         로그인이 필요합니다.
