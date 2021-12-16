@@ -1,6 +1,6 @@
 import React, { useRef } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { SET_MESSAGE, CLEAR_MESSAGE } from "../actions/types";
+import { CLEAR_MESSAGE } from "../actions/types";
 
 const style = { display: "none" };
 function InlineErrorMessage() {
