@@ -20,11 +20,14 @@ function App(props) {
   const history = useHistory();
   const dispatch = props.dispatch;
 
-  // handle logout function
-  const handleLogout = () => {
-    dispatch(logout()).then((response) => {
+  const handleLogout = async () => {
+    try {
+      await dispatch(logout());
       history.go(0);
-    });
+    } catch (error) {
+      // do nothing
+      console.error(error);
+    }
   };
 
   // return router and navbar component
