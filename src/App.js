@@ -14,7 +14,7 @@ import DetailTemplate from "./templates/detail.template";
 import LoginTemplate from "./templates/login.template";
 import RegisterTemplate from "./templates/register.template";
 import Forum from "./routes/forum.routes";
-
+import InlineErrorMessage from "./components/inline_error.component";
 function App(props) {
   // constants
   const history = useHistory();
@@ -35,6 +35,7 @@ function App(props) {
   return (
     <div className="App">
       <Navbar logout={handleLogout} />
+      <InlineErrorMessage />
       <Container md="true">
         <Switch>
           <Route exact path="/" component={Home} />

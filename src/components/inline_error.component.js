@@ -1,19 +1,19 @@
 import React, { useRef } from "react";
-import { connect } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import { SET_MESSAGE, CLEAR_MESSAGE } from "../actions/types";
 
 const style = { display: "none" };
-function InlineErrorMessage({ message }) {
+function InlineErrorMessage() {
   const inlineMessageRef = useRef();
+  const message = useSelector((state) => state.message);
+  const dispatch = useDispatch();
   const CLOSED = " closed";
   const CLASS_NAME = "inline_message_wrapper";
+
   return (
     <div
       className={CLASS_NAME + `${!message ? CLOSED : ""}`}
-      style={
-        inlineMessageRef.current.className === CLASS_NAME + CLOSED
-          ? style
-          : null
-      } // temp
+      style={!message ? style : null} // temp
       ref={inlineMessageRef}
     >
       <div className="inline_message">
@@ -22,7 +22,7 @@ function InlineErrorMessage({ message }) {
       <div className="close_btn">
         <button
           onClick={(e) => {
-            inlineMessageRef.current.className = CLASS_NAME + CLOSED;
+            dispatch({ type: CLEAR_MESSAGE });
           }}
         >
           X
@@ -32,9 +32,10 @@ function InlineErrorMessage({ message }) {
   );
 }
 
-function mapStateToProps(state) {
-  const { message } = state.messageReducer;
-  return { message };
-}
+// function mapStateToProps(state) {
+//   const { message } = state.messageReducer;
+//   return { message };
+// }
 
-export default connect(mapStateToProps)(InlineErrorMessage);
+// export default connect(mapStateToProps)(InlineErrorMessage);
+export default InlineErrorMessage;
