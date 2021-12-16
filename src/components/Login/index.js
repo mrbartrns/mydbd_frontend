@@ -8,6 +8,7 @@ import { connect } from "react-redux";
 // import "../../css/component/loginform.component.scss";
 import "../../css/component/form.component.scss";
 
+// TODO: create auth reducer and set local message
 function LoginComponent(props) {
   return (
     <div className="form-container login">

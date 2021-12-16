@@ -1,6 +1,7 @@
 import React, { useRef } from "react";
 import { connect } from "react-redux";
 
+const style = { display: "none" };
 function InlineErrorMessage({ message }) {
   const inlineMessageRef = useRef();
   const CLOSED = " closed";
@@ -8,6 +9,11 @@ function InlineErrorMessage({ message }) {
   return (
     <div
       className={CLASS_NAME + `${!message ? CLOSED : ""}`}
+      style={
+        inlineMessageRef.current.className === CLASS_NAME + CLOSED
+          ? style
+          : null
+      } // temp
       ref={inlineMessageRef}
     >
       <div className="inline_message">
