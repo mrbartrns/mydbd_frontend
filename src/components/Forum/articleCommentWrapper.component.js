@@ -105,7 +105,7 @@ function CommentWrapper({
               <span className="article_info_datetime info_col">
                 {new Date(comment.dt_created).toLocaleString()}
               </span>
-              {user.user.id === comment.author.id && (
+              {user && user.user.id === comment.author.id && (
                 <>
                   <span className="sep" />
                   <span
