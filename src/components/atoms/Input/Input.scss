@@ -8,11 +8,14 @@ $placeholder-color: #d1d9ff;
   border-radius: $border-radius-standard;
   border: 2px solid $border-color;
   outline: none;
-  font-size: 1.25rem;
   transition: color 0.3s, border-color 0.3s; // transition 시 애니메이션 변화에 대해 정의한다.
 
   &.full-width {
     width: 100%;
+  }
+
+  &.big {
+    font-size: 1.25rem;
   }
 
   &:focus {

@@ -14,15 +14,20 @@ function Button({
   className,
   children,
   style,
-  invert,
   disabled,
   onClick,
+  fullWidth,
+  big,
   flex,
   ...rest
 }) {
   return (
     <button
-      className={cx("button", { invert, disabled, flex }, className)}
+      className={cx(
+        "button",
+        { disabled, flex, "full-width": fullWidth, big },
+        className
+      )}
       style={{ ...style }}
       {...rest}
       onClick={disabled ? null : onClick}
