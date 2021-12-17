@@ -1,16 +1,15 @@
 import React from "react";
 import classNames from "classnames/bind";
-import styles from "./Wrapper.scss";
+import styles from "./InputWrapper.scss";
 
 const cp = classNames.bind(styles);
 
-function Wrapper({
+function InputWrapper({
   borderTopLeftRadius,
   borderTopRightRadius,
   borderBottomLeftRadius,
   borderBottomRightRadius,
   border,
-  padding,
   className,
   children,
   ...rest
@@ -18,14 +17,13 @@ function Wrapper({
   return (
     <div
       className={cp(
-        "wrapper",
+        "input-wrapper",
         {
           border,
           "border-top-left-radius": borderTopLeftRadius,
           "border-top-right-radius": borderTopRightRadius,
           "border-bottom-left-radius": borderBottomLeftRadius,
           "border-bottom-right-radius": borderBottomRightRadius,
-          padding,
         },
         className
       )}
@@ -36,4 +34,4 @@ function Wrapper({
   );
 }
 
-export default Wrapper;
+export default InputWrapper;

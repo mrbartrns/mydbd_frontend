@@ -21,6 +21,7 @@
   &.big {
     padding: 1rem 2rem;
     font-size: 1.25rem;
+    font-weight: 600;
   }
 
   background-color: #efefef;
@@ -34,6 +35,6 @@
   }
 }
 
-.wrapper + .btn-wrapper {
+.input-wrapper + .button {
   margin-top: 1rem;
 }

@@ -1,9 +1,6 @@
-.wrapper {
+.input-wrapper {
   transition: border-color 0.3s;
-
-  &.padding {
-    padding: 1rem;
-  }
+  padding: 1rem;
 
   &.border {
     border: 1px solid #bdbdbd;
