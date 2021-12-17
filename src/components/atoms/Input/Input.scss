@@ -1,16 +1,26 @@
 $border-radius-standard: 2px;
 $border-color: #ccc;
+$input-focus-border-color: #9fa8da;
+$placeholder-color: #d1d9ff;
 
 .input {
   padding: 0.5rem;
   border-radius: $border-radius-standard;
-  border: 1px solid $border-color;
+  border: 2px solid $border-color;
+  outline: none;
   font-size: 1.25rem;
   transition: color 0.3s, border-color 0.3s; // transition 시 애니메이션 변화에 대해 정의한다.
   &.full-width {
     width: 100%;
   }
-  &.focus {
-    border: 1px solid;
+  &:focus {
+    border: 2px solid $input-focus-border-color;
+    &::placeholder {
+      color: $placeholder-color;
+    }
   }
+}
+
+.input + .input {
+  margin-top: 0.5rem;
 }
