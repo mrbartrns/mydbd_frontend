@@ -1,6 +1,7 @@
 // react imports
 import React from "react";
 import { connect } from "react-redux";
+import Input from "../atoms/Input";
 
 // custom imports
 
@@ -12,7 +13,8 @@ import "../../css/component/form.component.scss";
 function LoginComponent(props) {
   return (
     <div className="form-container login">
-      <h2>로그인</h2>
+      <Input type="text" borderNone fullWidth placeHolder={"아이디"} />
+      {/* <h2>로그인</h2>
       <form
         className="form__form login__form"
         onSubmit={props.handleLoginSubmit}
@@ -49,7 +51,7 @@ function LoginComponent(props) {
           )}
         </div>
         <input type="submit" className="login__submit" />
-      </form>
+      </form> */}
     </div>
   );
 }

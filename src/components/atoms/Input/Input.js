@@ -4,10 +4,14 @@ import styles from "./Input.scss";
 
 const cx = classNames.bind(styles);
 
-function Input({ big, fullWidth, className, ...rest }) {
+function Input({ big, fullWidth, borderNone, className, ...rest }) {
   return (
     <input
-      className={cx("input", { big, "full-width": fullWidth }, className)}
+      className={cx(
+        "input",
+        { big, "full-width": fullWidth, "border-none": borderNone },
+        className
+      )}
       {...rest}
     />
   );
