@@ -15,6 +15,7 @@ import LoginTemplate from "./templates/login.template";
 import RegisterTemplate from "./templates/register.template";
 import Forum from "./routes/forum.routes";
 import InlineErrorMessage from "./components/inline_error.component";
+import LoginModal from "./components/organisms/LoginModal/LoginModal";
 function App(props) {
   // constants
   const history = useHistory();
@@ -39,7 +40,7 @@ function App(props) {
       <Container md="true">
         <Switch>
           <Route exact path="/" component={Home} />
-          <Route exact path="/login" component={LoginTemplate} />
+          <Route exact path="/login" component={LoginModal} />
           <Route exact path="/signup" component={RegisterTemplate} />
           <Route path="/forum" component={Forum} />
           <Route path="/:category/list" component={ListTemplate} />
