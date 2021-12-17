@@ -16,7 +16,7 @@ function LoginComponent(props) {
   return (
     <div className="form-container login">
       <InputWrapper border padding borderTopLeftRadius borderTopRightRadius>
-        <Input type="text" borderNone fullWidth placeHolder={"아이디"} />
+        <Input type="text" borderNone fullWidth placeHolder="아이디" />
       </InputWrapper>
       <InputWrapper
         border
