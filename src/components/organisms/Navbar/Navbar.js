@@ -8,11 +8,18 @@ import NavbarRight from "../../molecules/NavbarRight";
 const cx = classNames.bind(style);
 
 function Navbar({ className, ...rest }) {
-  <BNavbar bg="light" expand="lg" className={cx("navbar", className)} {...rest}>
-    <Container>
-      <NavbarLeft />
-      <NavbarRight />
-    </Container>
-  </BNavbar>;
+  return (
+    <BNavbar
+      bg="light"
+      expand="lg"
+      className={cx("navbar", className)}
+      {...rest}
+    >
+      <Container>
+        <NavbarLeft />
+        <NavbarRight />
+      </Container>
+    </BNavbar>
+  );
 }
 export default Navbar;

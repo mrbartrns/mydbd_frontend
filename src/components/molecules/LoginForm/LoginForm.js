@@ -13,6 +13,8 @@ function LoginForm({
   password,
   error,
   className,
+  onChangeUsername,
+  onChangePassword,
   onSubmit,
   ...rest
 }) {
@@ -23,16 +25,25 @@ function LoginForm({
       onSubmit={onSubmit ? onSubmit : null}
       {...rest}
     >
-      <InputWrapper border padding borderTopLeftRadius borderTopRightRadius>
-        <Input type="text" borderNone fullWidth placeHolder="아이디" />
+      <InputWrapper border borderTopLeftRadius borderTopRightRadius>
+        <Input
+          type="text"
+          borderNone
+          fullWidth
+          placeholder="아이디"
+          value={username}
+          onChange={onChangeUsername}
+        />
       </InputWrapper>
-      <InputWrapper
-        border
-        padding
-        borderBottomLeftRadius
-        borderBottomRightRadius
-      >
-        <Input type="password" borderNone fullWidth placeHolder="비밀번호" />
+      <InputWrapper border borderBottomLeftRadius borderBottomRightRadius>
+        <Input
+          type="password"
+          borderNone
+          fullWidth
+          placeholder="비밀번호"
+          value={password}
+          onChange={onChangePassword}
+        />
       </InputWrapper>
       {error && <Alert variant="danger">{ERROR_MESSAGE}</Alert>}
       <Button fullWidth big>

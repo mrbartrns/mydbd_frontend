@@ -7,7 +7,15 @@ import LoginForm from "../../molecules/LoginForm";
 
 const cx = classNames.bind(style);
 
-function LoginModal({ username, password, error, onSubmit, className }) {
+function LoginModal({
+  username,
+  password,
+  error,
+  onSubmit,
+  onChangeUsername,
+  onChangePassword,
+  className,
+}) {
   return (
     <Modal.Dialog className={cx("login-modal", {}, className)}>
       <Modal.Header>
@@ -19,6 +27,8 @@ function LoginModal({ username, password, error, onSubmit, className }) {
           password={password}
           error={error}
           onSubmit={onSubmit}
+          onChangeUsername={onChangeUsername}
+          onChangePassword={onChangePassword}
         />
       </Modal.Body>
       <Modal.Footer className={cx("login-modal-footer")}>

@@ -4,10 +4,10 @@ import style from "./NavbarWrapper.scss";
 
 const cx = classNames.bind(style);
 
-function NavbarWrapper({ chilren, ...rest }) {
+function NavbarWrapper({ children, ...rest }) {
   return (
-    <div classNmae={cx("navbar-wrapper")} {...rest}>
-      {chilren}
+    <div className={cx("navbar-wrapper")} {...rest}>
+      {children}
     </div>
   );
 }

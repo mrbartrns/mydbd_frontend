@@ -1,5 +1,5 @@
 import React from "react";
-import { NavbarWrapper } from "../../atoms/NavbarWrapper";
+import NavbarWrapper from "../../atoms/NavbarWrapper";
 import { Nav } from "react-bootstrap";
 
 function NavbarRight() {

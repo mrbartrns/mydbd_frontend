@@ -10,7 +10,7 @@ function PageTemplate({ children }) {
   return (
     <div className={cx("page")}>
       <Navbar />
-      <Container md>{children}</Container>
+      <Container>{children}</Container>
     </div>
   );
 }

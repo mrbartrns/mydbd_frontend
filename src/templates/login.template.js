@@ -4,7 +4,7 @@ import { connect, useDispatch } from "react-redux";
 import { Redirect, useHistory } from "react-router";
 
 // custom imports
-import { login } from "../actions/auth";
+import { login } from "../../actions/auth";
 import LoginComponent from "../components/Login";
 
 // functions
