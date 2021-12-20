@@ -45,6 +45,7 @@ function LoginForm({
           onChange={onChangePassword}
         />
       </InputWrapper>
+      {/** TODO: set error from page */}
       {error && <Alert variant="danger">{ERROR_MESSAGE}</Alert>}
       <Button fullWidth big>
         로그인
