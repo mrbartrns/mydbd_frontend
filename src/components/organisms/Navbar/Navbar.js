@@ -1,10 +1,5 @@
 import React from "react";
-import {
-  Navbar as BNavbar,
-  Container,
-  Nav,
-  NavDropdown,
-} from "react-bootstrap";
+import { Navbar as BNavbar, Container } from "react-bootstrap";
 import classNames from "classnames/bind";
 import style from "./Navbar.scss";
 import NavbarLeft from "../../molecules/NavbarLeft";

@@ -10,3 +10,5 @@ function NavbarRight() {
     </NavbarWrapper>
   );
 }
+
+export default NavbarRight;
