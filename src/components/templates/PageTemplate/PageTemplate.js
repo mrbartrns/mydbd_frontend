@@ -9,7 +9,7 @@ const cx = classNames.bind(style);
 function PageTemplate({ children }) {
   return (
     <div className={cx("page")}>
-      <Navbar />
+      {/* <Navbar /> */}
       <Container md>{children}</Container>
     </div>
   );
