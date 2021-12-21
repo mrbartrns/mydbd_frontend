@@ -25,6 +25,7 @@ function ListItemLink({
           "justify-content-center": justfyContentCenter,
           "algin-items-center": alignItemsCenter,
           head,
+          flex,
         },
         className
       )}

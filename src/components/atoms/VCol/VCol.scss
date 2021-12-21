@@ -1,12 +1,15 @@
 .vcol {
   margin-right: 1rem;
+  &.title {
+    width: 100%;
+  }
   &.sn {
     width: 3rem;
   }
   &.author {
     width: 6rem;
   }
-  &.time {
+  &.date {
     width: 4rem;
   }
   &.hit {

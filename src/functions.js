@@ -53,7 +53,7 @@ export function isValidToken(token) {
   return decodedJwt["exp"] * 1000 < new Date().getTime() ? false : true;
 }
 
-export function foramttedDateString(rawDate) {
+export function formattedDateString(rawDate) {
   const fullDate = new Date(rawDate);
   const strMinute = fullDate.getMinutes().toString();
   const strHour = fullDate.getHours().toString();
@@ -80,7 +80,7 @@ export function foramttedDateString(rawDate) {
   );
   const formatedDate =
     comparedFullDate < comparedNowDate
-      ? `${strYear}-${strMonth}-${strDate}`
+      ? `${strMonth}-${strDate}`
       : `${strHour}:${strMinute}`;
 
   return formatedDate;

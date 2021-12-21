@@ -1,5 +1,6 @@
 .list-item-link {
-  border: 1px solid #cdcdcd;
+  justify-content: space-between;
+  border-bottom: 1px solid #cdcdcd;
   color: #333333;
 
   &.head {
@@ -11,10 +12,10 @@
     border-bottom-right-radius: 2px;
   }
   &:active {
-    background-color: #b1b1b1;
+    background-color: #fafafa;
   }
   &:hover {
-    background-color: #fefefe;
+    background-color: #fafafa;
   }
   &:visited {
     color: #cdcdcd;
@@ -22,10 +23,6 @@
 
   &.flex {
     display: flex;
-  }
-
-  &.justify-content-center {
-    justify-content: center;
   }
 
   &.algin-items-center {

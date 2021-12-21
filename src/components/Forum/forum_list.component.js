@@ -3,7 +3,7 @@ import React from "react";
 import "../../css/component/forum.component.scss";
 import { Link } from "react-router-dom";
 
-import { foramttedDateString } from "../../functions";
+import { formattedDateString } from "../../functions";
 
 function ForumListComponent(props) {
   return (
@@ -48,7 +48,7 @@ function ForumListComponent(props) {
                 <div className="vcol col_author">{article.author.username}</div>
                 <div className="vcol col_time">
                   <time dateTime={article.dt_created}></time>
-                  {foramttedDateString(article.dt_created)}
+                  {formattedDateString(article.dt_created)}
                 </div>
                 <div className="vcol col_hit">{article.hit}</div>
                 <div className="vcol col_rate">

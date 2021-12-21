@@ -7,4 +7,8 @@
   &.align-items-center {
     align-items: center;
   }
+
+  &.top {
+    flex: 1;
+  }
 }

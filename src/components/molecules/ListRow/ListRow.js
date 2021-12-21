@@ -2,11 +2,21 @@ import React from "react";
 import ListItem from "../../atoms/ListItem";
 import FlexBox from "../../atoms/FlexBox";
 import VCol from "../../atoms/VCol";
+import classNames from "classnames/bind";
+import style from "./ListRow.scss";
 
-function ListRow({ className, children }) {
+const cx = classNames.bind(style);
+
+function ListRow({ className, style }) {
   return (
-    <ListItem flex head alignItemsCenter={true}>
-      <FlexBox>
+    <ListItem
+      flex
+      head
+      alignItemsCenter
+      className={cx("list-row", className)}
+      style={style}
+    >
+      <FlexBox className="top">
         <VCol className={"sn"}>...</VCol>
         <VCol className={"title"}>제목</VCol>
       </FlexBox>

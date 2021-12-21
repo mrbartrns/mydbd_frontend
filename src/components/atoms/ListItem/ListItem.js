@@ -11,20 +11,17 @@ function ListItem({
   style,
   flex,
   head,
-  justfyContentCenter,
   alignItemsCenter,
-  to,
   ...rest
 }) {
   return (
-    <Link
-      to={to}
+    <div
       className={cx(
         "list-item",
         {
-          "justify-content-center": justfyContentCenter,
           "algin-items-center": alignItemsCenter,
           head,
+          flex,
         },
         className
       )}
@@ -32,7 +29,7 @@ function ListItem({
       {...rest}
     >
       {children}
-    </Link>
+    </div>
   );
 }
 

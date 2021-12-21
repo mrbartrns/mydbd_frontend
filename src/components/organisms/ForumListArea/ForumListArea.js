@@ -5,25 +5,35 @@ import ListRow from "../../molecules/ListRow";
 import ListItemLink from "../../atoms/ListItemLink";
 import FlexBox from "../../atoms/FlexBox";
 import VCol from "../../atoms/VCol";
-import { formatedDateString } from "../../../functions";
+import { formattedDateString } from "../../../functions";
 
 const cx = classNames.bind(style);
+
+const rowStyle = {
+  padding: "0.5rem 0.5rem",
+};
 
 function ForumListArea({ className, posts, ...rest }) {
   return (
     <div className={cx("forum-list-area", className)} {...rest}>
-      <ListRow />
+      <ListRow style={rowStyle} />
       {posts.map((post) => {
         return (
-          <ListItemLink key={post.id}>
-            <FlexBox>
+          <ListItemLink
+            key={post.id}
+            flex
+            alignItemsCenter
+            to={`/forum/article/${post.id}`}
+            style={rowStyle}
+          >
+            <FlexBox className="top">
               <VCol className={"sn"}>{post.id}</VCol>
               <VCol className={"title"}>{post.title}</VCol>
             </FlexBox>
             <FlexBox>
               <VCol className={"author"}>{post.author.username}</VCol>
-              <VCol className={"time"}>
-                {formatedDateString(post.dt_created)}
+              <VCol className={"date"}>
+                {formattedDateString(post.dt_created)}
               </VCol>
               <VCol className={"hit"}>{post.hit}</VCol>
               <VCol className={"rate"}>
