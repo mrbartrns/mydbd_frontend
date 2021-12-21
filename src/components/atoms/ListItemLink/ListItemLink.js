@@ -1,11 +1,11 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import classNames from "classnames/bind";
-import style from "./ListItem.scss";
+import style from "./ListItemLink.scss";
 
 const cx = classNames.bind(style);
 
-function ListItem({
+function ListItemLink({
   className,
   children,
   style,
@@ -20,7 +20,7 @@ function ListItem({
     <Link
       to={to}
       className={cx(
-        "list-item",
+        "list-item-link",
         {
           "justify-content-center": justfyContentCenter,
           "algin-items-center": alignItemsCenter,
@@ -36,4 +36,4 @@ function ListItem({
   );
 }
 
-export default ListItem;
+export default ListItemLink;

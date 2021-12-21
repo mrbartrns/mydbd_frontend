@@ -6,18 +6,9 @@
     border-top-left-radius: 2px;
     border-top-right-radius: 2px;
   }
-  &:last-child {
-    border-bottom-left-radius: 2px;
-    border-bottom-right-radius: 2px;
-  }
-  &:active {
-    background-color: #b1b1b1;
-  }
-  &:hover {
-    background-color: #fefefe;
-  }
-  &:visited {
-    color: #cdcdcd;
+
+  .head {
+    font-weight: 600;
   }
 
   &.flex {

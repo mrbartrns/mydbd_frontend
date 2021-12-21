@@ -1,0 +1,18 @@
+.vcol {
+  margin-right: 1rem;
+  &.sn {
+    width: 3rem;
+  }
+  &.author {
+    width: 6rem;
+  }
+  &.time {
+    width: 4rem;
+  }
+  &.hit {
+    width: 3rem;
+  }
+  &.rate {
+    width: 3rem;
+  }
+}
