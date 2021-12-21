@@ -5,7 +5,7 @@ import ForumPostTemplate from "../templates/forum_post.template";
 import ForumListTemplate from "../templates/forum_list.template";
 import ForumDetailTemplate from "../templates/forum_detail.template";
 import ForumEditTemplate from "../templates/forum_edit.template";
-function Forum({ match }) {
+function ForumRoute({ match }) {
   return (
     <>
       <Route exact path={`${match.url}/write`} component={ForumPostTemplate} />
@@ -24,4 +24,4 @@ function Forum({ match }) {
   );
 }
 
-export default Forum;
+export default ForumRoute;

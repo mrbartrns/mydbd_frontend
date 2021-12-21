@@ -11,7 +11,7 @@ import ListTemplate from "./templates/list.template";
 import DetailTemplate from "./templates/detail.template";
 import LoginPage from "./components/pages/LoginPage";
 import RegisterPage from "./components/pages/RegisterPage/RegisterPage";
-import Forum from "./routes/forum.routes";
+import ForumRoute from "./routes/forum.routes";
 import InlineErrorMessage from "./components/inline_error.component";
 
 function App(props) {
@@ -39,7 +39,7 @@ function App(props) {
         <Route exact path="/" component={HomePage} />
         <Route exact path="/login" component={LoginPage} />
         <Route exact path="/signup" component={RegisterPage} />
-        <Route path="/forum" component={Forum} />
+        <Route path="/forum" component={ForumRoute} />
         <Route path="/:category/list" component={ListTemplate} />
         <Route path="/:category/:id" component={DetailTemplate} />
         <Route path="/my404" component={Error} />
