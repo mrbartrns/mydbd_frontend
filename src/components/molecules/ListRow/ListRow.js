@@ -1,11 +1,7 @@
 import React from "react";
-import classNames from "classnames/bind";
-import style from "./ListeRow.scss";
 import ListItem from "../../atoms/ListItem";
 import FlexBox from "../../atoms/FlexBox";
 import VCol from "../../atoms/VCol";
-
-const cx = classNames.bind(style);
 
 function ListRow({ className, children, ...rest }) {
   return (
