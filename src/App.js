@@ -10,7 +10,7 @@ import Error from "./components/error.component";
 import ListTemplate from "./templates/list.template";
 import DetailTemplate from "./templates/detail.template";
 import LoginPage from "./components/pages/LoginPage";
-import RegisterTemplate from "./templates/register.template";
+import RegisterPage from "./components/pages/RegisterPage/RegisterPage";
 import Forum from "./routes/forum.routes";
 import InlineErrorMessage from "./components/inline_error.component";
 
@@ -38,7 +38,7 @@ function App(props) {
       <Switch>
         <Route exact path="/" component={HomePage} />
         <Route exact path="/login" component={LoginPage} />
-        <Route exact path="/signup" component={RegisterTemplate} />
+        <Route exact path="/signup" component={RegisterPage} />
         <Route path="/forum" component={Forum} />
         <Route path="/:category/list" component={ListTemplate} />
         <Route path="/:category/:id" component={DetailTemplate} />
