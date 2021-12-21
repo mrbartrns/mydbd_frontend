@@ -1,5 +1,4 @@
 import React from "react";
-import { Link } from "react-router-dom";
 import classNames from "classnames/bind";
 import style from "./ListItem.scss";
 
@@ -12,6 +11,7 @@ function ListItem({
   flex,
   head,
   alignItemsCenter,
+  flexStart,
   ...rest
 }) {
   return (
@@ -20,6 +20,7 @@ function ListItem({
         "list-item",
         {
           "algin-items-center": alignItemsCenter,
+          "justify-content-flex-start": flexStart,
           head,
           flex,
         },

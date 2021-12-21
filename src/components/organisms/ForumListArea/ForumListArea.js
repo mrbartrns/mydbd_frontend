@@ -10,7 +10,8 @@ import { formattedDateString } from "../../../functions";
 const cx = classNames.bind(style);
 
 const rowStyle = {
-  padding: "0.5rem 0.5rem",
+  padding: "0.4rem 0.6rem",
+  backgroundColor: "transparent",
 };
 
 function ForumListArea({ className, posts, ...rest }) {
