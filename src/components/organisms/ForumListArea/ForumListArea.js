@@ -11,7 +11,6 @@ const cx = classNames.bind(style);
 
 const rowStyle = {
   padding: "0.4rem 0.6rem",
-  backgroundColor: "transparent",
 };
 
 function ForumListArea({ className, posts, ...rest }) {
