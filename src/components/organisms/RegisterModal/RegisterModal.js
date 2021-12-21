@@ -2,22 +2,24 @@ import React from "react";
 import { Modal } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import classNames from "classnames/bind";
-import style from "./LoginModal.scss";
+import style from "./RegisterModal.scss";
 import RegisterForm from "../../molecules/RegisterForm/RegisterForm";
 
 const cx = classNames.bind(style);
 
-function RegisterModal(
+function RegisterModal({
   username,
   password,
+  passwordConfirm,
   email,
   onChangeUsername,
   onChangePassword,
+  onChangePasswordConfirm,
   onChangeEmail,
   onSubmit,
   className,
   ...rest
-) {
+}) {
   return (
     <Modal.Dialog className={cx("register-modal", {}, className)} {...rest}>
       <Modal.Header>
@@ -27,9 +29,11 @@ function RegisterModal(
         <RegisterForm
           username={username}
           password={password}
+          passwordConfirm={passwordConfirm}
           email={email}
           onChangeUsername={onChangeUsername}
           onChangePassword={onChangePassword}
+          onChangePasswordConfirm={onChangePasswordConfirm}
           onChangeEmail={onChangeEmail}
           onSubmit={onSubmit}
         />

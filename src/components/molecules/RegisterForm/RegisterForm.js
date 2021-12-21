@@ -11,11 +11,13 @@ const cx = classNames.bind(style);
 function RegisterForm({
   username,
   password,
+  passwordConfirm,
   email,
   error,
   className,
   onChangeUsername,
   onChangePassword,
+  onChangePasswordConfirm,
   onChangeEmail,
   onSubmit,
   ...rest
@@ -46,7 +48,7 @@ function RegisterForm({
           onChange={onChangeEmail}
         />
       </InputWrapper>
-      <InputWrapper border borderBottomLeftRadius borderBottomRightRadius>
+      <InputWrapper border>
         <Input
           type="password"
           borderNone
@@ -56,8 +58,18 @@ function RegisterForm({
           onChange={onChangePassword}
         />
       </InputWrapper>
+      <InputWrapper border>
+        <Input
+          type="password"
+          borderNone
+          fullWidth
+          placeholder="비밀번호 확인"
+          value={passwordConfirm}
+          onChange={onChangePasswordConfirm}
+        />
+      </InputWrapper>
       {error && <Alert variant="danger">{error}</Alert>}
-      <Button fullwidth big type="submit">
+      <Button fullWidth big onClick={onSubmit}>
         회원가입
       </Button>
     </Form>

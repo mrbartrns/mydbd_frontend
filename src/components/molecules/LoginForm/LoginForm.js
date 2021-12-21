@@ -47,7 +47,7 @@ function LoginForm({
       </InputWrapper>
       {/** TODO: set error from page */}
       {error && <Alert variant="danger">{ERROR_MESSAGE}</Alert>}
-      <Button fullWidth big>
+      <Button fullWidth big onClick={onSubmit}>
         로그인
       </Button>
     </Form>
