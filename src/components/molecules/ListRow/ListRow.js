@@ -3,7 +3,7 @@ import ListItem from "../../atoms/ListItem";
 import FlexBox from "../../atoms/FlexBox";
 import VCol from "../../atoms/VCol";
 
-function ListRow({ className, children, ...rest }) {
+function ListRow({ className, children }) {
   return (
     <ListItem flex head alignItemsCenter={true}>
       <FlexBox>
