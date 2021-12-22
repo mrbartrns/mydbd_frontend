@@ -30,7 +30,7 @@ function Paginator({
     );
   }
   return (
-    <Pagination className={cx("paginator", className)}>
+    <Pagination className={cx(className)}>
       <Pagination.Prev onClick={onPrev} />
       {items}
       <Pagination.Next onClick={onNext} />
