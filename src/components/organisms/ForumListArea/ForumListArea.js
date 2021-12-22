@@ -5,6 +5,7 @@ import ListRow from "../../molecules/ListRow";
 import ListItemLink from "../../atoms/ListItemLink";
 import FlexBox from "../../atoms/FlexBox";
 import VCol from "../../atoms/VCol";
+import Paginator from "../../molecules/Paginator/Paginator";
 import { formattedDateString } from "../../../functions";
 
 const cx = classNames.bind(style);
@@ -13,11 +14,19 @@ const rowStyle = {
   padding: "0.4rem 0.6rem",
 };
 
-function ForumListArea({ className, posts, ...rest }) {
+function ForumListArea({
+  className,
+  postState,
+  paginationState,
+  onPrev,
+  onNext,
+  goTo,
+  ...rest
+}) {
   return (
     <div className={cx("forum-list-area", className)} {...rest}>
       <ListRow style={rowStyle} />
-      {posts.map((post) => {
+      {postState.list.map((post) => {
         return (
           <ListItemLink
             key={post.id}
@@ -43,6 +52,16 @@ function ForumListArea({ className, posts, ...rest }) {
           </ListItemLink>
         );
       })}
+      <FlexBox justifyContentCenter className={cx("article-paginator")}>
+        <Paginator
+          currentPage={paginationState.currentPage}
+          startIndex={paginationState.startIndex}
+          endIndex={paginationState.endIndex}
+          onPrev={onPrev}
+          onNext={onNext}
+          goTo={goTo}
+        />
+      </FlexBox>
     </div>
   );
 }

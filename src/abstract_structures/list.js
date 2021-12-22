@@ -6,6 +6,7 @@ export const FETCH_FAIL = "FETCH_FAIL";
 export const REFRESH_LIST = "REFRESH_LIST";
 export const ERROR = "ERROR";
 export const SET_COUNT = "SET_COUNT";
+export const LOADED = "LOADED";
 
 export const initialState = {
   count: 0,
@@ -32,6 +33,16 @@ export function reducer(state, action) {
         ...state,
         loading: false,
         error: null,
+      };
+    case LOADING:
+      return {
+        ...state,
+        loading: true,
+      };
+    case LOADED:
+      return {
+        ...state,
+        loading: false,
       };
     case FETCH_SUCCESS:
       return {

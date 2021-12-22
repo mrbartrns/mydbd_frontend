@@ -1,5 +1,4 @@
-import React, { useState, useEffect } from "react";
-import { useHistory } from "react-router-dom";
+import React, { useState, useEffect, useReducer, useCallback } from "react";
 import userService from "../../services/user.service";
 import ForumListArea from "../../components/organisms/ForumListArea";
 import {
@@ -7,11 +6,13 @@ import {
   FETCH_SUCCESS,
   FETCH_FAIL,
   ERROR,
+  SET_COUNT,
   REFRESH_LIST,
   initialState as initialPostState,
   reducer as postReducer,
+  LOADING,
+  LOADED,
 } from "../../abstract_structures/list";
-
 import {
   UPDATE_START_END_INDEX,
   initialState as initialPaginationState,
@@ -21,30 +22,109 @@ import {
 } from "../../abstract_structures/paginator";
 
 function ForumListContainer() {
-  const history = useHistory();
-  const [posts, setPosts] = useState([]);
+  const PAGINATION_OFFSET = 5;
+  const PAGE_SIZE = 30;
+  const [postState, postDispatch] = useReducer(postReducer, initialPostState);
+  const [paginationState, paginationDispatch] = useReducer(
+    paginationReducer,
+    initialPaginationState
+  );
+  const [listQuery, setListQuery] = useState({ page: 1, pagesize: PAGE_SIZE });
+
+  const getFetchArticleList = useCallback(async () => {
+    postDispatch({ type: FETCH_INIT });
+    postDispatch({ type: LOADING });
+    try {
+      // fetch article list
+      const response = await userService.getForumList({ ...listQuery });
+      postDispatch({ type: SET_COUNT, payload: response.data.count });
+      postDispatch({ type: REFRESH_LIST, payload: response.data.results });
+      postDispatch({ type: FETCH_SUCCESS });
+      postDispatch({ type: LOADED });
+      //pagination dispatch
+      const currentPage =
+        typeof listQuery.page === "string"
+          ? Math.floor(
+              (response.data.count > 0 ? response.data.count - 1 : 0) /
+                listQuery.pagesize
+            ) + 1
+          : listQuery.page;
+      paginationDispatch({
+        type: UPDATE_PAGINATION_INFO,
+        payload: {
+          currentPage: currentPage,
+          pageSize: listQuery.pagesize,
+          offset: PAGINATION_OFFSET,
+          count: response.data.count,
+        },
+      });
+      const { start, end } = getStartAndEndIndex(
+        currentPage,
+        listQuery.pagesize,
+        PAGINATION_OFFSET,
+        response.data.count
+      );
+      paginationDispatch({
+        type: UPDATE_START_END_INDEX,
+        payload: { start: start, end: end },
+      });
+    } catch (error) {
+      postDispatch({ type: FETCH_FAIL });
+      postDispatch({ type: LOADED });
+      if (error.response && error.response.data) {
+        postDispatch({ type: ERROR, payload: error.response.data });
+        console.log(error.response.data);
+      }
+      console.error(error);
+    }
+  }, [listQuery]);
+
+  const onNext = useCallback(() => {
+    setListQuery((prev) => {
+      return {
+        ...prev,
+        page: prev.page + 1,
+      };
+    });
+  }, []);
+
+  const onPrev = useCallback(() => {
+    setListQuery((prev) => {
+      return {
+        ...prev,
+        page: prev.page - 1,
+      };
+    });
+  }, []);
+
+  const goTo = useCallback((index) => {
+    setListQuery((prev) => {
+      return {
+        ...prev,
+        page: index,
+      };
+    });
+  }, []);
+
   useEffect(() => {
-    // TODO: Modify api with query string for pagination
-    let mount = true;
-    if (mount) {
-      userService
-        .getForumList()
-        .then((response) => {
-          setPosts(response.data.results);
-        })
-        .catch((error) => {
-          // error status === 401 이면 다시 불러오도록 설정한다.
-          if (error.response.status === 401) {
-            history.go(0);
-          }
-          console.log(error.response);
-        });
+    let mounted = true;
+    if (mounted) {
+      getFetchArticleList();
     }
     return () => {
-      mount = false;
+      mounted = false;
     };
-  }, [history]);
-  return <ForumListArea posts={posts} />;
+  }, [getFetchArticleList]);
+
+  return (
+    <ForumListArea
+      postState={postState}
+      paginationState={paginationState}
+      onPrev={onPrev}
+      onNext={onNext}
+      goTo={goTo}
+    />
+  );
 }
 
 export default ForumListContainer;
