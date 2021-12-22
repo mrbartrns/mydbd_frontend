@@ -140,6 +140,7 @@ export function reducer(state, action) {
       return {
         ...state,
         fetchSuccess: false,
+        loading: false,
       };
     case COMMENT_ERROR:
       return {
