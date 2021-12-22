@@ -22,7 +22,6 @@ export const initialState = {
     content: "",
   },
   count: 0,
-  commentIdSet: new Set(),
   comments: [],
   fetchSuccess: false,
   loading: false,
@@ -75,7 +74,6 @@ export function reducer(state, action) {
         comments: [...state.comments, action.payload],
       };
     case POST_SUB_COMMENT:
-      console.log("here");
       const reversedIndex = [...state.comments]
         .reverse()
         .findIndex(
@@ -83,7 +81,6 @@ export function reducer(state, action) {
         );
       const count = state.comments.length;
       const index = reversedIndex >= 0 ? count - reversedIndex : reversedIndex;
-      console.log("index:", index);
       return {
         ...state,
         comments:
@@ -95,7 +92,6 @@ export function reducer(state, action) {
               ]
             : [...state.comments],
       };
-    // TODO: TEST
     case UPDATE_COMMENT:
       return {
         ...state,
