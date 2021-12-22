@@ -21,6 +21,7 @@ import {
   initialState as initialVoteState,
   SET_USER_LIKED,
 } from "../../abstract_structures/vote";
+import ForumContent from "../../components/organisms/ForumContent/ForumContent";
 
 function ForumContentContainer() {
   const location = useLocation();
@@ -102,7 +103,16 @@ function ForumContentContainer() {
     },
     [location.pathname, voteState]
   );
-  return <div></div>;
+  useEffect(() => {
+    let mounted = true;
+    if (mounted) {
+      getFetchArticle();
+    }
+    return () => {
+      mounted = false;
+    };
+  }, [getFetchArticle]);
+  return <ForumContent article={articleState} vote={voteState} />;
 }
 
 export default ForumContentContainer;

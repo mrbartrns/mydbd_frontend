@@ -1,10 +1,9 @@
 import React from "react";
-import classNames from "classnames/bind";
-import styles from "./ForumDetailPage.scss";
+// import classNames from "classnames/bind";
+// import styles from "./ForumDetailPage.scss";
 import PageTemplate from "../../templates/PageTemplate";
 import ForumDetailTemplate from "../../templates/ForumDetailTemplate";
-
-const cx = classNames.bind(styles);
+import ForumContentContainer from "../../../containers/ForumContentContainer/ForumContentContainer";
 
 function ForumDetailPage() {
   return (
@@ -13,7 +12,7 @@ function ForumDetailPage() {
        * Helmet has to contain meta data of article (og title, image ...)
        */}
       <ForumDetailTemplate>
-        {/** DetailContainer */}
+        <ForumContentContainer />
         {/** CommentContainer */}
       </ForumDetailTemplate>
     </PageTemplate>

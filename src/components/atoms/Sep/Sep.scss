@@ -1,0 +1,6 @@
+.sep {
+  &::before {
+    content: "|";
+    margin: 0 0.3rem;
+  }
+}

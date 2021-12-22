@@ -4,9 +4,9 @@ import style from "./VCol.scss";
 
 const cx = classNames.bind(style);
 
-function VCol({ className, children, ...rest }) {
+function VCol({ className, head, children, ...rest }) {
   return (
-    <div className={cx("vcol", className)} {...rest}>
+    <div className={cx("vcol", { head }, className)} {...rest}>
       {children}
     </div>
   );

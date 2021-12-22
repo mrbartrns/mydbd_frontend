@@ -8,6 +8,7 @@ function FlexBox({
   className,
   justifyContentCenter,
   alignItemsCenter,
+  justifyContentSpaceBetween,
   children,
   ...rest
 }) {
@@ -18,6 +19,7 @@ function FlexBox({
         {
           "justify-content-center": justifyContentCenter,
           "align-items-center": alignItemsCenter,
+          "justify-content-space-between": justifyContentSpaceBetween,
         },
         className
       )}
