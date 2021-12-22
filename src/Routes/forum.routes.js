@@ -4,6 +4,7 @@ import ForumPostTemplate from "../templates/forum_post.template";
 import ForumDetailTemplate from "../templates/forum_detail.template";
 import ForumEditTemplate from "../templates/forum_edit.template";
 import ForumListPage from "../components/pages/ForumListPage";
+import ForumDetailPage from "../components/pages/ForumDetailPage";
 
 function ForumRoute({ match }) {
   return (
@@ -13,7 +14,7 @@ function ForumRoute({ match }) {
       <Route
         exact
         path={`${match.url}/article/:id`}
-        component={ForumDetailTemplate}
+        component={ForumDetailPage}
       />
       <Route
         exact
