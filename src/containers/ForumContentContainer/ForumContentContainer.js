@@ -1,0 +1,108 @@
+import React, { useState, useEffect, useReducer, useCallback } from "react";
+import { useLocation } from "react-router-dom";
+import userService from "../../services/user.service";
+
+import {
+  FETCH_ARTICLE,
+  ARTICLE_FETCH_INIT,
+  ARTICLE_FETCH_SUCCESS,
+  LOADED as ARTICLE_LOADED,
+  ARTICLE_ERROR,
+  initialState as initialArticleState,
+  reducer as articleReducer,
+} from "../../abstract_structures/article";
+
+import {
+  FETCH_LIKES,
+  INCREASE_LIKE,
+  INCREASE_DISLIKE,
+  VOTE_ERROR,
+  reducer as voteReducer,
+  initialState as initialVoteState,
+  SET_USER_LIKED,
+} from "../../abstract_structures/vote";
+
+function ForumContentContainer() {
+  const location = useLocation();
+  const [articleState, articleDispatch] = useReducer(
+    articleReducer,
+    initialArticleState
+  );
+  const [voteState, voteDispatch] = useReducer(voteReducer, initialVoteState);
+  const getFetchArticle = useCallback(async () => {
+    articleDispatch({ type: ARTICLE_FETCH_INIT });
+    try {
+      const response = await userService.getForumArticle(location.pathname);
+      articleDispatch({
+        type: FETCH_ARTICLE,
+        payload: {
+          id: response.data.id,
+          author: response.data.author,
+          title: response.data.title,
+          content: response.data.content,
+          tags: response.data.tags,
+          hit: response.data.hit,
+          createdAt: response.data.dt_created,
+          modifiedAt: response.data.dt_modified,
+        },
+      });
+      voteDispatch({
+        type: FETCH_LIKES,
+        payload: {
+          likes: response.data.like_count,
+          dislikes: response.data.dislike_count,
+        },
+      });
+      voteDispatch({
+        type: SET_USER_LIKED,
+        payload: {
+          userLiked: response.data.user_liked,
+          userDisliked: response.data.user_disliked,
+        },
+      });
+      articleDispatch({ type: ARTICLE_FETCH_SUCCESS });
+      articleDispatch({ type: ARTICLE_LOADED });
+    } catch (error) {
+      if (error.response && error.response.data) {
+        articleDispatch({ type: ARTICLE_ERROR, payload: error.response.data });
+        articleDispatch({ type: ARTICLE_LOADED });
+      }
+      console.error(error);
+    }
+  }, [location.pathname]);
+  const onLike = useCallback(
+    async ({ like, dislike }) => {
+      // temp
+      if (voteState.userLiked.like || voteState.userLiked.dislike) return;
+      if (like) {
+        voteDispatch({ type: INCREASE_LIKE });
+      } else if (dislike) {
+        voteDispatch({ type: INCREASE_DISLIKE });
+      }
+      try {
+        const response = await userService.toggleArticleLike(
+          location.pathname,
+          {
+            like,
+            dislike,
+          }
+        );
+        voteDispatch({
+          type: SET_USER_LIKED,
+          payload: {
+            userLiked: response.data.like,
+            userDisliked: response.data.dislike,
+          },
+        });
+      } catch (error) {
+        if (error.response && error.response.data) {
+          voteDispatch({ type: VOTE_ERROR, payload: error.response.data });
+        }
+      }
+    },
+    [location.pathname, voteState]
+  );
+  return <div></div>;
+}
+
+export default ForumContentContainer;
