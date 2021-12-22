@@ -15,6 +15,7 @@ function Paginator({
   onPrev,
   goTo,
   pageSize,
+  className,
 }) {
   const items = [];
   for (let index = startIndex; index < endIndex; index++) {
@@ -29,7 +30,7 @@ function Paginator({
     );
   }
   return (
-    <Pagination>
+    <Pagination className={cx("paginator", className)}>
       <Pagination.Prev onClick={onPrev} />
       {items}
       <Pagination.Next onClick={onNext} />
