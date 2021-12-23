@@ -3,13 +3,14 @@ import { Container } from "react-bootstrap";
 import classNames from "classnames/bind";
 import style from "./PageTemplate.scss";
 import Navbar from "../../organisms/Navbar";
+import NavbarContainer from "../../../containers/NavbarConatiner/NavbarContainer";
 
 const cx = classNames.bind(style);
 
 function PageTemplate({ children }) {
   return (
     <div className={cx("page")}>
-      <Navbar />
+      <NavbarContainer />
       <Container>{children}</Container>
     </div>
   );

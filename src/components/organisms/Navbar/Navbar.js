@@ -7,7 +7,7 @@ import NavbarRight from "../../molecules/NavbarRight";
 
 const cx = classNames.bind(style);
 
-function Navbar({ className, ...rest }) {
+function Navbar({ className, isLoggedIn, onLogout, user, ...rest }) {
   return (
     <BNavbar
       bg="light"
@@ -17,7 +17,7 @@ function Navbar({ className, ...rest }) {
     >
       <Container>
         <NavbarLeft />
-        <NavbarRight />
+        <NavbarRight isLoggedIn={isLoggedIn} onLogout={onLogout} user={user} />
       </Container>
     </BNavbar>
   );

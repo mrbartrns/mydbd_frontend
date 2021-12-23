@@ -15,26 +15,8 @@ import ForumRoute from "./routes/forum.routes";
 import InlineErrorMessage from "./components/inline_error.component";
 
 function App(props) {
-  // constants
-  const history = useHistory();
-  const dispatch = props.dispatch;
-
-  const handleLogout = async () => {
-    try {
-      await dispatch(logout());
-      history.go(0);
-    } catch (error) {
-      // do nothing
-      console.error(error);
-    }
-  };
-
-  // return router and navbar component
-  // TODO: Separate All routes
   return (
     <div className="App">
-      {/* <Navbar logout={handleLogout} /> */}
-      <InlineErrorMessage />
       <Switch>
         <Route exact path="/" component={HomePage} />
         <Route exact path="/login" component={LoginPage} />
