@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useReducer, useCallback } from "react";
+import React, { useEffect, useReducer, useCallback } from "react";
 import { useLocation } from "react-router-dom";
 import userService from "../../services/user.service";
 
@@ -73,13 +73,8 @@ function ForumContentContainer() {
   }, [location.pathname]);
   const onLike = useCallback(
     async ({ like, dislike }) => {
-      // temp
+      // if click either like or dislike, user can't cancel the choice
       if (voteState.userLiked.like || voteState.userLiked.dislike) return;
-      if (like) {
-        voteDispatch({ type: INCREASE_LIKE });
-      } else if (dislike) {
-        voteDispatch({ type: INCREASE_DISLIKE });
-      }
       try {
         const response = await userService.toggleArticleLike(
           location.pathname,
@@ -88,6 +83,11 @@ function ForumContentContainer() {
             dislike,
           }
         );
+        if (like) {
+          voteDispatch({ type: INCREASE_LIKE });
+        } else if (dislike) {
+          voteDispatch({ type: INCREASE_DISLIKE });
+        }
         voteDispatch({
           type: SET_USER_LIKED,
           payload: {
@@ -112,7 +112,9 @@ function ForumContentContainer() {
       mounted = false;
     };
   }, [getFetchArticle]);
-  return <ForumContent article={articleState} vote={voteState} />;
+  return (
+    <ForumContent article={articleState} vote={voteState} onLike={onLike} />
+  );
 }
 
 export default ForumContentContainer;
