@@ -1,6 +1,6 @@
 import React, { useState, useCallback } from "react";
 import { connect } from "react-redux";
-import { Redirect, useHistory } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 import LoginModal from "../../components/organisms/LoginModal/LoginModal";
 import { login } from "../../actions/auth";
 
@@ -15,11 +15,6 @@ function LoginContainer({ isLoggedIn, dispatch }) {
   const onSubmit = useCallback(
     async (e) => {
       e.preventDefault();
-      if (isLoggedIn) {
-        window.alert("이미 로그인하셨습니다.");
-        history.goBack();
-        return;
-      }
       try {
         await dispatch(login(userData.username, userData.password));
         history.goBack();
@@ -35,7 +30,7 @@ function LoginContainer({ isLoggedIn, dispatch }) {
         }
       }
     },
-    [history, isLoggedIn, userData, dispatch]
+    [history, userData, dispatch]
   );
 
   const onChangeUsername = useCallback((e) => {
@@ -55,11 +50,6 @@ function LoginContainer({ isLoggedIn, dispatch }) {
       };
     });
   }, []);
-
-  if (isLoggedIn) {
-    window.alert("이미 로그인하셨습니다.");
-    return <Redirect to="/" />;
-  }
 
   return (
     <LoginModal
