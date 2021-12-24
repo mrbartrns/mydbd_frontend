@@ -4,7 +4,7 @@ import React from "react";
 import PageTemplate from "../../templates/PageTemplate";
 import ForumDetailTemplate from "../../templates/ForumDetailTemplate";
 import ForumContentContainer from "../../../containers/ForumContentContainer/ForumContentContainer";
-
+import ForumCommentContainer from "../../../containers/ForumCommentContainer/ForumCommentContainer";
 function ForumDetailPage() {
   return (
     <PageTemplate>
@@ -13,7 +13,7 @@ function ForumDetailPage() {
        */}
       <ForumDetailTemplate>
         <ForumContentContainer />
-        {/** CommentContainer */}
+        <ForumCommentContainer />
       </ForumDetailTemplate>
     </PageTemplate>
   );

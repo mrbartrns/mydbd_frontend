@@ -1,0 +1,30 @@
+.forum-comment {
+  margin-bottom: 0.75em;
+  font-size: 0.95rem;
+  &.re {
+    padding-left: 2rem;
+    .comment-info {
+      background-color: #f6f6f6;
+    }
+  }
+  .comment-info {
+    background-color: #f1f1f1;
+  }
+  .span-link {
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+}
+
+.comment-info {
+  border-radius: 3px;
+  padding: 0.4rem 0.5rem;
+}
+
+.comment-message {
+  padding: 0.55rem 0.55rem;
+  line-height: 1.5;
+  word-break: break-word;
+  word-wrap: break-word;
+}
