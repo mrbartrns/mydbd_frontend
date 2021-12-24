@@ -9,10 +9,16 @@ import SpanLink from "../../atoms/SpanLink";
 
 const cx = classNames.bind(styles);
 
-function ForumComment({ comment, re, children, ...rest }) {
+function ForumComment({ comment, re, byAuthor, children, ...rest }) {
   return (
-    <Box className={cx("forum-comment", { re })} {...rest}>
-      <FlexBox justifyContentSpaceBetween className={cx("comment-info")}>
+    <Box
+      className={cx("forum-comment", { re, "by-author": byAuthor })}
+      {...rest}
+    >
+      <FlexBox
+        justifyContentSpaceBetween
+        className={cx("comment-info", { "by-author": byAuthor })}
+      >
         <FlexBox>
           <SpanLink>{comment.author.username}</SpanLink>
         </FlexBox>

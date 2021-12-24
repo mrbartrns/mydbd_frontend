@@ -1,14 +1,19 @@
 .forum-comment {
   margin-bottom: 0.75em;
-  font-size: 0.95rem;
   &.re {
-    padding-left: 2rem;
+    margin-left: 2rem;
     .comment-info {
       background-color: #f6f6f6;
+    }
+    &.by-author {
+      background-color: rgba(240, 173, 78, 0.05);
     }
   }
   .comment-info {
     background-color: #f1f1f1;
+    &.by-author {
+      background-color: rgba(240, 173, 78, 0.3);
+    }
   }
   .span-link {
     &:hover {

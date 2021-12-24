@@ -25,8 +25,9 @@ import {
   UPDATE_PAGINATION_INFO,
 } from "../../abstract_structures/paginator";
 import userService from "../../services/user.service";
+import { connect } from "react-redux";
 
-function ForumCommentContainer() {
+function ForumCommentContainer({ user }) {
   const PAGINATION_OFFSET = 5;
   const PAGE_SIZE = 10;
   const location = useLocation();
@@ -197,7 +198,6 @@ function ForumCommentContainer() {
       isMounted = false;
     };
   }, [getFetchComments]);
-
   return (
     <ForumCommentArea
       commentState={commentState}
@@ -213,8 +213,14 @@ function ForumCommentContainer() {
       setReplyFormKey={setReplyFormKey}
       updateFormKey={updateFormKey}
       setUpdateFormKey={setUpdateFormKey}
+      user={user.user}
     />
   );
 }
 
-export default ForumCommentContainer;
+function mapStateToProps(state) {
+  const { user } = state.authReducer;
+  return { user };
+}
+
+export default connect(mapStateToProps)(ForumCommentContainer);
