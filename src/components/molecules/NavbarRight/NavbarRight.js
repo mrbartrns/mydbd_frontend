@@ -3,7 +3,6 @@ import NavbarWrapper from "../../atoms/NavbarWrapper";
 import { Nav } from "react-bootstrap";
 
 function NavbarRight({ isLoggedIn, user, onLogout, ...rest }) {
-  console.log(isLoggedIn, user);
   return (
     <NavbarWrapper>
       {!isLoggedIn ? (

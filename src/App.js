@@ -1,7 +1,6 @@
 import React from "react";
 import { Route, Switch, useHistory } from "react-router-dom";
 import { connect } from "react-redux";
-import { logout } from "./actions/auth";
 
 // custom imports
 import HomePage from "./components/pages/HomePage";
@@ -12,7 +11,6 @@ import DetailTemplate from "./templates/detail.template";
 import LoginPage from "./components/pages/LoginPage";
 import RegisterPage from "./components/pages/RegisterPage/RegisterPage";
 import ForumRoute from "./routes/forum.routes";
-import InlineErrorMessage from "./components/inline_error.component";
 
 function App(props) {
   return (

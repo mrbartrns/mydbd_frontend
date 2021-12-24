@@ -1,10 +1,13 @@
 import React from "react";
 import { withRouter, useHistory } from "react-router-dom";
+import { useDispatch } from "react-redux";
 import { isValidToken } from "../functions";
 import TokenService from "../services/token.service";
 
 // TODO: separate options when check automatically login
 function AuthVerify(props) {
+  // if accessToken is Expired, automatically logout
+  // axios interceptor automatically refresh access token
   const history = useHistory();
   history.listen(() => {
     const refreshToken = TokenService.getLocalRefreshToken();
