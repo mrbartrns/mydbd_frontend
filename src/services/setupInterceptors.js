@@ -5,12 +5,23 @@ import { refreshToken } from "../actions/auth";
 import { isValidToken } from "../functions";
 import { LOGOUT } from "../actions/types";
 
-const TOKEN_EXPIRED_MESSAGE =
-  "토큰이 만료되어 로그아웃되었습니다. 다시 로그인 해주세요.";
+let refreshTokenPromise;
+
 /**
  * request, response를 받을때 error를 정의하는 interceptor
  */
 const setup = (store) => {
+  const { dispatch } = store;
+  const getAccessToken = async () => {
+    const rs = TokenService.getLocalRefreshToken();
+    const response = await axiosInstance.post("user/token/refresh", {
+      refresh: rs,
+    });
+    const accessToken = response.data.access;
+    dispatch(refreshToken(accessToken));
+    TokenService.updateLocalAccessToken(accessToken);
+    return accessToken;
+  };
   axiosInstance.interceptors.request.use(
     (config) => {
       const token = TokenService.getLocalAccessToken();
@@ -24,7 +35,6 @@ const setup = (store) => {
     }
   );
 
-  const { dispatch } = store;
   axiosInstance.interceptors.response.use(
     (res) => {
       return res;
@@ -32,33 +42,18 @@ const setup = (store) => {
     async (err) => {
       const originalConfig = err.config;
       if (originalConfig.url !== "/user/login" && err.response) {
-        if (
-          err.response &&
-          err.response.status === 401 &&
-          !originalConfig._retry
-        ) {
-          originalConfig._retry = true;
-          const rs = TokenService.getLocalRefreshToken();
-          try {
-            const response = await axiosInstance.post("user/token/refresh", {
-              refresh: rs,
+        if (err.response && err.response.status === 401) {
+          if (!refreshTokenPromise) {
+            refreshTokenPromise = getAccessToken().then((token) => {
+              refreshTokenPromise = null;
+              return token;
             });
-            const accessToken = response.data.access;
-
-            console.log("토큰 재발행");
-            // Change redux state access
-            dispatch(refreshToken(accessToken));
-
-            TokenService.updateLocalAccessToken(accessToken);
-
-            return axiosInstance(originalConfig);
-          } catch (_error) {
-            if (_error.response && _error.response.data) {
-              return Promise.reject(_error.response.data);
-            }
-            return Promise.reject(_error);
           }
         }
+        return refreshTokenPromise.then((token) => {
+          originalConfig.headers["Authorization"] = "Bearer " + token;
+          return axiosInstance(originalConfig);
+        });
       }
       return Promise.reject(err);
     }
