@@ -39,12 +39,6 @@ const setup = (store) => {
         ) {
           originalConfig._retry = true;
           const rs = TokenService.getLocalRefreshToken();
-          if (!isValidToken(rs)) {
-            window.alert(TOKEN_EXPIRED_MESSAGE);
-            TokenService.removeUser();
-            dispatch({ type: LOGOUT });
-            return axiosInstance(originalConfig);
-          }
           try {
             const response = await axiosInstance.post("user/token/refresh", {
               refresh: rs,

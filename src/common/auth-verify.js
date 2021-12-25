@@ -3,17 +3,20 @@ import { withRouter, useHistory } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { isValidToken } from "../functions";
 import TokenService from "../services/token.service";
+import { logout } from "../actions/auth";
 
 // TODO: separate options when check automatically login
-function AuthVerify(props) {
+function AuthVerify() {
   // if accessToken is Expired, automatically logout
   // axios interceptor automatically refresh access token
+  const dispatch = useDispatch();
   const history = useHistory();
   history.listen(() => {
     const refreshToken = TokenService.getLocalRefreshToken();
 
     if (!isValidToken(refreshToken)) {
-      props.logout();
+      window.alert("토큰이 만료되어 자동으로 로그아웃 되었습니다.");
+      dispatch(logout());
     }
   });
   return <div />;
