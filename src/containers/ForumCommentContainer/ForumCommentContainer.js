@@ -213,7 +213,7 @@ function ForumCommentContainer({ user }) {
       setReplyFormKey={setReplyFormKey}
       updateFormKey={updateFormKey}
       setUpdateFormKey={setUpdateFormKey}
-      user={user.user}
+      user={user && user.user ? user.user : null}
     />
   );
 }
