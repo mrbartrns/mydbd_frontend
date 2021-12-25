@@ -10,7 +10,7 @@ const cx = classNames.bind(style);
 function PageTemplate({ children }) {
   return (
     <div className={cx("page")}>
-      <AuthVerify />
+      {/* <AuthVerify /> */}
       <NavbarContainer />
       <Container>{children}</Container>
     </div>

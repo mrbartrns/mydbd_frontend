@@ -12,8 +12,8 @@ function AuthVerify() {
   const dispatch = useDispatch();
   const history = useHistory();
   history.listen(() => {
+    console.log("here");
     const refreshToken = TokenService.getLocalRefreshToken();
-
     if (!isValidToken(refreshToken)) {
       window.alert("토큰이 만료되어 자동으로 로그아웃 되었습니다.");
       dispatch(logout());
