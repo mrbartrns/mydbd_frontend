@@ -1,5 +1,6 @@
 import React, { useState, useCallback } from "react";
 import { connect } from "react-redux";
+import setAutoHeight from "../../common/set-auto-height";
 import CommentForm from "../../components/molecules/CommentForm";
 import ForumComment from "../../components/molecules/ForumComment/ForumComment";
 
@@ -121,6 +122,7 @@ function ForumSubCommentContainer({
             }
           }}
           onChange={(e) => {
+            setAutoHeight(e);
             if (replyFormKey === comment.id) {
               return onSubChange(
                 e,
@@ -132,11 +134,13 @@ function ForumSubCommentContainer({
           }}
           value={subComment.content}
         >
-          {replyFormKey === comment.id
-            ? "답글 쓰기"
-            : updateFormKey === comment.id
-            ? "댓글 수정"
-            : null}
+          <span className="title">
+            {replyFormKey === comment.id
+              ? "답글 쓰기"
+              : updateFormKey === comment.id
+              ? "댓글 수정"
+              : null}
+          </span>
         </CommentForm>
       )}
     </>
