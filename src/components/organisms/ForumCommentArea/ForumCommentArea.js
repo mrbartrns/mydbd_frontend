@@ -2,11 +2,11 @@ import React from "react";
 import classNames from "classnames";
 import styles from "./ForumCommentArea.scss";
 import Box from "../../atoms/Box/Box";
-import ForumComment from "../../molecules/ForumComment/ForumComment";
 import Paginator from "../../molecules/Paginator";
 import FlexBox from "../../atoms/FlexBox";
 import CommentTextarea from "../../molecules/CommentTextArea";
 import { Form } from "react-bootstrap";
+import ForumSubCommentContainer from "../../../containers/ForumSubCommentContainer/ForumSubCommentContainer";
 
 const cx = classNames.bind(styles);
 
@@ -34,14 +34,31 @@ function ForumCommentArea({
       {commentState.fetchSuccess &&
         commentState.comments.map((comment) => {
           return (
-            <ForumComment
+            // <ForumComment
+            //   key={comment.id}
+            //   comment={comment}
+            //   re={comment.parent ? true : false}
+            //   byAuthor={comment.parent && user?.id === comment.author.id}
+            //   onUpdate={onUpdate}
+            //   onDelete={onDelete}
+            //   replyFormKey={replyFormKey}
+            //   setReplyFormKey={setReplyFormKey}
+            //   updateFormKey={updateFormKey}
+            //   setUpdateFormKey={updateFormKey}
+            // >
+            //   {comment.content}
+            // </ForumComment>
+            <ForumSubCommentContainer
               key={comment.id}
               comment={comment}
-              re={comment.parent ? true : false}
-              byAuthor={comment.parent && user?.id === comment.author.id}
-            >
-              {comment.content}
-            </ForumComment>
+              onDelete={onDelete}
+              onUpdate={onUpdate}
+              onSubmit={onSubmit}
+              replyFormKey={replyFormKey}
+              setReplyFormKey={setReplyFormKey}
+              updateFormKey={updateFormKey}
+              setUpdateFormKey={setUpdateFormKey}
+            />
           );
         })}
       <FlexBox className={cx("comment-paginator-box")}>
@@ -70,7 +87,10 @@ function ForumCommentArea({
         }
       >
         <h2>댓글 쓰기</h2>
-        <CommentTextarea onChange={(e) => onChange(e, null)} />
+        <CommentTextarea
+          required
+          onChange={onChange ? (e) => onChange(e, null) : null}
+        />
       </Form>
     </div>
   );
