@@ -3,6 +3,8 @@ import classNames from "classnames";
 import styles from "./ForumCommentArea.scss";
 import Box from "../../atoms/Box/Box";
 import ForumComment from "../../molecules/ForumComment/ForumComment";
+import Paginator from "../../molecules/Paginator";
+import FlexBox from "../../atoms/FlexBox";
 
 const cx = classNames.bind(styles);
 
@@ -40,6 +42,21 @@ function ForumCommentArea({
             </ForumComment>
           );
         })}
+      <FlexBox className={cx("comment-paginator-box")}>
+        {commentState.fetchSuccess && paginationState.count > 1 && (
+          <Paginator
+            currentPage={paginationState.currentPage}
+            offset={paginationState.offset}
+            startIndex={paginationState.startIndex}
+            endIndex={paginationState.endIndex}
+            count={paginationState.count}
+            pageSize={paginationState.pageSize}
+            onNext={onNext}
+            onPrev={onPrev}
+            goTo={goTo}
+          />
+        )}
+      </FlexBox>
     </div>
   );
 }
