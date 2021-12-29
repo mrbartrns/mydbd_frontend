@@ -5,6 +5,8 @@ import Box from "../../atoms/Box/Box";
 import ForumComment from "../../molecules/ForumComment/ForumComment";
 import Paginator from "../../molecules/Paginator";
 import FlexBox from "../../atoms/FlexBox";
+import CommentTextarea from "../../molecules/CommentTextArea";
+import { Form } from "react-bootstrap";
 
 const cx = classNames.bind(styles);
 
@@ -57,6 +59,19 @@ function ForumCommentArea({
           />
         )}
       </FlexBox>
+      <Form
+        onSubmit={
+          onSubmit
+            ? (e) => {
+                e.preventDefault();
+                onSubmit(commentState.inputs);
+              }
+            : null
+        }
+      >
+        <h2>댓글 쓰기</h2>
+        <CommentTextarea onChange={(e) => onChange(e, null)} />
+      </Form>
     </div>
   );
 }

@@ -1,0 +1,19 @@
+.comment-form {
+  margin-bottom: 3rem;
+}
+.comment-text-area {
+  resize: none;
+  overflow: hidden;
+  line-height: 1.5;
+  font-size: inherit;
+}
+
+.comment-submit-btn {
+  min-width: 5rem;
+  min-height: 4rem;
+  margin-left: 0.5rem;
+}
+
+.comment-flex-box {
+  align-items: flex-start;
+}

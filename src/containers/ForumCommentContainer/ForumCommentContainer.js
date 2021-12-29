@@ -1,6 +1,7 @@
 import React, { useCallback, useState, useReducer, useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import ForumCommentArea from "../../components/organisms/ForumCommentArea/ForumCommentArea";
+import setAutoHeight from "../../common/set-auto-height";
 import {
   COMMENT_INPUT_INIT,
   CHANGE_INPUT,
@@ -99,6 +100,7 @@ function ForumCommentContainer({ user }) {
   }, [location.pathname, commentQuery]);
 
   const onChange = useCallback((e, parent = null) => {
+    setAutoHeight(e);
     commentDispatch({
       type: CHANGE_INPUT,
       payload: { parent: parent, content: e.target.value },
