@@ -1,5 +1,5 @@
 import axiosInstance from "./api";
-import TokenService from "./token.service";
+import tokenService from "./token.service";
 import { refreshToken, logout } from "../actions/auth";
 import { isValidToken } from "../functions";
 
@@ -12,13 +12,13 @@ const setup = (store) => {
   const { dispatch } = store;
   const getAccessToken = async () => {
     try {
-      const rs = TokenService.getLocalRefreshToken();
+      const rs = tokenService.getLocalRefreshToken();
       const response = await axiosInstance.post("user/token/refresh", {
         refresh: rs,
       });
       const accessToken = response.data.access;
       dispatch(refreshToken(accessToken));
-      TokenService.updateLocalAccessToken(accessToken);
+      tokenService.updateLocalAccessToken(accessToken);
       return accessToken;
     } catch (error) {
       return Promise.reject(error);
@@ -26,7 +26,7 @@ const setup = (store) => {
   };
   axiosInstance.interceptors.request.use(
     (config) => {
-      const token = TokenService.getLocalAccessToken();
+      const token = tokenService.getLocalAccessToken();
       if (token) {
         config.headers["Authorization"] = "Bearer " + token;
       }
@@ -51,7 +51,7 @@ const setup = (store) => {
         ) {
           originalConfig._retry = true;
           // modified code
-          const rs = TokenService.getLocalRefreshToken();
+          const rs = tokenService.getLocalRefreshToken();
           if (!isValidToken(rs)) {
             dispatch(logout());
             originalConfig.headers["Authorization"] = null;
@@ -64,7 +64,6 @@ const setup = (store) => {
             });
           }
         }
-        // FIXME: refresh token 기한이 만료되면 catch(error)로 들어가지 않는 문제 발생
         return refreshTokenPromise
           .then((token) => {
             originalConfig.headers["Authorization"] = "Bearer " + token;

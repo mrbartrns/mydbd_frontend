@@ -83,6 +83,7 @@ function ForumContentContainer() {
             dislike,
           }
         );
+        console.log(response.data);
         if (like) {
           voteDispatch({ type: INCREASE_LIKE });
         } else if (dislike) {

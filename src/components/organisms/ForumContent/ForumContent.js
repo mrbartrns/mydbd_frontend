@@ -29,6 +29,8 @@ function ForumContent({ article, vote, onLike, className, ...rest }) {
           dislikes={vote.dislikes}
           onLike={onLike}
           onDislike={onLike}
+          userLiked={vote.userLiked.like}
+          userDisLiked={vote.userLiked.dislike}
         />
       </div>
     )

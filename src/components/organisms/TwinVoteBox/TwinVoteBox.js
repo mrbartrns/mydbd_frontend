@@ -20,12 +20,15 @@ function TwinVoteBox({
   style,
   onLike,
   onDislike,
+  userLiked,
+  userDisLiked,
   ...rest
 }) {
   return (
     <FlexBox className={cx("twin-vote-box")} style={style} {...rest}>
       <VoteBox
         style={voteBoxStyle}
+        voted={userLiked}
         onClick={() => onLike({ like: true, dislike: false })}
       >
         <Box fullWidth>좋아요</Box>
@@ -33,6 +36,7 @@ function TwinVoteBox({
       </VoteBox>
       <VoteBox
         style={voteBoxStyle}
+        voted={userDisLiked}
         onClick={() => onDislike({ like: false, dislike: true })}
       >
         <Box fullWidth>싫어요</Box>
