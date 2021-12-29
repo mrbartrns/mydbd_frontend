@@ -1,6 +1,7 @@
 import React from "react";
 import PageTemplate from "../../templates/PageTemplate";
 import GameListTemplate from "../../templates/GameListTemplate/GameListTemplate";
+import GameListContainer from "../../../containers/GameListContainer/GameListContainer";
 import { Helmet } from "react-helmet";
 
 const matchedCategory = (category) => {
@@ -25,7 +26,9 @@ function GameListPage({ match }) {
     <PageTemplate>
       <Helmet>게임 정보 - MYDBD</Helmet>
       <h1>{matchedCategory(match.params.category)} 리스트</h1>
-      <GameListTemplate></GameListTemplate>
+      <GameListTemplate>
+        <GameListContainer />
+      </GameListTemplate>
     </PageTemplate>
   );
 }
