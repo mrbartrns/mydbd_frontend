@@ -89,7 +89,6 @@ function DetailTemplate(props) {
         setArticleLikeCount(response.data.like_count);
         setArticleDislikeCount(response.data.dislike_count);
         setLoaded(true);
-        console.log(response.data);
       });
     }
     return () => {

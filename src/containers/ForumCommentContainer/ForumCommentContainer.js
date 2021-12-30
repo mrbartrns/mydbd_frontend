@@ -8,6 +8,7 @@ import {
   REFRESH_COMMENTS,
   SET_COUNT,
   LOADED as COMMENT_LOADED,
+  LOADING as COMMENT_LOADING,
   COMMENT_FETCH_INIT,
   COMMENT_FETCH_SUCCESS,
   COMMENT_FETCH_FAIL,
@@ -48,6 +49,7 @@ function ForumCommentContainer({ user }) {
   const [updateFormKey, setUpdateFormKey] = useState(null);
   const getFetchComments = useCallback(async () => {
     commentDispatch({ type: COMMENT_FETCH_INIT });
+    commentDispatch({ type: COMMENT_LOADING });
     try {
       const response = await userService.getArticleCommentList(
         location.pathname,

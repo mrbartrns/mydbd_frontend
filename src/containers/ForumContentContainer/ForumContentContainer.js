@@ -4,6 +4,7 @@ import userService from "../../services/user.service";
 
 import {
   FETCH_ARTICLE,
+  LOADING as ARTICLE_LOADING,
   ARTICLE_FETCH_INIT,
   ARTICLE_FETCH_SUCCESS,
   LOADED as ARTICLE_LOADED,
@@ -32,6 +33,7 @@ function ForumContentContainer() {
   const [voteState, voteDispatch] = useReducer(voteReducer, initialVoteState);
   const getFetchArticle = useCallback(async () => {
     articleDispatch({ type: ARTICLE_FETCH_INIT });
+    articleDispatch({ type: ARTICLE_LOADING });
     try {
       const response = await userService.getForumArticle(location.pathname);
       articleDispatch({
@@ -83,7 +85,6 @@ function ForumContentContainer() {
             dislike,
           }
         );
-        console.log(response.data);
         if (like) {
           voteDispatch({ type: INCREASE_LIKE });
         } else if (dislike) {

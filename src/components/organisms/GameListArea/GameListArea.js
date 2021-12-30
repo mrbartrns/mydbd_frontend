@@ -29,7 +29,6 @@ function GameListArea({
       <FlexBox>
         {listState.fetchSuccess &&
           listState.list.map((obj) => {
-            console.log(URL_FORMATTER[category]);
             return (
               <GameCard
                 key={obj.id}
