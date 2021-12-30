@@ -21,6 +21,7 @@ import {
   initialState as initialVoteState,
   reducer as voteReducer,
 } from "../../abstract_structures/vote";
+import ObjectProfile from "../../components/organisms/ObjectProfile/ObjectProfile";
 
 function GameDetailContainer({ category }) {
   const location = useLocation();
@@ -97,7 +98,9 @@ function GameDetailContainer({ category }) {
       mounted = false;
     };
   }, [getFetchGameDetail]);
-  return <div></div>;
+  return (
+    <ObjectProfile profileState={state} voteState={voteState} onLike={onLike} />
+  );
 }
 
 export default GameDetailContainer;

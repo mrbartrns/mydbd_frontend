@@ -8,6 +8,7 @@ function GameDetailPage({ match }) {
     <PageTemplate>
       <Helmet>
         <title>정보 - MYDBD</title>
+        <meta property="og:title" content="정보 - MYDBD" />
       </Helmet>
       <GameDetailTemplate>
         <GameDetailContainer category={match.params.category} />
