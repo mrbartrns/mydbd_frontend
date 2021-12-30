@@ -25,9 +25,8 @@ function GameListPage({ match }) {
   return (
     <PageTemplate>
       <Helmet>게임 정보 - MYDBD</Helmet>
-      <h1>{matchedCategory(match.params.category)} 리스트</h1>
-      <GameListTemplate>
-        <GameListContainer />
+      <GameListTemplate category={matchedCategory(match.params.category)}>
+        <GameListContainer category={match.params.category} />
       </GameListTemplate>
     </PageTemplate>
   );

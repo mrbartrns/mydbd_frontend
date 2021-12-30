@@ -20,9 +20,9 @@ import {
   getStartAndEndIndex,
   UPDATE_PAGINATION_INFO,
 } from "../../abstract_structures/paginator";
-import ListComponent from "../../components/List";
+import GameListArea from "../../components/organisms/GameListArea/GameListArea";
 
-function GameListContainer() {
+function GameListContainer({ category }) {
   const PAGINATION_OFFSET = 5;
   const PAGE_SIZE = 12;
   const location = useLocation();
@@ -83,6 +83,33 @@ function GameListContainer() {
     }
   }, [listQuery, location.pathname]);
 
+  const onNext = useCallback(() => {
+    setListQuery((prev) => {
+      return {
+        ...prev,
+        page: prev.page + 1,
+      };
+    });
+  }, []);
+
+  const onPrev = useCallback(() => {
+    setListQuery((prev) => {
+      return {
+        ...prev,
+        page: prev.page - 1,
+      };
+    });
+  }, []);
+
+  const goTo = useCallback((index) => {
+    setListQuery((prev) => {
+      return {
+        ...prev,
+        page: index,
+      };
+    });
+  }, []);
+
   useEffect(() => {
     let mounted = true;
     if (mounted) {
@@ -92,7 +119,16 @@ function GameListContainer() {
       mounted = false;
     };
   }, [getFetchList]);
-  return <ListComponent posts={listState.list} />; // temp
+  return (
+    <GameListArea
+      listState={listState}
+      goTo={goTo}
+      onPrev={onPrev}
+      onNext={onNext}
+      paginationState={paginationState}
+      category={category}
+    />
+  );
 }
 
 export default GameListContainer;
