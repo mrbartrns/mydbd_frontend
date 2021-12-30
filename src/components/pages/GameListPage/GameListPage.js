@@ -24,7 +24,9 @@ const matchedCategory = (category) => {
 function GameListPage({ match }) {
   return (
     <PageTemplate>
-      <Helmet>게임 정보 - MYDBD</Helmet>
+      <Helmet>
+        <title>{matchedCategory(match.params.category)} 정보 - MYDBD</title>
+      </Helmet>
       <GameListTemplate category={matchedCategory(match.params.category)}>
         <GameListContainer category={match.params.category} />
       </GameListTemplate>
