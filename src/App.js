@@ -4,8 +4,8 @@ import { connect } from "react-redux";
 import HomePage from "./components/pages/HomePage";
 import Error from "./components/error.component";
 import LoginPage from "./components/pages/LoginPage";
-import RegisterPage from "./components/pages/RegisterPage/RegisterPage";
-import ForumRoute from "./routes/forum.routes";
+import RegisterPage from "./components/pages/RegisterPage";
+import ForumRoute from "./Routes/forum.routes";
 import GameListPage from "./components/pages/GameListPage";
 import GameDetailPage from "./components/pages/GameDetailPage";
 
