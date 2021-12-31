@@ -34,20 +34,6 @@ function ForumCommentArea({
       {commentState.fetchSuccess &&
         commentState.comments.map((comment) => {
           return (
-            // <ForumComment
-            //   key={comment.id}
-            //   comment={comment}
-            //   re={comment.parent ? true : false}
-            //   byAuthor={comment.parent && user?.id === comment.author.id}
-            //   onUpdate={onUpdate}
-            //   onDelete={onDelete}
-            //   replyFormKey={replyFormKey}
-            //   setReplyFormKey={setReplyFormKey}
-            //   updateFormKey={updateFormKey}
-            //   setUpdateFormKey={updateFormKey}
-            // >
-            //   {comment.content}
-            // </ForumComment>
             <ForumSubCommentContainer
               key={comment.id}
               comment={comment}

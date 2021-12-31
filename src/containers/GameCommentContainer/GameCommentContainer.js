@@ -25,6 +25,7 @@ import {
 } from "../../abstract_structures/paginator";
 import { useLocation } from "react-router-dom";
 import userService from "../../services/user.service";
+import GameCommentArea from "../../components/organisms/GameCommentArea/GameCommentArea";
 import { connect } from "react-redux";
 
 function GameCommentContainer({ parent }) {
@@ -35,7 +36,7 @@ function GameCommentContainer({ parent }) {
     commentReducer,
     initialCommentState
   );
-  const [pagiantionState, paginationDispatch] = useReducer(
+  const [paginationState, paginationDispatch] = useReducer(
     paginationReducer,
     initialPaginationState
   );
@@ -53,7 +54,6 @@ function GameCommentContainer({ parent }) {
         location.pathname,
         commentQuery
       );
-      console.log(response.data);
       commentDispatch({ type: SET_COUNT, payload: response.data.count });
       commentDispatch({
         type: REFRESH_COMMENTS,
@@ -109,10 +109,7 @@ function GameCommentContainer({ parent }) {
   const onSubmit = useCallback(
     async (comment) => {
       try {
-        const response = await userService.postComment(
-          location.pathname,
-          comment
-        );
+        await userService.postComment(location.pathname, comment);
         commentDispatch({ type: INCREASE_COUNT });
         commentDispatch({ type: COMMENT_INPUT_INIT });
         // after submit, goto page 1
@@ -155,7 +152,7 @@ function GameCommentContainer({ parent }) {
         commentDispatch({ type: COMMENT_ERROR, payload: error.response.data });
       }
     }
-  });
+  }, []);
 
   const onNext = useCallback(() => {
     setCommentQuery((prev) => {
@@ -193,7 +190,20 @@ function GameCommentContainer({ parent }) {
       mounted = false;
     };
   }, [getFetchComments]);
-  return <div></div>;
+  return (
+    <GameCommentArea
+      commentState={commentState}
+      paginationState={paginationState}
+      onNext={onNext}
+      onPrev={onPrev}
+      goTo={goTo}
+      onUpdate={onUpdate}
+      onDelete={onDelete}
+      onSubmit={onSubmit}
+      onChange={onChange}
+      parent={parent}
+    />
+  );
 }
 
 export default GameCommentContainer;
