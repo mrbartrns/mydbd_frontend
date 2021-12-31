@@ -5,7 +5,6 @@ import { useHistory } from "react-router-dom";
 import { Editor } from "@toast-ui/react-editor";
 import userService from "../services/user.service";
 import "@toast-ui/editor/dist/toastui-editor.css";
-import ErrorPage from "../components/error.component";
 // TODO: set title, plain text
 // set Image editor
 
@@ -63,9 +62,6 @@ function ForumPostTemplate({ isLoggedIn }) {
     setTitle(e.target.value);
   }, []);
 
-  if (!isLoggedIn) {
-    return <ErrorPage message={HTTP_401_UNAUTHORIZED_MESSAGE} />;
-  }
   return (
     <div>
       <h1>글쓰기</h1>
