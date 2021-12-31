@@ -69,11 +69,12 @@ export function reducer(state, action) {
       return {
         ...state,
         id: action.payload.id,
-        author: action.payload.author,
-        title: action.payload.title,
-        content: action.payload.content,
+        author: action.payload.author || null,
+        title: action.payload.title || "",
+        hit: action.payload.hit || 0,
+        content: action.payload.content || null,
         tags: [...action.payload.tags],
-        count: action.payload.count,
+        count: action.payload.count || 0,
         createdAt: action.payload.createdAt,
         modifiedAt: action.payload.modifiedAt,
       };
