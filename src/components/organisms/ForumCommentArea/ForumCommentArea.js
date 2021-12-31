@@ -76,6 +76,7 @@ function ForumCommentArea({
         <CommentTextarea
           required
           onChange={onChange ? (e) => onChange(e, null) : null}
+          value={commentState.inputs.content}
         />
       </Form>
     </div>

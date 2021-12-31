@@ -1,5 +1,14 @@
 .game-comment-area {
-  &.parent {
+  &.child {
     background-color: #f6f6f6;
+  }
+  .game-comment-form {
+    &.child {
+      margin-left: 2.5rem;
+    }
+    padding: 1rem;
+  }
+  p {
+    margin: 0;
   }
 }

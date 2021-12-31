@@ -106,7 +106,7 @@ function ForumSubCommentContainer({
         setUpdateFormKey={setUpdateFormKey}
         setSubComment={setSubComment}
         isLoggedIn={isLoggedIn}
-        user={user.user}
+        user={user && user.user ? user.user : null}
       >
         {comment.content}
       </ForumComment>

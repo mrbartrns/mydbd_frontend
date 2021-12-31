@@ -7,7 +7,7 @@ import { FormControl } from "react-bootstrap";
 
 const cx = classNames.bind(styles);
 
-function CommentForm({ className, style, required, onChange, ...rest }) {
+function CommentForm({ className, style, required, onChange, value, ...rest }) {
   return (
     <FlexBox className={"comment-flex-box"} {...rest}>
       <FormControl
@@ -15,6 +15,7 @@ function CommentForm({ className, style, required, onChange, ...rest }) {
         as="textarea"
         className={cx("comment-text-area")}
         onChange={onChange ? onChange : null}
+        value={value}
       />
       <Button
         variant="light"
