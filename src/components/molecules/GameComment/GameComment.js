@@ -14,7 +14,7 @@ const cx = classNames.bind(styles);
 
 function GameComment({ comment, onToggle, onUpdate, onDelete, children }) {
   return (
-    <Box className={cx("game-comment")}>
+    <Box className={cx("game-comment", { child: comment.parent })}>
       <CommentHeader className={cx("game-comment-header")}>
         <Box>
           <SpanLink className={cx("author")}>

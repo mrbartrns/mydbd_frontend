@@ -2,11 +2,14 @@ import React from "react";
 import classNames from "classnames";
 import styles from "./GameCommentArea.scss";
 import GameSubCommentContainer from "../../../containers/GameSubCommentContainer/GameSubCommentContainer";
+import FlexBox from "../../atoms/FlexBox";
+import Paginator from "../../molecules/Paginator";
+
 const cx = classNames.bind(styles);
 
 function GameCommentArea({
   commentState,
-  pagiantionState,
+  paginationState,
   onNext,
   onPrev,
   goTo,
@@ -31,6 +34,21 @@ function GameCommentArea({
           );
         })}
       {/** pagination */}
+      <FlexBox className={cx("comment-paginator-box")}>
+        {commentState.fetchSuccess && paginationState.count > 1 && (
+          <Paginator
+            currentPage={paginationState.currentPage}
+            offset={paginationState.offset}
+            startIndex={paginationState.startIndex}
+            endIndex={paginationState.endIndex}
+            count={paginationState.count}
+            pageSize={paginationState.pageSize}
+            onNext={onNext}
+            onPrev={onPrev}
+            goTo={goTo}
+          />
+        )}
+      </FlexBox>
       {/** comment form */}
     </div>
   );

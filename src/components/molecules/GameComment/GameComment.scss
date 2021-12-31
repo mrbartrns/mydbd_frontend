@@ -1,6 +1,10 @@
+$comment-padding: 1rem;
 .game-comment {
-  padding: 1rem 1rem;
+  padding: $comment-padding $comment-padding;
   border-bottom: 1px solid #e2e2e2;
+  &.child {
+    margin-left: $comment-padding * 1.25;
+  }
   &:first-child {
     border-top: 1px solid #e2e2e2;
   }
