@@ -27,7 +27,7 @@ import { useLocation } from "react-router-dom";
 import userService from "../../services/user.service";
 import { connect } from "react-redux";
 
-function GameCommentContainer() {
+function GameCommentContainer({ parent }) {
   const PAGINATION_OFFSET = 5;
   const PAGE_SIZE = 10;
   const location = useLocation();
@@ -42,15 +42,18 @@ function GameCommentContainer() {
   const [commentQuery, setCommentQuery] = useState({
     cp: 1,
     pagesize: PAGE_SIZE,
+    parent: parent ? parent : null,
   }); // TODO: add sort
+
   const getFetchComments = useCallback(async () => {
     commentDispatch({ type: COMMENT_FETCH_INIT });
     commentDispatch({ type: COMMENT_LOADING });
     try {
-      const response = userService.getCommentList(
+      const response = await userService.getCommentList(
         location.pathname,
         commentQuery
       );
+      console.log(response.data);
       commentDispatch({ type: SET_COUNT, payload: response.data.count });
       commentDispatch({
         type: REFRESH_COMMENTS,
@@ -182,12 +185,12 @@ function GameCommentContainer() {
   }, []);
 
   useEffect(() => {
-    let isMounted = true;
-    if (isMounted) {
+    let mounted = true;
+    if (mounted) {
       getFetchComments();
     }
     return () => {
-      isMounted = false;
+      mounted = false;
     };
   }, [getFetchComments]);
   return <div></div>;

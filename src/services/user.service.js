@@ -11,7 +11,7 @@ class UserService {
   }
 
   getCommentList(pathname, params) {
-    return api.get("service/list" + pathname + "/comments", { params });
+    return api.get("service" + pathname + "/comments", { params });
   }
 
   getForumList(params) {

@@ -3,6 +3,8 @@ import PageTemplate from "../../templates/PageTemplate";
 import GameDetailTemplate from "../../templates/GameDetailTemplate";
 import { Helmet } from "react-helmet";
 import GameDetailContainer from "../../../containers/GameDetailContainer/GameDetailContainer";
+import GameCommentContainer from "../../../containers/GameCommentContainer/GameCommentContainer";
+
 function GameDetailPage({ match }) {
   return (
     <PageTemplate>
@@ -12,6 +14,7 @@ function GameDetailPage({ match }) {
       </Helmet>
       <GameDetailTemplate>
         <GameDetailContainer category={match.params.category} />
+        <GameCommentContainer />
       </GameDetailTemplate>
     </PageTemplate>
   );
