@@ -12,7 +12,7 @@ import FlexBox from "../../atoms/FlexBox";
 
 const cx = classNames.bind(styles);
 
-function GameComment({ comment, children }) {
+function GameComment({ comment, onToggle, onUpdate, onDelete, children }) {
   return (
     <Box className={cx("game-comment")}>
       <CommentHeader className={cx("game-comment-header")}>
@@ -28,16 +28,18 @@ function GameComment({ comment, children }) {
       <CommentBody className={cx("game-comment-body")}>{children}</CommentBody>
       <CommentFooter>
         <Box>
-          <Button className={cx("reply-comment-btn")}>
-            답글
-            {
-              <span className={cx("children-count")}>
-                {comment.children_count}
-              </span>
-            }{" "}
-          </Button>
+          {!comment.parent && (
+            <Button className={cx("reply-comment-btn")} onClick={onToggle}>
+              답글
+              {
+                <span className={cx("children-count")}>
+                  {comment.children_count}
+                </span>
+              }{" "}
+            </Button>
+          )}
         </Box>
-        <FlexBox></FlexBox>
+        <FlexBox>Test component {/** onDelete, onUpdate */}</FlexBox>
       </CommentFooter>
     </Box>
   );

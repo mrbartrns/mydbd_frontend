@@ -1,7 +1,7 @@
 import React from "react";
 import classNames from "classnames";
 import styles from "./GameCommentArea.scss";
-import GameComment from "../../molecules/GameComment";
+import GameSubCommentContainer from "../../../containers/GameSubCommentContainer/GameSubCommentContainer";
 const cx = classNames.bind(styles);
 
 function GameCommentArea({
@@ -17,11 +17,18 @@ function GameCommentArea({
   parent,
 }) {
   return (
-    <div className={cx("game-comment-area")}>
+    <div className={cx("game-comment-area", { parent })}>
       {/** comment list */}
       {commentState.fetchSuccess &&
         commentState.comments.map((comment) => {
-          return <GameComment comment={comment}>{comment.content}</GameComment>;
+          return (
+            <GameSubCommentContainer
+              key={comment.id}
+              comment={comment}
+              onUpdate={onUpdate}
+              onDelete={onDelete}
+            />
+          );
         })}
       {/** pagination */}
       {/** comment form */}
