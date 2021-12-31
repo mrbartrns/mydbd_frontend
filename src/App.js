@@ -2,12 +2,12 @@ import React from "react";
 import { Route, Switch } from "react-router-dom";
 import { connect } from "react-redux";
 import HomePage from "./components/pages/HomePage";
-import Error from "./components/error.component";
 import LoginPage from "./components/pages/LoginPage";
 import RegisterPage from "./components/pages/RegisterPage";
 import ForumRoute from "./Routes/forum.routes";
 import GameListPage from "./components/pages/GameListPage";
 import GameDetailPage from "./components/pages/GameDetailPage";
+import ErrorPage from "./components/pages/ErrorPage";
 
 function App() {
   return (
@@ -19,8 +19,8 @@ function App() {
         <Route path="/forum" component={ForumRoute} />
         <Route path="/:category/list" component={GameListPage} />
         <Route path="/:category/:id" component={GameDetailPage} />
-        <Route path="/my404" component={Error} />
-        <Route component={Error} />
+        <Route path="/my404" component={ErrorPage} />
+        <Route component={ErrorPage} />
       </Switch>
     </div>
   );
