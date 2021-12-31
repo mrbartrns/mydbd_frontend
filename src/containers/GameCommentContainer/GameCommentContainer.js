@@ -26,7 +26,6 @@ import {
 import { useLocation } from "react-router-dom";
 import userService from "../../services/user.service";
 import GameCommentArea from "../../components/organisms/GameCommentArea/GameCommentArea";
-import { connect } from "react-redux";
 
 function GameCommentContainer({ parent }) {
   const PAGINATION_OFFSET = 5;

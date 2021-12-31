@@ -21,11 +21,7 @@ function GameCommentArea({
       {/** comment list */}
       {commentState.fetchSuccess &&
         commentState.comments.map((comment) => {
-          return (
-            <GameComment key={comment.id} comment={comment}>
-              {comment.content}
-            </GameComment>
-          );
+          return <GameComment comment={comment}>{comment.content}</GameComment>;
         })}
       {/** pagination */}
       {/** comment form */}

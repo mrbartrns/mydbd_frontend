@@ -7,7 +7,7 @@ const cx = classNames.bind(styles);
 function SpanLink({ className, children, onClick, ...rest }) {
   return (
     <span
-      className={cx("span-link")}
+      className={cx("span-link", className)}
       onClick={onClick ? onClick : undefined}
       {...rest}
     >

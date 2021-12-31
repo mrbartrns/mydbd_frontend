@@ -1,0 +1,32 @@
+.game-comment {
+  padding: 1rem 0;
+  border-bottom: 1px solid #e2e2e2;
+  background-color: #ffffff;
+  &:first-child {
+    border-top: 1px solid #e2e2e2;
+  }
+  .game-comment-body {
+    padding: 0.75rem 0;
+  }
+  .game-comment-header {
+    .author {
+      font-weight: 600;
+    }
+    .date {
+      font-size: 0.9rem;
+      color: #ababab;
+    }
+  }
+  .reply-comment-btn {
+    padding: 0.1rem 0.35rem;
+    border-radius: 0;
+    border: 1px solid #232323;
+    font-weight: 400;
+    font-size: 0.9rem;
+    background-color: #fafafa;
+    .children-count {
+      margin-left: 0.2rem;
+      font-weight: 700;
+    }
+  }
+}

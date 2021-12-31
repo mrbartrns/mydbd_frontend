@@ -15,16 +15,27 @@ const cx = classNames.bind(styles);
 function GameComment({ comment, children }) {
   return (
     <Box className={cx("game-comment")}>
-      <CommentHeader>
+      <CommentHeader className={cx("game-comment-header")}>
         <Box>
-          <SpanLink>{comment.author.username}</SpanLink>
+          <SpanLink className={cx("author")}>
+            {comment.author.username}
+          </SpanLink>
         </Box>
-        <Box>{formattedDateString(comment.dt_created)}</Box>
+        <Box className={cx("date")}>
+          {formattedDateString(comment.dt_created)}
+        </Box>
       </CommentHeader>
-      <CommentBody>{children}</CommentBody>
+      <CommentBody className={cx("game-comment-body")}>{children}</CommentBody>
       <CommentFooter>
         <Box>
-          <Button>답글</Button>
+          <Button className={cx("reply-comment-btn")}>
+            답글
+            {
+              <span className={cx("children-count")}>
+                {comment.children_count}
+              </span>
+            }{" "}
+          </Button>
         </Box>
         <FlexBox></FlexBox>
       </CommentFooter>

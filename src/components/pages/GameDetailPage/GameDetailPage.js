@@ -14,6 +14,7 @@ function GameDetailPage({ match }) {
       </Helmet>
       <GameDetailTemplate>
         <GameDetailContainer category={match.params.category} />
+        <h2>댓글</h2>
         <GameCommentContainer />
       </GameDetailTemplate>
     </PageTemplate>
