@@ -1,14 +1,28 @@
-import React, { useRef, useCallback, useState } from "react";
-import { connect } from "react-redux";
-import { useHistory } from "react-router-dom";
-import ForumEditor from "../../components/organisms/ForumEditor";
+import React, { useRef, useCallback, useState, useEffect } from "react";
 import userService from "../../services/user.service";
+import { useHistory, useLocation } from "react-router-dom";
+import ForumEditor from "../../components/organisms/ForumEditor";
 
-function ForumWriteContainer({ isLoggedIn }) {
-  // TODO: create tag change
+function ForumEditContainer() {
   const history = useHistory();
+  const location = useLocation();
   const editorRef = useRef();
   const [articleData, setArticleData] = useState({ title: "", tags: [] });
+  const getFetchArticle = useCallback(async () => {
+    try {
+      const response = await userService.getForumArticle(location.pathname);
+      editorRef.current.getInstance().setMarkdown(response.data.content);
+      setArticleData((c) => {
+        return {
+          ...c,
+          title: response.data.title,
+          tags: [...response.data.tags],
+        };
+      });
+    } catch (error) {
+      console.error(error);
+    }
+  }, [location.pathname]);
   const uploadImage = useCallback(async (blob) => {
     try {
       const formData = new FormData();
@@ -31,14 +45,17 @@ function ForumWriteContainer({ isLoggedIn }) {
           content: markdown,
           tags: articleData.tags,
         };
-        const response = await userService.postForumArticle(article);
+        const response = await userService.updateForumArticle(
+          location.pathname,
+          article
+        );
         const id = response.data.id;
         history.push("/forum/article/" + String(id));
       } catch (error) {
         console.error(error);
       }
     },
-    [articleData.tags, articleData.title, history]
+    [articleData.tags, articleData.title, history, location.pathname]
   );
   const onChangeTitle = useCallback((e) => {
     setArticleData((c) => {
@@ -48,20 +65,24 @@ function ForumWriteContainer({ isLoggedIn }) {
       };
     });
   }, []);
+  useEffect(() => {
+    let mounted = true;
+    if (mounted) {
+      getFetchArticle();
+    }
+    return () => {
+      mounted = false;
+    };
+  }, [getFetchArticle]);
   return (
     <ForumEditor
+      articleData={articleData}
+      uploadImage={uploadImage}
       editorRef={editorRef}
       onChangeTitle={onChangeTitle}
       onSubmit={onSubmit}
-      uploadImage={uploadImage}
-      articleData={articleData}
     />
   );
 }
 
-function mapStateToProps(state) {
-  const { isLoggedIn } = state.authReducer;
-  return { isLoggedIn };
-}
-
-export default connect(mapStateToProps)(ForumWriteContainer);
+export default ForumEditContainer;

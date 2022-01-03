@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React from "react";
 import classNames from "classnames";
 import styles from "./ForumContent.scss";
 import { Viewer } from "@toast-ui/react-editor";
@@ -7,8 +7,14 @@ import TwinVoteBox from "../TwinVoteBox/TwinVoteBox";
 
 const cx = classNames.bind(styles);
 
-function ForumContent({ article, vote, onLike, className, ...rest }) {
-  const viewerRef = useRef();
+function ForumContent({
+  article,
+  vote,
+  onLike,
+  className,
+  viewerRef,
+  ...rest
+}) {
   return (
     article.fetchSuccess && (
       <div className={cx("forum-content", className)} {...rest}>

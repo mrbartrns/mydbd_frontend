@@ -1,14 +1,14 @@
 import React from "react";
 import { Route } from "react-router-dom";
-import ForumPostTemplate from "../templates/forum_post.template";
-import ForumEditTemplate from "../templates/forum_edit.template";
+import ForumWritePage from "../components/pages/ForumWritePage";
+import ForumEditPage from "../components/pages/ForumEditPage";
 import ForumListPage from "../components/pages/ForumListPage";
 import ForumDetailPage from "../components/pages/ForumDetailPage";
 
 function ForumRoute({ match }) {
   return (
     <>
-      <Route exact path={`${match.url}/write`} component={ForumPostTemplate} />
+      <Route exact path={`${match.url}/write`} component={ForumWritePage} />
       <Route exact path={`${match.url}`} component={ForumListPage} />
       <Route
         exact
@@ -18,7 +18,7 @@ function ForumRoute({ match }) {
       <Route
         exact
         path={`${match.url}/article/:id/edit`}
-        component={ForumEditTemplate}
+        component={ForumEditPage}
       />
     </>
   );

@@ -5,13 +5,17 @@ import PageTemplate from "../../templates/PageTemplate";
 import ForumDetailTemplate from "../../templates/ForumDetailTemplate";
 import ForumContentContainer from "../../../containers/ForumContentContainer/ForumContentContainer";
 import ForumCommentContainer from "../../../containers/ForumCommentContainer/ForumCommentContainer";
-function ForumDetailPage() {
+import { Helmet } from "react-helmet";
+function ForumDetailPage({ match }) {
   return (
     <PageTemplate>
       {/** Helmet
        * Helmet has to contain meta data of article (og title, image ...)
        */}
-      <ForumDetailTemplate>
+      <Helmet>
+        <title>글 수정 - MYDBD</title>
+      </Helmet>
+      <ForumDetailTemplate urlParams={match.params}>
         <ForumContentContainer />
         <ForumCommentContainer />
       </ForumDetailTemplate>

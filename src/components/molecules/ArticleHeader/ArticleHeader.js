@@ -5,7 +5,6 @@ import Sep from "../../atoms/Sep";
 import classNames from "classnames";
 import styles from "./ArticleHeader.scss";
 import { formattedDateString } from "../../../functions";
-
 const cx = classNames.bind(styles);
 
 function ArticleHeader({

@@ -1,4 +1,4 @@
-import React, { useEffect, useReducer, useCallback } from "react";
+import React, { useEffect, useReducer, useCallback, useRef } from "react";
 import { useLocation } from "react-router-dom";
 import userService from "../../services/user.service";
 
@@ -23,9 +23,11 @@ import {
   SET_USER_LIKED,
 } from "../../abstract_structures/vote";
 import ForumContent from "../../components/organisms/ForumContent/ForumContent";
+import { connect } from "react-redux";
 
-function ForumContentContainer() {
+function ForumContentContainer({ isLoggedIn, user }) {
   const location = useLocation();
+  const viewerRef = useRef();
   const [articleState, articleDispatch] = useReducer(
     articleReducer,
     initialArticleState
@@ -115,8 +117,18 @@ function ForumContentContainer() {
     };
   }, [getFetchArticle]);
   return (
-    <ForumContent article={articleState} vote={voteState} onLike={onLike} />
+    <ForumContent
+      article={articleState}
+      vote={voteState}
+      onLike={onLike}
+      viewerRef={viewerRef}
+    />
   );
 }
 
-export default ForumContentContainer;
+function mapStateToProps(state) {
+  const { isLoggedIn, user } = state.authReducer;
+  return { isLoggedIn, user };
+}
+
+export default connect(mapStateToProps)(ForumContentContainer);
