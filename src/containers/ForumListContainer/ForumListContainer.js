@@ -20,8 +20,9 @@ import {
   getStartAndEndIndex,
   UPDATE_PAGINATION_INFO,
 } from "../../abstract_structures/paginator";
+import { connect } from "react-redux";
 
-function ForumListContainer() {
+function ForumListContainer({ isLoggedIn, dispatch }) {
   const PAGINATION_OFFSET = 5;
   const PAGE_SIZE = 30;
   const [postState, postDispatch] = useReducer(postReducer, initialPostState);
@@ -123,8 +124,14 @@ function ForumListContainer() {
       onPrev={onPrev}
       onNext={onNext}
       goTo={goTo}
+      isLoggedIn={isLoggedIn}
     />
   );
 }
 
-export default ForumListContainer;
+function mapStateToProps(state) {
+  const { isLoggedIn } = state.authReducer;
+  return { isLoggedIn };
+}
+
+export default connect(mapStateToProps)(ForumListContainer);

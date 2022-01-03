@@ -1,4 +1,10 @@
-import React, { useEffect, useReducer, useCallback, useRef } from "react";
+import React, {
+  useEffect,
+  useReducer,
+  useCallback,
+  useRef,
+  useState,
+} from "react";
 import { useLocation } from "react-router-dom";
 import userService from "../../services/user.service";
 
@@ -32,6 +38,7 @@ function ForumContentContainer({ isLoggedIn, user }) {
     articleReducer,
     initialArticleState
   );
+  const [isAuthenticatedToEdit, setIsAuthenticatedToEdit] = useState(false);
   const [voteState, voteDispatch] = useReducer(voteReducer, initialVoteState);
   const getFetchArticle = useCallback(async () => {
     articleDispatch({ type: ARTICLE_FETCH_INIT });
@@ -65,6 +72,9 @@ function ForumContentContainer({ isLoggedIn, user }) {
           userDisliked: response.data.user_disliked,
         },
       });
+      setIsAuthenticatedToEdit(
+        response.data.author.id === (isLoggedIn && user?.user?.id)
+      );
       articleDispatch({ type: ARTICLE_FETCH_SUCCESS });
       articleDispatch({ type: ARTICLE_LOADED });
     } catch (error) {
@@ -74,7 +84,7 @@ function ForumContentContainer({ isLoggedIn, user }) {
       }
       console.error(error);
     }
-  }, [location.pathname]);
+  }, [isLoggedIn, location.pathname, user?.user?.id]);
   const onLike = useCallback(
     async ({ like, dislike }) => {
       // if click either like or dislike, user can't cancel the choice
@@ -122,6 +132,9 @@ function ForumContentContainer({ isLoggedIn, user }) {
       vote={voteState}
       onLike={onLike}
       viewerRef={viewerRef}
+      isAuthenticated={isAuthenticatedToEdit}
+      path={location.pathname}
+      isLoggedIn={isLoggedIn}
     />
   );
 }

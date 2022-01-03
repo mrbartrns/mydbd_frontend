@@ -7,6 +7,7 @@ import FlexBox from "../../atoms/FlexBox";
 import VCol from "../../atoms/VCol";
 import Paginator from "../../molecules/Paginator/Paginator";
 import { formattedDateString } from "../../../functions";
+import LinkButton from "../../atoms/LinkButton";
 
 const cx = classNames.bind(style);
 
@@ -21,10 +22,18 @@ function ForumListArea({
   onPrev,
   onNext,
   goTo,
+  isLoggedIn,
   ...rest
 }) {
   return (
     <div className={cx("forum-list-area", className)} {...rest}>
+      <FlexBox className="forum-post-btn-group">
+        {isLoggedIn && (
+          <LinkButton className={cx("forum-post-btn")} to="/forum/post/write">
+            글 쓰기
+          </LinkButton>
+        )}
+      </FlexBox>
       <ListRow style={rowStyle} />
       {postState.list.map((post) => {
         return (

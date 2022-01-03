@@ -4,6 +4,8 @@ import styles from "./ForumContent.scss";
 import { Viewer } from "@toast-ui/react-editor";
 import ArticleHeader from "../../molecules/ArticleHeader/ArticleHeader";
 import TwinVoteBox from "../TwinVoteBox/TwinVoteBox";
+import FlexBox from "../../atoms/FlexBox";
+import LinkButton from "../../atoms/LinkButton";
 
 const cx = classNames.bind(styles);
 
@@ -13,11 +15,26 @@ function ForumContent({
   onLike,
   className,
   viewerRef,
+  isAuthenticated,
+  path,
+  isLoggedIn,
   ...rest
 }) {
   return (
     article.fetchSuccess && (
       <div className={cx("forum-content", className)} {...rest}>
+        <FlexBox className="forum-post-btn-group">
+          {isLoggedIn && isAuthenticated && (
+            <LinkButton className={cx("forum-post-btn")} to={`${path}/edit`}>
+              글 수정
+            </LinkButton>
+          )}
+          {isLoggedIn && (
+            <LinkButton className={cx("forum-post-btn")} to="/forum/post/write">
+              글 쓰기
+            </LinkButton>
+          )}
+        </FlexBox>
         <ArticleHeader
           title={article.title}
           username={article.author.username}
