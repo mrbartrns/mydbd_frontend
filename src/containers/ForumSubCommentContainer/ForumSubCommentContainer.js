@@ -107,6 +107,7 @@ function ForumSubCommentContainer({
         setSubComment={setSubComment}
         isLoggedIn={isLoggedIn}
         user={user && user.user ? user.user : null}
+        deleted={comment?.is_deleted || false}
       >
         {comment.content}
       </ForumComment>

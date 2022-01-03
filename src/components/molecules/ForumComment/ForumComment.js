@@ -23,11 +23,16 @@ function ForumComment({
   isLoggedIn,
   onDelete,
   user,
+  deleted,
   ...rest
 }) {
   return (
     <Box
-      className={cx("forum-comment", { re, "by-author": byAuthor })}
+      className={cx("forum-comment", {
+        re,
+        "by-author": byAuthor,
+        deleted,
+      })}
       {...rest}
     >
       <FlexBox
@@ -35,60 +40,66 @@ function ForumComment({
         className={cx("comment-info", { "by-author": byAuthor })}
       >
         <FlexBox>
-          <SpanLink>{comment.author.username}</SpanLink>
+          <SpanLink>
+            {!deleted ? comment.author.username : "삭제된 댓글"}
+          </SpanLink>
         </FlexBox>
-        <FlexBox>
-          <SpanLink>{formattedDateString(comment.dt_created)}</SpanLink>
+        {!deleted && (
+          <FlexBox>
+            <SpanLink>{formattedDateString(comment.dt_created)}</SpanLink>
 
-          {isLoggedIn && (user.id === comment.author.id || user.is_staff) && (
-            <>
-              <Sep />
-              <SpanLink
-                onClick={() => {
-                  setSubComment((prev) => {
-                    return {
-                      ...prev,
-                      parent: comment.parent ? comment.parent : null,
-                      content: comment.content,
-                    };
-                  });
-                  setUpdateFormKey((prev) =>
-                    prev !== comment.id ? comment.id : null
-                  );
-                  setReplyFormKey(() => null);
-                }}
-              >
-                수정
-              </SpanLink>
-              <Sep />
-              <SpanLink onClick={onDelete}>삭제</SpanLink>
-            </>
-          )}
-          {isLoggedIn && (
-            <>
-              <Sep />
-              <SpanLink
-                onClick={() => {
-                  setSubComment((prev) => {
-                    return {
-                      ...prev,
-                      parent: comment.parent ? comment.parent : comment.id,
-                      content: "",
-                    };
-                  });
-                  setReplyFormKey((c) =>
-                    c !== comment.id ? comment.id : null
-                  );
-                  setUpdateFormKey(() => null);
-                }}
-              >
-                답글
-              </SpanLink>
-            </>
-          )}
-        </FlexBox>
+            {isLoggedIn && (user.id === comment.author.id || user.is_staff) && (
+              <>
+                <Sep />
+                <SpanLink
+                  onClick={() => {
+                    setSubComment((prev) => {
+                      return {
+                        ...prev,
+                        parent: comment.parent ? comment.parent : null,
+                        content: comment.content,
+                      };
+                    });
+                    setUpdateFormKey((prev) =>
+                      prev !== comment.id ? comment.id : null
+                    );
+                    setReplyFormKey(() => null);
+                  }}
+                >
+                  수정
+                </SpanLink>
+                <Sep />
+                <SpanLink onClick={() => onDelete(comment.id)}>삭제</SpanLink>
+              </>
+            )}
+            {isLoggedIn && (
+              <>
+                <Sep />
+                <SpanLink
+                  onClick={() => {
+                    setSubComment((prev) => {
+                      return {
+                        ...prev,
+                        parent: comment.parent ? comment.parent : comment.id,
+                        content: "",
+                      };
+                    });
+                    setReplyFormKey((c) =>
+                      c !== comment.id ? comment.id : null
+                    );
+                    setUpdateFormKey(() => null);
+                  }}
+                >
+                  답글
+                </SpanLink>
+              </>
+            )}
+          </FlexBox>
+        )}
       </FlexBox>
-      <Box className={cx("comment-message")}>{children}</Box>
+      <Box className={cx("comment-message")}>
+        {!deleted ? children : "삭제된 댓글"}
+      </Box>
     </Box>
   );
 }
