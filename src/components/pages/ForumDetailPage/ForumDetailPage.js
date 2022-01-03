@@ -6,7 +6,7 @@ import ForumDetailTemplate from "../../templates/ForumDetailTemplate";
 import ForumContentContainer from "../../../containers/ForumContentContainer/ForumContentContainer";
 import ForumCommentContainer from "../../../containers/ForumCommentContainer/ForumCommentContainer";
 import { Helmet } from "react-helmet";
-function ForumDetailPage({ match }) {
+function ForumDetailPage() {
   return (
     <PageTemplate>
       {/** Helmet
@@ -15,7 +15,7 @@ function ForumDetailPage({ match }) {
       <Helmet>
         <title>글 수정 - MYDBD</title>
       </Helmet>
-      <ForumDetailTemplate urlParams={match.params}>
+      <ForumDetailTemplate>
         <ForumContentContainer />
         <ForumCommentContainer />
       </ForumDetailTemplate>
