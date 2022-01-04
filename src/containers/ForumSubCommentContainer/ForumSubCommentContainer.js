@@ -98,7 +98,7 @@ function ForumSubCommentContainer({
       <ForumComment
         comment={comment}
         re={comment.parent ? true : false}
-        byAuthor={comment.parent && user.user?.id === comment.author.id}
+        byAuthor={comment.parent && user && user.user?.id === comment.author.id}
         onDelete={onSubDelete}
         replyFormKey={replyFormKey}
         setReplyFormKey={setReplyFormKey}
