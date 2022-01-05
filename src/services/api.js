@@ -1,9 +1,9 @@
-// refresh token을 이용하여 자동으로 access token 갱신
-
 import axios from "axios";
 
+const baseURL = "http://localhost:8000/";
+
 const instance = axios.create({
-  baseURL: "http://localhost:8000/",
+  baseURL,
   headers: {
     "Content-Type": "application/json",
   },
