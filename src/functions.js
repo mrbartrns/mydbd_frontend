@@ -57,7 +57,7 @@ export function formattedDateString(rawDate) {
   const fullDate = new Date(rawDate);
   const strMinute = fullDate.getMinutes().toString();
   const strHour = fullDate.getHours().toString();
-  const strYear = fullDate.getFullYear().toString().substring(2);
+  // const strYear = fullDate.getFullYear().toString().substring(2);
   const strMonth =
     fullDate.getMonth() + 1 < 10
       ? "0" + (fullDate.getMonth() + 1).toString()
