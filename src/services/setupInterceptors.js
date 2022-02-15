@@ -1,6 +1,6 @@
 import axiosInstance from "./api";
 import tokenService from "./token.service";
-import { refreshToken, logout } from "../actions/auth";
+import { refreshToken, logoutWithExpiredRefreshToken } from "../actions/auth";
 
 /**
  * request, response를 받을때 error를 정의하는 interceptor
@@ -57,8 +57,9 @@ const setup = (store) => {
               return axiosInstance(originalConfig);
             })
             .catch((error) => {
-              dispatch(logout());
-              return Promise.reject(error);
+              dispatch(logoutWithExpiredRefreshToken());
+              originalConfig.headers.Authorization = ``;
+              return axiosInstance(originalConfig);
             });
         }
       }
